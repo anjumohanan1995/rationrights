@@ -128,6 +128,7 @@ Route::get('/getApplications', [ApplicationController::class, 'getApplications']
 Route::get('/application-list', [ApplicationController::class, 'applicationLIst'])->name("application-list");
 route::any('/add',[ApplicationController::class, 'add'])->name("add");
 Route::get('/survey-home', [ApplicationController::class, 'surveyHome'])->name("survey-home");
+Route::get('/applications/application-form', [ApplicationController::class, 'destroy'])->name("destroy");
 
 Route::get('/adhaar-application-list', [ApplicationController::class, 'adhaarApplicationLIst'])->name("adhaar-application-list");
 Route::get('/getAdhaarApplications', [ApplicationController::class, 'getAdhaarApplications'])->name('getAdhaarApplications');
@@ -142,6 +143,6 @@ route::any('/district',[ApplicationController::class, 'district'])->name("distri
 Route::get('/location', [ApplicationController::class, 'getLocations'])->name("location");
 
 //25-08-2023
-Route::get('export/excel', [ApplicationController::class,'exportAadhaarOnly'])->name('export.excel');
-Route::get('export/excel/rationcard', [ApplicationController::class,'exportRation'])->name('export.excel.ration');
-Route::get('export/excel/no-document', [ApplicationController::class,'exportNodoc'])->name('export.excel.nodoc');
+Route::post('export/excel', [ApplicationController::class,'exportAadhaarOnly'])->name('export.excel');
+Route::post('export/excel/rationcard', [ApplicationController::class,'exportRation'])->name('export.excel.ration');
+Route::post('export/excel/no-document', [ApplicationController::class,'exportNodoc'])->name('export.excel.nodoc');

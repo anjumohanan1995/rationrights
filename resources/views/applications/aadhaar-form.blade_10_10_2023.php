@@ -122,11 +122,11 @@
                                                     <label>Eligible for IMPDS or not(Yes/No) <span class="text-danger">*</span></label>
 
                                                     <label>
-                                                        <input type="radio" name="eligibility"  onclick="show2();"  value="Yes" @if(old('eligibility') === 'Yes') checked @endif required>
+                                                        <input type="radio" name="eligibility" value="Yes" @if(old('eligibility') === 'Yes') checked @endif required>
                                                         Yes
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="eligibility"  onclick="show1();" value="No" @if(old('eligibility') === 'No') checked @endif required>
+                                                        <input type="radio" name="eligibility" value="No" @if(old('eligibility') === 'No') checked @endif required>
                                                         No
                                                     </label>
                                                 </div>
@@ -144,7 +144,7 @@
                                                             <option>Pathanamthitta</option>
                                                             <option>Alappuzha</option>
                                                         </select> --}}
-                                                        <input  class="form-control"  type="text" id="state" value="{{ old('state') }}" name="home_state"  placeholder="" required>
+                                                        <input  class="form-control"  type="text" id="state" value="{{ old('state') }}" name="state"  placeholder="" required>
                                                         <label for="state">Home State<span class="text-danger">*</span></label>
                                                         @if ($errors->has('state'))
                                                             <div class="text-danger w-100 error">{{ $errors->first('state') }}</div>
@@ -168,13 +168,6 @@
                                                     @if ($errors->has('district'))
                                                         <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
                                                     @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" name="ration" id="div1" style="display:none;" value="" placeholder="Ration Card"></label>
-                                                    {{-- <label for="district">Ration Card<span class="text-danger">*</span> </label> --}}
-                                                    <span id="aadhaarError" class="error-message"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -276,24 +269,13 @@
                 }
             });
         });
-        function show1(){
-            document.getElementById('div1').style.display ='none';
-            $('#type').val('aadhaar-form');
-            document.getElementById('div1').removeAttribute('required');
-        }
-        function show2(){
-            document.getElementById('div1').style.display = 'block';
-            $('#type').val('ration-aadhaar-form');
-            document.getElementById('div1').setAttribute('required', 'true');
-
-        }
-        </script>
+    </script>
     <style>
         .error-message {
             color: red;
             font-size: 14px;
         }
-      </style>
+    </style>
 
 
     <!-- Footer Start -->

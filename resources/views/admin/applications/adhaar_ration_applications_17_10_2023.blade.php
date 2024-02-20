@@ -27,10 +27,6 @@
 						                <div class="row row-sm">
 
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                <label>Application No</label>
-                                            <input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
-                                           </div>
-                                            <div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>District</label>
                                                 <select class="form-select" id="district" name="district" required>
                                                     <option value="">District</option>
@@ -72,7 +68,7 @@
 											<label>&nbsp;&nbsp;</label>
 												<button class="btn ripple btn-success btn-block,compact('districts')ock" type="submit" id="submit">Search</button>
 											</div>
-                                        </div>
+						                </div>
 						            </div>
 						        </div>
 							</div>
@@ -134,19 +130,14 @@
 											</div>	 -->
 
 										</div>
-                                        <form action="{{ route('export.excel.nodoc') }}" method="POST" name="importform"
+                                        <form action="#" method="POST" name="importform"
                                                 enctype="multipart/form-data">
                                                 @csrf
-                                                <input type="hidden" name="start_date" id="start_date">
-                                               <input type="hidden" name="ending_date" id="ending_date">
-                                               <input type="hidden" name="application_number" id="application_number">
-                                               <input type="hidden" name="dist" id="dist">
-                                               <input type="hidden" name="locations" id="locations">
-                                               <div class="form-group">
-                                                    <button type="submit" class="btn btn-info" >Export Excel File</button>
+                                                <div class="form-group">
+                                                    <a class="btn btn-info" href="{{ route('export.excel.nodoc') }}">Export Excel File</a>
                                                 </div>
                                         </form>
-											 <table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
+											 <table id="example" class="table table-striped table-bordered" style="width:100%">
        <thead>
 														<tr>
 
@@ -286,7 +277,6 @@ $(document).on("click",".deleteItem",function() {
 			       	// "data": { mobile: $("#mobile").val()}
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
-                            "application_no": $("#application_no").val(),
 				            "district": $("#district").val(),
                             "location": $("#location").val(),
 				            "from_date": $("#from_date").val(),
@@ -359,64 +349,36 @@ $(document).on("click",".deleteItem",function() {
 
 
       });
-    $(document).ready(function() {
+      $(document).ready(function() {
         $('#district').change(function() {
-        var districtId = $("#district option:selected").data("id");
+            var districtId = $("#district option:selected").data("id");
 
 
-        if (districtId) {
-            $.ajax({
-                url: "{{ route('location') }}", // Replace with your route URL to fetch taluks
-                type: "GET",
-                data: { district_id: districtId },
-                success: function(response) {
-                    if (response) {
-                        $('#new_dist').val(response.name);
+            if (districtId) {
+                $.ajax({
+                    url: "{{ route('location') }}", // Replace with your route URL to fetch taluks
+                    type: "GET",
+                    data: { district_id: districtId },
+                    success: function(response) {
+                        $('#new_dist').val(response.name)
                         $('#location').empty();
                         $('#location').append('<option value="">Select Locations</option>');
 
                         $.each(response.locations, function(key, value) {
                             $('#location').append('<option value="' + value.location_id + '">' + value.name + '</option>');
                         });
-                        $('#new_loc').val('');
-                    } else {
-                       $('#new_dist').val('');
-                        $('#new_loc').val('');
-                        $('#location').empty();
-                        $('#location').append('<option value="">No locations available</option>');
                     }
-                }
-            });
-        } else {
-            $('#new_dist').val('');
-            $('#new_loc').val('');
-            $('#location').empty();
-            $('#location').append('<option value="">Select Locations</option>');
-        }
-    });
-    $('#location').change(function() {
-        $('#new_loc').val($(this).find('option:selected').text());
-    });
-});
-$(document).ready(function() {
-        $('#from_date').on('change', function() {
-            $("#start_date").val(this.value);
+                });
+            } else {
+                $('#locations').empty();
+                $('#locations').append('<option value="">Select Locations</option>');
+            }
         });
-        $('#end_date').on('change', function() {
-            $("#ending_date").val(this.value);
-        });
-        $('#application_no').on('change', function() {
-            $("#application_number").val(this.value);
-        });
-        $('#district').on('change', function() {
-            $("#dist").val(this.value);
-        });
-            $('#location').on('change', function() {
-                var locat = $( "#location option:selected" ).text();
-                $("#locations").val(locat);
+        $('#location').change(function() {
+            $('#new_loc').val($(this).find('option:selected').text());
         });
     });
-</script>
+      </script>
 
 
 @endsection

@@ -148,7 +148,7 @@
                                                             <option>Pathanamthitta</option>
                                                             <option>Alappuzha</option>
                                                         </select> --}}
-                                                        <input  class="form-control"  type="text"  name="state"  value="{{ old('state') }}" placeholder="" required>
+                                                        <input  class="form-control"  type="text"  name="home_state"  value="{{ old('state') }}" placeholder="" required>
                                                         <label for="floatingSelect">Home State<span class="text-danger">*</span></label>
                                                         @if ($errors->has('state'))
                                                             <div class="text-danger w-100 error">{{ $errors->first('state') }}</div>
