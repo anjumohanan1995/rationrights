@@ -623,9 +623,15 @@
                                         </li>
 
                                         {{-- applications form starts here  --}}
+
+                                        {{-- applications form ends here  --}}
+
+                                        {{-- </li> --}}
+                                        @endif
+                                        @if (@$permissions == 'Application Forms')
                                         <li class="slide {{ request()->is('applications-form/form') ? 'is-expanded' : ''  }}" >
                                             <a class="side-menu__item" data-bs-toggle="slide" href="">
-                                                <i class="side-menu__icon fe fe-user"> </i>
+                                                <i class="side-menu__icon fe fe-book-open"> </i>
                                                 <span class="side-menu__label">Applications Form</span>
                                                 <i class="angle fe fe-chevron-down"> </i>
                                             </a>
@@ -641,15 +647,11 @@
                                             </ul>
                                         </li>
 
-                                        {{-- applications form ends here  --}}
-
-                                        {{-- </li> --}}
                                         @endif
-
-                                        @if (@$permissions == 'Applications')
+                                        @if (@$permissions == 'Applications List')
                                         <li class="slide {{ request()->is('application-list') || request()->is('adhaar-application-list') || request()->is('no-adhaar-ration-application-list') ? 'is-expanded' : ''  }}" >
                                             <a class="side-menu__item" data-bs-toggle="slide" href="">
-                                                <i class="side-menu__icon fe fe-user"> </i>
+                                                <i class="side-menu__icon fe fe-list"> </i>
                                                 <span class="side-menu__label">Applications List</span>
                                                 <i class="angle fe fe-chevron-down"> </i>
                                             </a>
@@ -687,6 +689,7 @@
 
                                         </li>
                                         @endif
+
                                         @endforeach
                                         @endif
 
