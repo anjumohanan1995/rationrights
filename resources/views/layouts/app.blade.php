@@ -604,10 +604,33 @@
 
                                         </li>
 
+
+
+                                        {{-- applications form starts here  --}}
+                                        <li class="slide {{ request()->is('applications-form/form') ? 'is-expanded' : ''  }}" >
+                                            <a class="side-menu__item" data-bs-toggle="slide" href="">
+                                                <i class="side-menu__icon fe fe-user"> </i>
+                                                <span class="side-menu__label">Applications Form</span>
+                                                <i class="angle fe fe-chevron-down"> </i>
+                                            </a>
+
+                                            <ul class="slide-menu">
+                                                <li class="sub-slide">
+                                                        <a class="slide-item {{ request()->is('applications-form/form') ? 'active' : '' }}" data-bs-toggle="sub-slide"
+                                                            href="{{ url('applications-form/form') }}">
+                                                            <span class="sub-side-menu__label">Form</span>
+                                                        </a>
+                                                    </li>
+
+                                            </ul>
+                                        </li>
+
+                                        {{-- applications form ends here  --}}
+
                                         <li class="slide {{ request()->is('application-list') || request()->is('adhaar-application-list') || request()->is('no-adhaar-ration-application-list') ? 'is-expanded' : ''  }}" >
                                             <a class="side-menu__item" data-bs-toggle="slide" href="">
                                                 <i class="side-menu__icon fe fe-user"> </i>
-                                                <span class="side-menu__label">Applications</span>
+                                                <span class="side-menu__label">Applications List</span>
                                                 <i class="angle fe fe-chevron-down"> </i>
                                             </a>
 

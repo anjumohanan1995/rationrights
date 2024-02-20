@@ -1,54 +1,54 @@
 @extends('home.app')
 @section('content')
-		<div class="section eduhut-features-section-03 section-padding mt-5 pt-5">
-            <div class="container  p-5 register">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 rt-area">
-                        <div class="pt-0  w-100 float-end text-center"><br><br>
+    <div class="section eduhut-features-section-03 section-padding mt-5 pt-5">
+        <div class="container  p-5 register">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 rt-area">
+                    <div class="pt-0  w-100 float-end text-center"><br><br>
 
-                            <form class=" text-start" action="{{ url('/applications/application-form') }}" method="post"
-                                enctype="multipart/form-data">
-                                <div class="tab-content bg-white p-5" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
-                                        aria-labelledby="home-tab" tabindex="0">
+                        <form class=" text-start" action="{{ url('/applications/application-form') }}" method="post"
+                            enctype="multipart/form-data">
+                            <div class="tab-content bg-white p-5" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                                    aria-labelledby="home-tab" tabindex="0">
 
-                                        <h4 class="mb-3">APPLICATION FORM - AADHAAR ONLY </h4>
+                                    <h4 class="mb-3">APPLICATION FORM - AADHAAR ONLY </h4>
 
-                                        @if(session('success'))
+                                    @if (session('success'))
                                         <div class="alert alert-success">
                                             {{ session('success') }}
                                         </div>
                                     @endif
 
 
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                    @csrf
+                                    <input type="hidden" name="test" id="test" value="">
+                                    <input type="hidden" name="type" id="type" value="aadhaar-form">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control name" name="name"
+                                                    id="floatingInput" value="{{ old('name') }}" placeholder="" required>
+                                                <label for="floatingInput">Name <span class="text-danger">*</span></label>
+                                                <span id="nameError" class="error-message"></span>
+                                                @if ($errors->has('name'))
+                                                    <div class="text-danger">{{ $errors->first('name') }}</div>
+                                                @endif
                                             </div>
-                                        @endif
+                                        </div>
 
-                                        @csrf
-                                        <input type="hidden" name="test" id="test" value="">
-                                        <input type="hidden" name="type" id="type" value="aadhaar-form">
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control name" name="name" id="floatingInput"
-                                                           value="{{ old('name') }}" placeholder="" required>
-                                                    <label for="floatingInput">Name <span class="text-danger">*</span></label>
-                                                    <span id="nameError" class="error-message"></span>
-                                                    @if ($errors->has('name'))
-                                                        <div class="text-danger">{{ $errors->first('name') }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            {{-- <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" name="age" id="age" placeholder="" required>
                                                     <label for="age">Age <span class="text-danger">*</span></label>
@@ -58,103 +58,124 @@
                                                     @endif
                                                 </div>
                                             </div> --}}
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <div class="form-floating mb-0">
-                                                        <select class="form-select" id="gender" name="gender" aria-label="Floating label select example" required>
-                                                            <option value="Male" @if(old('gender') === 'Male') selected @endif>Male</option>
-                                                            <option value="Female" @if(old('gender') === 'Female') selected @endif>Female</option>
-                                                            <option value="Other" @if(old('gender') === 'Other') selected @endif>Other</option>
-                                                        </select>
-                                                        <label for="floatingSelect">Gender<span class="text-danger">*</span></label>
-                                                        @if ($errors->has('gender'))
-                                                            <div class="text-danger">{{ $errors->first('gender') }}</div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" name="mobile" id="mobile" value="{{ old('mobile') }}" placeholder="" required>
-                                                    <label for="mobile">Mobile Number (Whatsapp Number)<span class="text-danger">*</span></label>
-                                                    <span id="mobileError" class="error-message"></span>
-                                                    @if ($errors->has('mobile'))
-                                                        <div class="text-danger">{{ $errors->first('mobile') }}</div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <div class="form-floating mb-0">
+                                                    <select class="form-select" id="gender" name="gender"
+                                                        aria-label="Floating label select example" required>
+                                                        <option value="Male"
+                                                            @if (old('gender') === 'Male') selected @endif>Male</option>
+                                                        <option value="Female"
+                                                            @if (old('gender') === 'Female') selected @endif>Female
+                                                        </option>
+                                                        <option value="Other"
+                                                            @if (old('gender') === 'Other') selected @endif>Other</option>
+                                                    </select>
+                                                    <label for="floatingSelect">Gender<span
+                                                            class="text-danger">*</span></label>
+                                                    @if ($errors->has('gender'))
+                                                        <div class="text-danger">{{ $errors->first('gender') }}</div>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <div class="form-floating mb-0">
-                                                        <select class="form-select" id="years" name="years" aria-label="Floating label select example" required>
+                                        </div>
+                                    </div>
 
-                                                        </select>
-                                                        {{-- <input type="date" class="form-control"
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" name="mobile" id="mobile"
+                                                    value="{{ old('mobile') }}" placeholder="" required>
+                                                <label for="mobile">Mobile Number (Whatsapp Number)<span
+                                                        class="text-danger">*</span></label>
+                                                <span id="mobileError" class="error-message"></span>
+                                                @if ($errors->has('mobile'))
+                                                    <div class="text-danger">{{ $errors->first('mobile') }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <div class="form-floating mb-0">
+                                                    <select class="form-select" id="years" name="years"
+                                                        aria-label="Floating label select example" required>
+
+                                                    </select>
+                                                    {{-- <input type="date" class="form-control"
                                                                 name="years" id="years"
                                                                 placeholder="" required> --}}
-                                                        <label for="floatingSelect">Since when staying in Kerala<span class="text-danger">*</span></label>
-                                                        @if ($errors->has('years'))
-                                                            <div class="text-danger">{{ $errors->first('years') }}</div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" name="aadhaar" id="aadhaar" value="{{ old('aadhaar') }}" placeholder="" required>
-                                                    <label for="aadhaar">Aadhaar Number <span class="text-danger">*</span></label>
-                                                    <span id="aadhaarError" class="error-message"></span>
-                                                    @if ($errors->has('aadhaar'))
-                                                        <div class="text-danger">{{ $errors->first('aadhaar') }}</div>
+                                                    <label for="floatingSelect">Since when staying in Kerala<span
+                                                            class="text-danger">*</span></label>
+                                                    @if ($errors->has('years'))
+                                                        <div class="text-danger">{{ $errors->first('years') }}</div>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div>
-                                                    <label>Eligible for IMPDS or not(Yes/No) <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
 
-                                                    <label>
-                                                        <input type="radio" name="eligibility" value="Yes" @if(old('eligibility') === 'Yes') checked @endif required>
-                                                        Yes
-                                                    </label>
-                                                    <label>
-                                                        <input type="radio" name="eligibility" value="No" @if(old('eligibility') === 'No') checked @endif required>
-                                                        No
-                                                    </label>
-                                                </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" name="aadhaar" id="aadhaar"
+                                                    value="{{ old('aadhaar') }}" placeholder="" required>
+                                                <label for="aadhaar">Aadhaar Number <span
+                                                        class="text-danger">*</span></label>
+                                                <span id="aadhaarError" class="error-message"></span>
+                                                @if ($errors->has('aadhaar'))
+                                                    <div class="text-danger">{{ $errors->first('aadhaar') }}</div>
+                                                @endif
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div>
+                                                <label>Eligible for IMPDS or not(Yes/No) <span
+                                                        class="text-danger">*</span></label>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <div class="form-floating mb-0">
-                                                        {{-- <select class="form-select" id="district" name="district" aria-label="Floating label select example" required>
+                                                <label>
+                                                    <input type="radio" name="eligibility" onclick="show2();"
+                                                        value="Yes" @if (old('eligibility') === 'Yes') checked @endif
+                                                        required>
+                                                    Yes
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="eligibility" onclick="show1();"
+                                                        value="No" @if (old('eligibility') === 'No') checked @endif
+                                                        required>
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <div class="form-floating mb-0">
+                                                    {{-- <select class="form-select" id="district" name="district" aria-label="Floating label select example" required>
                                                             <option disabled selected value="">District</option>
                                                             <option>Thiruvananthapuram</option>
                                                             <option>Kollam</option>
                                                             <option>Pathanamthitta</option>
                                                             <option>Alappuzha</option>
                                                         </select> --}}
-                                                        <input  class="form-control"  type="text" id="state" value="{{ old('state') }}" name="state"  placeholder="" required>
-                                                        <label for="state">Home State<span class="text-danger">*</span></label>
-                                                        @if ($errors->has('state'))
-                                                            <div class="text-danger w-100 error">{{ $errors->first('state') }}</div>
-                                                        @endif
-                                                    </div>
+                                                    <input class="form-control" type="text" id="state"
+                                                        value="{{ old('state') }}" name="home_state" placeholder=""
+                                                        required>
+                                                    <label for="state">Home State<span
+                                                            class="text-danger">*</span></label>
+                                                    @if ($errors->has('state'))
+                                                        <div class="text-danger w-100 error">{{ $errors->first('state') }}
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    {{-- <select type="text" class="form-control" name="location" id="location" value="{{ old('location') }}"
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                {{-- <select type="text" class="form-control" name="location" id="location" value="{{ old('location') }}"
                                                         placeholder="" required>
                                                         <option disabled selected value="">Location</option>
                                                         <option>Thiruvananthapuram</option>
@@ -162,40 +183,52 @@
                                                         <option>Pathanamthitta</option>
                                                         <option>Alappuzha</option>
                                                     </select> --}}
-                                                    <input  class="form-control"  type="text" name="home_district" value="{{ old('home_district') }}"  placeholder="" required>
+                                                <input class="form-control" type="text" name="home_district"
+                                                    value="{{ old('home_district') }}" placeholder="" required>
 
-                                                    <label for="district">Home District<span class="text-danger">*</span> </label>
-                                                    @if ($errors->has('district'))
-                                                        <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
-                                                    @endif
-                                                </div>
+                                                <label for="district">Home District<span class="text-danger">*</span>
+                                                </label>
+                                                @if ($errors->has('district'))
+                                                    <div class="text-danger w-100 error">{{ $errors->first('district') }}
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
-
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-10">&nbsp;</div>
-                                            <div class="col-md-2">
-                                                <input type="submit" class="btn btn-success" id="submit" value="Submit">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control" name="ration" id="div1"
+                                                    style="display:none;" value=""
+                                                    placeholder="Ration Card"></label>
+                                                {{-- <label for="district">Ration Card<span class="text-danger">*</span> </label> --}}
+                                                <span id="aadhaarError" class="error-message"></span>
                                             </div>
                                         </div>
                                     </div>
 
-                        </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">&nbsp;</div>
+                                    <div class="col-md-2">
+                                        <input type="submit" class="btn btn-success" id="submit" value="Submit">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </form>
                     </div>
-
-
-
-
-                    </form>
-
                 </div>
+
             </div>
         </div>
     </div>
+    </div>
     <script type="text/javascript">
-        window.onload = function () {
+        window.onload = function() {
 
             var ddlYears = document.getElementById("years");
             var currentYear = (new Date()).getFullYear();
@@ -226,8 +259,7 @@
                 if (!regex.test(name)) {
                     nameError.text("Invalid Name. Only letters and spaces allowed.");
                     $(":submit").attr("disabled", true);
-                }
-                else {
+                } else {
                     nameError.text("");
                     $(":submit").removeAttr("disabled");
 
@@ -269,6 +301,19 @@
                 }
             });
         });
+
+        function show1() {
+            document.getElementById('div1').style.display = 'none';
+            $('#type').val('aadhaar-form');
+            document.getElementById('div1').removeAttribute('required');
+        }
+
+        function show2() {
+            document.getElementById('div1').style.display = 'block';
+            $('#type').val('ration-aadhaar-form');
+            document.getElementById('div1').setAttribute('required', 'true');
+
+        }
     </script>
     <style>
         .error-message {

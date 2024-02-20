@@ -28,15 +28,20 @@ class ApplicationController extends Controller
     }
     public function rationCard()
     {
-        return view('applications.ration-aadhaar-form');
+
+
+        return view('admin.applications-form.ration-aadhaar-form');
+        // return view('applications.ration-aadhaar-form');
     }
     public function noDocuments()
     {
-        return view('applications.no-documents-form'); 
+        return view('admin.applications-form.no-documents-form');
+        // return view('applications.no-documents-form');
     }
     public function aadhaar()
     {
-        return view('applications.aadhaar-form');
+        return view('admin.applications-form.aadhaar-form');
+        // return view('applications.aadhaar-form');
     }
     public function survey(Request $request)
     {
@@ -51,7 +56,12 @@ class ApplicationController extends Controller
         $request->session()->put('selected_location_id', $selectedLocationId);
         $request->session()->put('district_id', $district);
         $request->session()->put('location_id', $location);
-        return view('applications.survey',compact('data'));
+
+
+
+        return view('admin.applications-form.form-2',compact('data'));
+
+        // return view('applications.survey',compact('data'));
     }
     public function surveyHome()
     {
@@ -92,10 +102,10 @@ class ApplicationController extends Controller
         if($latest_application == null)
         {
             $application_number = $latest_application ? $latest_application->application_no : 0;
-        //dd($location);
-       $application_number = preg_replace('/[^0-9]/', '', $application_number);
-        $application_number++;
-        $number = $location . str_pad($application_number, 6, '0', STR_PAD_LEFT);
+            //dd($location);
+            $application_number = preg_replace('/[^0-9]/', '', $application_number);
+            $application_number++;
+            $number = $location . str_pad($application_number, 6, '0', STR_PAD_LEFT);
         }
         else
         {
@@ -115,7 +125,7 @@ class ApplicationController extends Controller
             'age.integer' => 'The age must be a valid number .',
             'age.min' => 'The age must be at least :min.',
             'age.max' => 'The age must not exceed :max.',
-           // 'name.regex' => 'The name field should only contain alphabetic characters and spaces.',
+            // 'name.regex' => 'The name field should only contain alphabetic characters and spaces.',
 
         ];
         $validate = Validator::make($request->all(),
@@ -132,9 +142,9 @@ class ApplicationController extends Controller
 
             ], $customMessages);
 
-            if ($validate->fails()) {
-                return Redirect::back()->withErrors($validate)->withInput();
-            }
+        if ($validate->fails()) {
+            return Redirect::back()->withErrors($validate)->withInput();
+        }
 
 
         //Application::create($request->all());
@@ -151,13 +161,14 @@ class ApplicationController extends Controller
             'eligibility' => $request->eligibility,
             'district' => $selectedDistrictId,
             'location' =>  $selectedLocationId,
+            'home_state' =>$request->home_state,
             'home_district' =>$request->home_district,
             'home_location' =>$request->state,
             'application_no' => @$number,
             'location_id' => $location
         ]);
         return redirect()->back()
-                ->with('success','Application Submitted Successfully. Application No : '.@$number);
+            ->with('success','Application Submitted Successfully. Application No : '.@$number);
     }
 
     /**
@@ -200,144 +211,160 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
 
-     public function getApplications(Request $request){
-           // dd($request->from_date ."and  ".$request->to_date );
-            $district  =  $request->district;
-            if ($request->from_date != '') {
+    public function getApplications(Request $request){
+        // dd($request->from_date ."and  ".$request->to_date );
+        $district  =  $request->district;
+        $location  =  $request->location;
+        $application_no = $request->application_no;
+        if ($request->from_date != '') {
 
-                $from_date = date("M d,Y", strtotime($request->from_date));
-                $stDate = new Carbon($from_date);
+            $from_date = date("M d,Y", strtotime($request->from_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->to_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->to_date));
+            $edDate = new Carbon($to_date);
+        }
+
+
+
+
+
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+
+        if($request->delete_ctm =='1'){
+
+            $totalRecord = User::where('deleted_at','!=',null);
+
+            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+
+
+            $totalRecordswithFilte = User::where('deleted_at','!=',null);
+
+
+
+            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
+
+            // Fetch records
+            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
+
+            $records = $items->skip($start)->take($rowperpage)->get();
+        }else{
+
+            // Total records
+            $totalRecord = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($application_no != ""){
+                $totalRecord->where('application_no',$application_no);
             }
-            if ($request->to_date != '') {
-                $to_date = date("Y-m-d 23:59:00", strtotime($request->to_date));
-                $edDate = new Carbon($to_date);
+            if($district != ""){
+                $totalRecord->where('district',$district);
+            }
+            if ($location != "") {
+                $totalRecord->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $totalRecord->whereBetween('created_at', [$stDate, $edDate]);
+            }
+
+            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+
+
+            $totalRecordswithFilte = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($application_no != ""){
+                $totalRecordswithFilte->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $totalRecordswithFilte->where('district',$district);
+            }
+            if ($location != "") {
+                $totalRecordswithFilte->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $totalRecordswithFilte->whereBetween('created_at', [$stDate, $edDate]);
             }
 
 
+            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
+
+            // Fetch records
+            $items = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            if($application_no != ""){
+                $items->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $items->where('district',$district);
+            }
+            if ($location != "") {
+                $items->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "")
+            {
+                //dd($stDate."hiii".$edDate);
+
+                $items->whereBetween('created_at', [$stDate, $edDate]);
+            }
+
+
+            $records = $items->skip($start)->take($rowperpage)->get();
+        }
 
 
 
-            ## Read value
-            $draw = $request->get('draw');
-            $start = $request->get("start");
-            $rowperpage = $request->get("length"); // Rows display per page
+        $data_arr = array();
+        $i=$start;
+        foreach($records as $record){
+            $i++;
+            $id = $record->id;
+            $name = $record->name;
+            $address =  $record->address;
+            $age =  $record->age;
+            $gender =  $record->gender;
+            $mobile =  $record->mobile;
+            $application_no =  $record->application_no;
 
-            $columnIndex_arr = $request->get('order');
-            $columnName_arr = $request->get('columns');
-            $order_arr = $request->get('order');
-            $search_arr = $request->get('search');
+            //$aadhaar =  $record->aadhaar;
+            $aadhaar=$record->aadhaar = '**** ****  ' . substr($record->aadhaar, -4);
+            $ration =  $record->ration;
+            $eligibility =  $record->eligibility;
+            $state =  @$record->state;
+            $home_district =  $record->home_district;
+            $district =  $record->district;
+            $location =  $record->location;
+            $years =  $record->years;
+            $date =  $record->created_at->format('Y-m-d');;
+            //$role  =  $record$mobile  =  $request->mobile;
 
-            $columnIndex = $columnIndex_arr[0]['column']; // Column index
-            $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-            $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-            $searchValue = $search_arr['value']; // Search value
+            if($record->deleted_at != null){
+                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
+                $change = '';
 
-
-            if($request->delete_ctm =='1'){
-
-                $totalRecord = User::where('deleted_at','!=',null);
-
-                $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-                $totalRecordswithFilte = User::where('deleted_at','!=',null);
-
-
-
-                $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-                // Fetch records
-                $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-                $records = $items->skip($start)->take($rowperpage)->get();
             }else{
-
-                // Total records
-                $totalRecord = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-                if($district != ""){
-                    $totalRecord->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $totalRecord->whereBetween('created_at', [$stDate, $edDate]);
-                }
-
-                $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
+                $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
 
 
-                $totalRecordswithFilte = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-
-                if($district != ""){
-                    $totalRecordswithFilte->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $totalRecordswithFilte->whereBetween('created_at', [$stDate, $edDate]);
-                }
-
-
-                $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-                // Fetch records
-                $items = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
-                if($district != ""){
-                    $items->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") 
-                {
-                   //dd($stDate."hiii".$edDate);
-
-                    $items->whereBetween('created_at', [$stDate, $edDate]);
-                }
-               
-
-                $records = $items->skip($start)->take($rowperpage)->get();
             }
-
-
-
-            $data_arr = array();
-            $i=$start;
-            foreach($records as $record){
-                $i++;
-                $id = $record->id;
-                $name = $record->name;
-                $address =  $record->address;
-                $age =  $record->age;
-                $gender =  $record->gender;
-                $mobile =  $record->mobile;
-                $application_no =  $record->application_no;
-
-                $aadhaar =  $record->aadhaar;
-                $ration =  $record->ration;
-                $eligibility =  $record->eligibility;
-                $state =  @$record->state;
-                $home_district =  $record->home_district;
-                $district =  $record->district;
-                $location =  $record->location;
-                $years =  $record->years;
-                $date =  $record->created_at->format('Y-m-d');;
-                  //$role  =  $record$mobile  =  $request->mobile;
-           
-                  if($record->deleted_at != null){
-                    $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
-                    $change = '';
-
-                  }else{
-                    $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
-                    $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
-
-
-                  }
-               $data_arr[] = array(
+            $data_arr[] = array(
                 "id" => $i,
                 "name" => $name,
                 "address" => $address,
@@ -346,335 +373,187 @@ class ApplicationController extends Controller
                 "application_no" => $application_no,
                 "mobile"=>$mobile,
                 'aadhaar'=>$aadhaar,
-                 'ration'=>$ration,
-                 'eligibility'=>$eligibility,
-                 'state '=>@$state,
+                'ration'=>$ration,
+                'eligibility'=>$eligibility,
+                'state '=>@$state,
                 'home_district'=>$home_district,
-                 'district'=>$district,
-                 'location'=>$location,
-                 'years'=>$years,
-                 'date'=>$date, 
+                'district'=>$district,
+                'location'=>$location,
+                'years'=>$years,
+                'date'=>$date,
 
 
-               );
-            }
-
-            $response = array(
-               "draw" => intval($draw),
-               "iTotalRecords" => $totalRecords,
-               "iTotalDisplayRecords" => $totalRecordswithFilter,
-               "aaData" => $data_arr
             );
+        }
 
-            return response()->json($response);
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        return response()->json($response);
     }
     public function applicationLIst()
     {
 
         $districts = District::get();
-        return view('admin.applications.index',compact('districts')); 
+        return view('admin.applications.index',compact('districts'));
     }
-        public function adhaarApplicationLIst()
-    {   
+    public function adhaarApplicationLIst()
+    {
         $districts = District::get();
         return view('admin.applications.adhaar_applications',compact('districts'));
     }
-         public function getAdhaarApplications(Request $request){
+    public function getAdhaarApplications(Request $request){
+        $application_no  =  $request->application_no;
+        $district  =  $request->district;
+        $location  =  $request->location;
+        if ($request->from_date != '') {
 
-            $district  =  $request->district;
-            if ($request->from_date != '') {
+            $from_date = date("M d,Y", strtotime($request->from_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->to_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->to_date));
+            $edDate = new Carbon($to_date);
+        }
 
-                $from_date = date("M d,Y", strtotime($request->from_date));
-                $stDate = new Carbon($from_date);
+
+
+
+
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+
+        if($request->delete_ctm =='1'){
+
+            $totalRecord = User::where('deleted_at','!=',null);
+
+            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+
+
+            $totalRecordswithFilte = User::where('deleted_at','!=',null);
+
+
+
+            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
+
+            // Fetch records
+            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
+
+            $records = $items->skip($start)->take($rowperpage)->get();
+        }else{
+
+            // Total records
+            $totalRecord = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($application_no != ""){
+                $totalRecord->where('application_no',$application_no);
             }
-            if ($request->to_date != '') {
-                $to_date = date("Y-m-d 23:59:00", strtotime($request->to_date));
-                $edDate = new Carbon($to_date);
+            if($district != ""){
+                $totalRecord->where('district',$district);
+            }
+            if ($location != "") {
+                $totalRecord->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $totalRecord->whereBetween('created_at', [$stDate, $edDate]);
+            }
+            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+
+
+            $totalRecordswithFilte = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($application_no != ""){
+                $totalRecordswithFilte->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $totalRecordswithFilte->where('district',$district);
+            }
+            if ($location != "") {
+                $totalRecordswithFilte->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $totalRecordswithFilte->whereBetween('created_at', [$stDate, $edDate]);
             }
 
 
+            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
+
+            // Fetch records
+            $items = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            if($application_no != ""){
+                $items->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $items->where('district',$district);
+            }
+            if ($location != "") {
+                $items->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $items->whereBetween('created_at', [$stDate, $edDate]);
+            }
+            $records = $items->skip($start)->take($rowperpage)->get();
+        }
 
 
 
-            ## Read value
-            $draw = $request->get('draw');
-            $start = $request->get("start");
-            $rowperpage = $request->get("length"); // Rows display per page
-
-            $columnIndex_arr = $request->get('order');
-            $columnName_arr = $request->get('columns');
-            $order_arr = $request->get('order');
-            $search_arr = $request->get('search');
-
-            $columnIndex = $columnIndex_arr[0]['column']; // Column index
-            $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-            $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-            $searchValue = $search_arr['value']; // Search value
-
-
-            if($request->delete_ctm =='1'){
-
-                $totalRecord = User::where('deleted_at','!=',null);
-
-                $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-                $totalRecordswithFilte = User::where('deleted_at','!=',null);
+        $data_arr = array();
+        $i=0;
+        foreach($records as $record){
+            $i++;
+            $id = $record->id;
+            $name = $record->name;
+            $address =  $record->address;
+            $age =  $record->age;
+            $gender =  $record->gender;
+            $mobile =  $record->mobile;
+            $application_no =  $record->application_no;
+            //$address =  $record->address;
+            //$aadhaar =  $record->aadhaar;
+            $aadhaar=$record->aadhaar = '**** ****  ' . substr($record->aadhaar, -4);
+            $ration =  $record->ration;
+            $eligibility =  $record->eligibility;
+            $home_state =  $record->home_state;
+            $home_district =  $record->home_district;
+            $district =  $record->district;
+            $location =  $record->location;
+            $years =  $record->years;
+            $date =  $record->created_at->format('Y-m-d');
 
 
+            //$role  =  $record->role;
+            if($record->deleted_at != null){
+                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
+                $change = '';
 
-                $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-                // Fetch records
-                $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-                $records = $items->skip($start)->take($rowperpage)->get();
             }else{
-
-                // Total records
-                $totalRecord = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-                if($district != ""){
-                    $totalRecord->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $totalRecord->whereBetween('created_at', [$stDate, $edDate]);
-                }
-                $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
+                $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
 
 
-                $totalRecordswithFilte = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-                if($district != ""){
-                    $totalRecordswithFilte->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $totalRecordswithFilte->whereBetween('created_at', [$stDate, $edDate]);
-                }
-
-
-                $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-                // Fetch records
-                $items = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
-
-                if($district != ""){
-                    $items->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $items->whereBetween('created_at', [$stDate, $edDate]);
-                }
-                $records = $items->skip($start)->take($rowperpage)->get();
             }
-
-
-
-            $data_arr = array();
-            $i=0;
-            foreach($records as $record){
-                $i++;
-                $id = $record->id;
-                $name = $record->name;
-                $address =  $record->address;
-                $age =  $record->age;
-                $gender =  $record->gender;
-                $mobile =  $record->mobile;
-                $application_no =  $record->application_no;
-                //$address =  $record->address;
-                $aadhaar =  $record->aadhaar;
-                $ration =  $record->ration;
-                $eligibility =  $record->eligibility;
-                $state =  @$record->state;
-                $home_district =  $record->home_district;
-                $district =  $record->district;
-                $location =  $record->location;
-                $years =  $record->years;
-                $date =  $record->created_at->format('Y-m-d');
-
-
-                  //$role  =  $record->role;
-                  if($record->deleted_at != null){
-                    $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
-                    $change = '';
-
-                  }else{
-                    $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
-                    $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
-
-
-                  }
-               $data_arr[] = array(
-                   "id" => $i,
-                   "name" => $name,
-                   "address" => $address,
-                   "age" => $age,
-                   "gender" => $gender,
-                   "application_no" => $application_no,
-                   "mobile"=>$mobile,
-                   'aadhaar'=>$aadhaar,
-                    'ration'=>$ration,
-                    'eligibility'=>$eligibility,
-                    'state '=>@$state,
-                   'home_district'=>$home_district,
-                    'district'=>$district,
-                    'location'=>$location,
-                    'years'=>$years,
-                    'date'=>$date,
-
-               );
-            }
-
-            $response = array(
-               "draw" => intval($draw),
-               "iTotalRecords" => $totalRecords,
-               "iTotalDisplayRecords" => $totalRecordswithFilter,
-               "aaData" => $data_arr
-            );
-
-            return response()->json($response);
-    }
-
-            public function adhaarRationApplicationLIst()
-    {
-        $districts = District::get();
-        return view('admin.applications.adhaar_ration_applications',compact('districts'));
-    }
-         public function getAdhaarRationApplications(Request $request){
-
-            
-            $district  =  $request->district;
-            if ($request->from_date != '') {
-
-                $from_date = date("M d,Y", strtotime($request->from_date));
-                $stDate = new Carbon($from_date);
-            }
-            if ($request->to_date != '') {
-                $to_date = date("Y-m-d 23:59:00", strtotime($request->to_date));
-                $edDate = new Carbon($to_date);
-            }
-
-
-
-
-
-            ## Read value
-            $draw = $request->get('draw');
-            $start = $request->get("start");
-            $rowperpage = $request->get("length"); // Rows display per page
-
-            $columnIndex_arr = $request->get('order');
-            $columnName_arr = $request->get('columns');
-            $order_arr = $request->get('order');
-            $search_arr = $request->get('search');
-
-            $columnIndex = $columnIndex_arr[0]['column']; // Column index
-            $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-            $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-            $searchValue = $search_arr['value']; // Search value
-
-
-            if($request->delete_ctm =='1'){
-
-                $totalRecord = User::where('deleted_at','!=',null);
-
-                $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-                $totalRecordswithFilte = User::where('deleted_at','!=',null);
-
-
-
-                $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-                // Fetch records
-                $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-                $records = $items->skip($start)->take($rowperpage)->get();
-            }else{
-
-                // Total records
-                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-                if($district != ""){
-                    $totalRecord->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $totalRecord->whereBetween('created_at', [$stDate, $edDate]);
-                }
-
-                $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-
-                if($district != ""){
-                    $totalRecordswithFilte->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $totalRecordswithFilte->whereBetween('created_at', [$stDate, $edDate]);
-                }
-
-
-                $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-                // Fetch records
-                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
-                if($district != ""){
-                    $items->where('district',$district);
-                }
-
-                if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
-
-                    $items->whereBetween('created_at', [$stDate, $edDate]);
-                }
-
-
-                $records = $items->skip($start)->take($rowperpage)->get();
-            }
-
-
-
-            $data_arr = array();
-            $i=0;
-            foreach($records as $record){
-                $i++;
-                $id = $record->id;
-                $name = $record->name;
-                $address =  $record->address;
-                $age =  $record->age;
-                $gender =  $record->gender;
-                $mobile =  $record->mobile;
-                $application_no =  $record->application_no;
-                //$address =  $record->address;
-                $aadhaar =  $record->aadhaar;
-                $ration =  $record->ration;
-                $eligibility =  $record->eligibility;
-                $state =  @$record->state;
-                $home_district =  $record->home_district;
-                $district =  $record->district;
-                $location =  $record->location;
-                $date =  $record->created_at->format('Y-m-d');
-                $years =  @$record->years;
-
-                  //$role  =  $record->role;
-                  if($record->deleted_at != null){
-                    $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
-                    $change = '';
-
-                  }else{
-                    $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
-                    $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
-
-
-                  }
-               $data_arr[] = array(
+            $data_arr[] = array(
                 "id" => $i,
                 "name" => $name,
                 "address" => $address,
@@ -683,27 +562,212 @@ class ApplicationController extends Controller
                 "application_no" => $application_no,
                 "mobile"=>$mobile,
                 'aadhaar'=>$aadhaar,
-                 'ration'=>$ration,
-                 'eligibility'=>$eligibility,
-                 'state '=>@$state,
+                'ration'=>$ration,
+                'eligibility'=>$eligibility,
+                'home_state'=>$home_state,
                 'home_district'=>$home_district,
-                 'district'=>$district,
-                 'location'=>$location,
-                 'years'=>@$years,
-                 'date'=>$date
+                'district'=>$district,
+                'location'=>$location,
+                'years'=>$years,
+                'date'=>$date,
+
+            );
+}
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        return response()->json($response);
+    }
+
+    public function adhaarRationApplicationLIst()
+    {
+        $districts = District::get();
+        return view('admin.applications.adhaar_ration_applications',compact('districts'));
+    }
+    public function getAdhaarRationApplications(Request $request){
+
+        $application_no  =  $request->application_no;
+        $district  =  $request->district;
+        $location  =  $request->location;
+        if ($request->from_date != '') {
+
+            $from_date = date("M d,Y", strtotime($request->from_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->to_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->to_date));
+            $edDate = new Carbon($to_date);
+        }
 
 
-               );
+
+
+
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+
+        if($request->delete_ctm =='1'){
+
+            $totalRecord = User::where('deleted_at','!=',null);
+
+            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+
+
+            $totalRecordswithFilte = User::where('deleted_at','!=',null);
+
+
+
+            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
+
+            // Fetch records
+            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
+
+            $records = $items->skip($start)->take($rowperpage)->get();
+        }else{
+
+            // Total records
+            $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($application_no != ""){
+                $totalRecord->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $totalRecord->where('district',$district);
+            }
+            if ($location != "") {
+                $totalRecord->where('location_id', $location);
             }
 
-            $response = array(
-               "draw" => intval($draw),
-               "iTotalRecords" => $totalRecords,
-               "iTotalDisplayRecords" => $totalRecordswithFilter,
-               "aaData" => $data_arr
-            );
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
 
-            return response()->json($response);
+                $totalRecord->whereBetween('created_at', [$stDate, $edDate]);
+            }
+
+            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
+
+
+            $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($application_no != ""){
+                $totalRecordswithFilte->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $totalRecordswithFilte->where('district',$district);
+            }
+            if ($location != "") {
+                $totalRecordswithFilte->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $totalRecordswithFilte->whereBetween('created_at', [$stDate, $edDate]);
+            }
+
+
+            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
+
+            // Fetch records
+            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            if($application_no != ""){
+                $items->where('application_no',$application_no);
+            }
+            if($district != ""){
+                $items->where('district',$district);
+            }
+            if ($location != "") {
+                $items->where('location_id', $location);
+            }
+
+            if ($request->from_date != "1970-01-01" && $request->to_date != "1970-01-01" && $request->from_date != "" && $request->to_date != "") {
+
+                $items->whereBetween('created_at', [$stDate, $edDate]);
+            }
+
+
+            $records = $items->skip($start)->take($rowperpage)->get();
+        }
+
+
+
+        $data_arr = array();
+        $i=0;
+        foreach($records as $record){
+            $i++;
+            $id = $record->id;
+            $name = $record->name;
+            $address =  $record->address;
+            $age =  $record->age;
+            $gender =  $record->gender;
+            $mobile =  $record->mobile;
+            $application_no =  $record->application_no;
+            //$address =  $record->address;
+            $aadhaar =  $record->aadhaar;
+            $ration =  $record->ration;
+            $eligibility =  $record->eligibility;
+            $home_state =  $record->home_state;
+            $home_district =  $record->home_district;
+            $district =  $record->district;
+            $location =  $record->location;
+            $date =  $record->created_at->format('Y-m-d');
+            $years =  @$record->years;
+
+            //$role  =  $record->role;
+            if($record->deleted_at != null){
+                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
+                $change = '';
+
+            }else{
+                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
+                $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
+
+
+            }
+            $data_arr[] = array(
+                "id" => $i,
+                "name" => $name,
+                "address" => $address,
+                "age" => $age,
+                "gender" => $gender,
+                "application_no" => $application_no,
+                "mobile"=>$mobile,
+                'aadhaar'=>$aadhaar,
+                'ration'=>$ration,
+                'eligibility'=>$eligibility,
+                'home_state'=>$home_state,
+                'home_district'=>$home_district,
+                'district'=>$district,
+                'location'=>$location,
+                'years'=>@$years,
+                'date'=>$date
+
+
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        return response()->json($response);
     }
 
     public function add()
@@ -737,7 +801,7 @@ class ApplicationController extends Controller
                 ['name' => 'TSO_Thiruvananthapuram','location_id' => 3],
                 ['name' => 'Varkala','location_id' => 71],
 
-                ]
+            ]
 
         ]);
         District::create([
@@ -835,7 +899,7 @@ class ApplicationController extends Controller
                 ['name' => 'Thrissur','location_id' =>41],
 
 
-            ]
+                ]
 
         ]);
         District::create([
@@ -851,7 +915,7 @@ class ApplicationController extends Controller
 
 
 
-            ]
+                ]
 
         ]);
         District::create([
@@ -869,7 +933,7 @@ class ApplicationController extends Controller
 
 
 
-            ]
+                ]
 
         ]);
         District::create([
@@ -887,7 +951,7 @@ class ApplicationController extends Controller
 
 
 
-            ]
+                ]
 
         ]);
         District::create([
@@ -927,8 +991,21 @@ class ApplicationController extends Controller
 
         ]);
     }
-    public function exportAadhaarOnly()
+    public function exportAadhaarOnly(Request $request)
     {
+        $applicationNo = $request->input('application_number');
+        $districts = $request->input('dist');
+        $locate = $request->input('locations');
+
+        if ($request->start_date != '') {
+
+            $from_date = date("Y-m-d", strtotime($request->start_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->ending_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
+            $edDate = new Carbon($to_date);
+        }
 
         $headers = array(
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
@@ -943,25 +1020,41 @@ class ApplicationController extends Controller
 
         fputcsv($handle, [
 
-                "Application No.",
-                "Name",
-                "Aadhaar No.",
-                "Mobile No.",
-                "Gender",
-                "Since when staying in Kerala",
-               
-                "Home District",
-                "Eligible for IMPDS or Not",
+            "Application No.",
+            "Name",
+            "Aadhaar No.",
+            "Mobile No.",
+            "Gender",
+            "Since when staying in Kerala",
 
-               
-                "District",
-                "Location",
-                "Created Date"
+            "Home District",
+            "Eligible for IMPDS or Not",
+
+
+            "District",
+            "Location",
+            "Created Date"
 
         ]);
 
+        $items = Application::where('type','aadhaar-form')
+        ->where('deleted_at',null);
 
-        $records = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('id','DESC')->get();
+        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
+        {
+            $items->whereBetween('created_at', [$stDate, $edDate]);
+        }
+        if($applicationNo != ""){
+            $items->where('application_no',$applicationNo);
+        }
+        if($districts != ""){
+
+            $items->where('district',$districts);
+        }
+        if($locate != "" ){
+            $items->where('location',$locate);
+        }
+        $records = $items->get();
 
         $data_arr = array();
         foreach($records as $record){
@@ -975,7 +1068,6 @@ class ApplicationController extends Controller
             $home_district = $record->home_district;
             $eligibility =  $record->eligibility;
             $aadhar =  $record->aadhaar;
-
             $district =  $record->district;
             $location =  $record->location;
             $date =  $record->created_at->format('Y-m-d');
@@ -994,10 +1086,7 @@ class ApplicationController extends Controller
 
                 "district"=>$district,
                 "location"=>$location,
-                "date"=>$date
-
-
-
+                "date"=>$date,
             );
         }
 
@@ -1010,7 +1099,7 @@ class ApplicationController extends Controller
                 $each_user['mobile'],
                 $each_user['gender'],
                 $each_user['years'],
-               // $each_user['state'],
+                // $each_user['state'],
                 $each_user['home_district'],
                 $each_user['eligibility'],
                 $each_user['district'],
@@ -1023,11 +1112,24 @@ class ApplicationController extends Controller
         fclose($handle);
 
         return response()->download($filename, "aadhar-applications.xlsx", $headers);
-        
+
 
     }
-    public function exportRation()
+    public function exportRation(Request $request)
     {
+        $applicationNo = $request->input('application_number');
+        $districts = $request->input('dist');
+        $locate = $request->input('locations');
+
+        if ($request->start_date != '') {
+
+            $from_date = date("M d,Y", strtotime($request->start_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->ending_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
+            $edDate = new Carbon($to_date);
+        }
 
         $headers = array(
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
@@ -1042,28 +1144,44 @@ class ApplicationController extends Controller
 
         fputcsv($handle, [
 
-                "Application No.",
-                "Name",
-                "Address",
-                "Age",
+            "Application No.",
+            "Name",
+            "Address",
+            "Age",
 
 
-                "Mobile No.",
-                "Gender",
+            "Mobile No.",
+            "Gender",
 
-                "Since when staying in Kerala",
-                "Aadhaar No.",
-                "Ration Card No.",
-                "Eligible for IMPDS or Not",
-                "District",
-                "Location",
-                "Created Date"
+            "Since when staying in Kerala",
+            "Aadhaar No.",
+            "Ration Card No.",
+            "Eligible for IMPDS or Not",
+            "District",
+            "Location",
+            "Created Date"
 
         ]);
 
 
-        $records = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('id','DESC')->get();
+        $items = Application::where('type','ration-aadhaar-form')
+        ->where('deleted_at',null);
 
+        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
+        {
+            $items->whereBetween('created_at', [$stDate, $edDate]);
+        }
+        if($applicationNo != ""){
+            $items->where('application_no',$applicationNo);
+        }
+        if($districts != ""){
+
+            $items->where('district',$districts);
+        }
+        if($locate != "" ){
+            $items->where('location',$locate);
+        }
+        $records = $items->get();
         $data_arr = array();
         foreach($records as $record){
             //dd($record);
@@ -1074,7 +1192,7 @@ class ApplicationController extends Controller
             $gender = $record->gender;
             $years = $record->years;
             //$state = $record->state;
-           // $home_district = $record->home_district;
+            // $home_district = $record->home_district;
             $eligibility =  $record->eligibility;
             $aadhar =  $record->aadhaar;
 
@@ -1085,7 +1203,6 @@ class ApplicationController extends Controller
             $location =  $record->location;
             $date =  $record->created_at->format('Y-m-d');
 
-            
             $data_arr[] = array(
                 "id" => $id,
                 "name" => $name,
@@ -1097,7 +1214,7 @@ class ApplicationController extends Controller
                 "age" => $age,
                 "address" => $address,
                 "eligibility" => $eligibility,
-                
+
                 "ration" => $ration,
                 "district"=>$district,
                 "location"=>$location,
@@ -1133,8 +1250,21 @@ class ApplicationController extends Controller
 
 
     }
-    public function exportNodoc()
+    public function exportNodoc(Request $request)
     {
+        $applicationNo = $request->input('application_number');
+        $districts = $request->input('dist');
+        $locate = $request->input('locations');
+
+        if ($request->start_date != '') {
+
+            $from_date = date("M d,Y", strtotime($request->start_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->ending_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
+            $edDate = new Carbon($to_date);
+        }
 
         $headers = array(
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
@@ -1149,28 +1279,46 @@ class ApplicationController extends Controller
 
         fputcsv($handle, [
 
-                "Application No.",
-                "Name",
-                "Address",
-               
-                "Mobile No.",
-                "Gender",
-                "Since when staying in Kerala",
-               
-                "Home District",
-                "District",
-                "Location",
-                "Created Date"
-              
+            "Application No.",
+            "Name",
+            "Address",
+
+            "Mobile No.",
+            "Gender",
+            "Since when staying in Kerala",
+
+            "Home District",
+            "District",
+            "Location",
+            "Created Date"
+
 
         ]);
 
 
-        $records = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('id','DESC')->get();
+        $items = Application::where('type','no-documents-form')
+        ->where('deleted_at',null);
+
+        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
+        {
+            $items->whereBetween('created_at', [$stDate, $edDate]);
+        }
+        if($applicationNo != ""){
+            $items->where('application_no',$applicationNo);
+        }
+        if($districts != ""){
+
+            $items->where('district',$districts);
+        }
+        if($locate != "" ){
+            $items->where('location',$locate);
+        }
+        $records = $items->get();
+
 
         $data_arr = array();
         foreach($records as $record){
-            
+
             $id = $record->id;
             $name = $record->name;
             $mobile = $record->mobile;
@@ -1186,10 +1334,10 @@ class ApplicationController extends Controller
             $district =  $record->district;
             $location =  $record->location;
             $date =  $record->created_at->format("Y-m-d");
-          
 
 
-           
+
+
             $data_arr[] = array(
                 "id" => $id,
                 "name" => $name,
@@ -1206,7 +1354,7 @@ class ApplicationController extends Controller
                 "location"=>$location,
                 "date"=>$date
 
-                
+
             );
         }
 
@@ -1216,18 +1364,18 @@ class ApplicationController extends Controller
                 $each_user['application_no'],
                 $each_user['name'],
                 $each_user['address'],
-               // $each_user['aadhar'],
+                // $each_user['aadhar'],
                 $each_user['mobile'],
                 $each_user['gender'],
                 $each_user['years'],
-               
+
                 $each_user['home_district'],
 
                 $each_user['district'],
                 $each_user['location'],
                 $each_user['date'],
 
-               
+
             ]);
 
         }
@@ -1238,6 +1386,12 @@ class ApplicationController extends Controller
         return response()->download($filename, "no-aadhaar-ration-applications.xlsx", $headers);
 
 
+    }
+
+    public function destroy(Request $request)
+    {
+        $application_no = ['4000102','4000103','4000104','4000105','4000106','4000107','4000108'];
+        $records = Application::whereIn('application_no', $application_no)->delete();
     }
 
 }

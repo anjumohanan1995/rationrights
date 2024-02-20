@@ -14,11 +14,48 @@
 								<nav aria-label="breadcrumb">
 									<ol class="breadcrumb">
 
-										<li class="breadcrumb-item active" aria-current="page"><i class="side-menu__icon fe fe-user"> </i> - Applications</li>
+										<li class="breadcrumb-item active" aria-current="page"><i class="side-menu__icon fe fe-user"> </i> - Applications - Aadhaar Only</li>
 									</ol>
 								</nav>
 							</div>
-							
+
+						</div>
+						<div class="d-flex my-auto col-xl-9 pe-0" >
+							<div class="card">
+						        <div class="main-content-body main-content-body-mail card-body p-0" id="search_part">
+						            <div class="card-body pt-2 pb-2">
+						                <div class="row row-sm">
+											
+											<div class="col-lg mg-t-10 mg-lg-t-0">
+											<label>District</label>
+												<select class="form-control select2"name="district" id="district">
+													<option value="">Select</option>
+													@foreach ($districts as $district)
+														<option value="{{ $district->name }}">{{ $district->name }}</option>
+													@endforeach
+												</select>
+											</div>
+											<div class="col-lg mg-t-10 mg-lg-t-0">
+											
+												<label>Start Date</label>
+                                        		<input class="form-control" type="date" name="from_date" id="from_date">
+											</div>
+											<div class="col-lg mg-t-10 mg-lg-t-0">
+											
+												<label>End Date</label>
+                                        		<input class="form-control" type="date" name="end_date" id="end_date">
+											</div>
+						                       
+											<div class="col-lg mg-t-10 mg-lg-t-0"> 
+											<br>
+
+											<label>&nbsp;&nbsp;</label>
+												<button class="btn ripple btn-success btn-bl,compact('districts')ock" type="submit" id="submit">Search</button>
+											</div>
+						                </div>
+						            </div>
+						        </div>
+							</div>
 						</div>
 						<!-- /breadcrumb -->
 						<!-- main-content-body -->
@@ -48,9 +85,8 @@
 									<div class="card"><div class="card-body  table-new">
 										 <div class="row mb-3">
 
-											
-											
-											
+
+
 											<!--  <div class="col-md-1 col-6 text-center">
   											 	<div class="task-box secondary  mb-0">
   												 <a href="{{route('user.import')}}">
@@ -79,7 +115,13 @@
 											</div>	 -->
 
 										</div>
-
+                                        <form action="#" method="POST" name="importform"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <a class="btn btn-info" href="{{ route('export.excel') }}">Export Excel File</a>
+                                            </div>
+                                       </form>
 											 <table id="example" class="table table-striped table-bordered" style="width:100%">
        <thead>
 														<tr>
@@ -87,10 +129,20 @@
 															<th>Sl NO.</th>
 															<th>Application No.</th>
 															<th>Name</th>
-                                                            <th>Address</th>
-															<th>Age</th>
+
 															<th>Gender </th>
 															<th>Mobile No. </th>
+                                                            <th>Since when staying in Kerala</th>
+                                                            <th>Aadhaar </th>
+                                                            <th>Eligibility (For IMPDS) </th>
+                                                            {{-- <th>Home State</th> --}}
+                                                            <th>Home District </th>
+															 <th> District </th>
+															 <th> Location </th>
+															  <th> Created Date </th>
+
+
+
 															{{-- <th>Action </th> --}}
 
 														</tr>
@@ -152,7 +204,7 @@ $(document).on("click",".deleteItem",function() {
 
      var id =$(this).attr('data-id');
      $('#requestId').val($(this).attr('data-id') );
-     $('#confirmation-popup').modal('show');
+     $('#confirmation-popup').modal('show');District
 });
 
   /*$.ajaxSetup({
@@ -204,14 +256,13 @@ $(document).on("click",".deleteItem",function() {
 	        ],
              "ajax": {
 
-			       	"url": "{{route('getApplications')}}",
+			       	"url": "{{route('getAdhaarApplications')}}",
 			       	// "data": { mobile: $("#mobile").val()}
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
-				            "mobile": $("#mobile").val(),
-				            "email": $("#email").val(),
-				            "location": $("#location").val(),
-				            "name": $("#name").val(),
+				            "district": $("#district").val(),
+				            "from_date": $("#from_date").val(),
+				            "to_date": $("#end_date").val(),
 				            "delete_ctm": $("#delete_ctm").val(),
 
 
@@ -224,11 +275,18 @@ $(document).on("click",".deleteItem",function() {
                 { data: 'application_no' },
                 { data: 'name' },
 
-                { data: 'address' },
-               { data: 'age' },
-
                 { data: 'gender' },
-                { data: 'mobile' }
+                { data: 'mobile' },
+                { data: 'years' },
+                { data: 'aadhaar' },
+                { data: 'eligibility' },
+				{ data: 'home_district' },
+				 { data: 'district' },
+				  { data: 'location' },
+				   { data: 'date' },
+
+                 {{-- { data: 'state' }, --}}
+                
                 // { data: 'action' }
 
 
