@@ -27,11 +27,11 @@
 						                    	<div class="col-lg mg-t-10 mg-lg-t-0">
 						                        	<input class="form-control" placeholder="Email" type="text" name="email" id="email">
 						                        </div>
-						                         
+
 						                          <div class="col-lg mg-t-10 mg-lg-t-0">
 						                            <input class="form-control" placeholder="Name" type="text" name="name" id="name">
 						                        </div>
-						                       
+
 
 
 
@@ -55,14 +55,14 @@
                               {{ $message }}
                           </div>
 
-                      @endif   
+                      @endif
                       @if ($message = Session::get('danger'))
                           <div class="alert alert-danger alert-dismissible fade show" role="alert">
                               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                               {{ $message }}
                           </div>
 
-                      @endif   
+                      @endif
 
 							<!-- row -->
 
@@ -123,13 +123,14 @@
 											 <table id="example" class="table table-striped table-bordered" style="width:100%">
        <thead>
 														<tr>
+                                                            <th>Sl No</th>
 
 															<th>Email</th>
-															
+
 															<th> Name</th>
-															
+
 															<th>Role </th>
-															
+                                                            <th>State </th>
 															<th>Change Password </th>
 															<th>Action </th>
 
@@ -260,11 +261,12 @@ $(document).on("click",".deleteItem",function() {
        			},
 
              columns: [
+                { data: 'sl_no' },
                 { data: 'email' },
-              
+
                 { data: 'name' },
                { data: 'role' },
-               
+               {data:'state'},
                 { data: 'change' },
                 { data: 'edit' }
 
@@ -292,7 +294,7 @@ $(document).on("click",".deleteItem",function() {
 
 
     	$('#delete').click(function(){
-    		
+
     		//$("#search_part").css("display", "none")
     		$("#delete_ctm").val(1);
     		$("#search_part").css("display", "none");

@@ -84,12 +84,33 @@
 											<div class="row">
 												<div class="col-md-3"><label class="form-label">Role</label></div>
 												<div class="col-md-9">
-												<select id="role" name="role" class="form-control"  >
-													<option >Admin</option>
+												<select id="role" name="role" class="form-control">
+													<option value=""> Select Role</option>
+                                                @foreach ($role as $roles)
+                                                <option value="{{ $roles->name }}"> {{ $roles->name }}</option>
+                                                @endforeach
 
 												</select>
 
 												@error('role')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
+												</div>
+											</div>
+										</div>
+                                        <div class="form-group">
+											<div class="row">
+												<div class="col-md-3"><label class="form-label">Home State / Union Territory</label></div>
+												<div class="col-md-9">
+												<select id="state" name="state" class="form-control"  >
+                                                    <option value="">Select State</option>
+                                                    @foreach ($states as $state)
+                                                    <option value="{{ $state->name }}">{{ $state->name }}</option>
+                                                    @endforeach
+
+												</select>
+
+												@error('state')
 														<span class="text-danger">{{$message}}</span>
 													@enderror
 												</div>
