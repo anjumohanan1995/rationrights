@@ -1,0 +1,40 @@
+.side-menu__label {
+    font-size: 0.675rem;
+}
+
+.btn, .sp-container button { font-size: 0.675rem;}
+
+h4, .h4 {
+    font-size: 1rem;
+}
+
+h6, .h6,h5, .h5,.rdiobox span {
+    font-size: 0.675rem;
+}
+
+.project-card .project-content ul strong {
+    font-size: 0.575rem;
+}
+
+body , .card-title  {
+    font-size: 0.675rem;
+}
+table.dataTable thead th, table.dataTable thead td{
+    font-size: 0.575rem;
+}
+
+.form-control{
+    font-size: 0.675rem;
+}
+.tx-12{
+    font-size: 10px;
+}
+.main-footer .container-fluid{
+    font-size: 10px;
+}
+h6.mb-1.tx-13 {
+    font-size: 0.675rem;
+}
+.slide-menu li a, .sub-side-menu__label{
+    font-size: 0.675rem !important
+}

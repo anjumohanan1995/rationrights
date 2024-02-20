@@ -1,0 +1,43 @@
+ .side-menu__label {
+    font-size: 1rem;
+}
+
+.btn, .sp-container button { font-size: 1rem;}
+
+h4, .h4 {
+    font-size: 1.2rem;
+}
+
+h6, .h6,h5, .h5,.rdiobox span {
+    font-size: 1rem;
+}
+
+.project-card .project-content ul strong {
+    font-size: 1rem;
+}
+
+body , .card-title  {
+    font-size: 1rem;
+}
+table.dataTable thead th, table.dataTable thead td{
+    font-size: 1rem;
+}
+
+.form-control{
+    font-size: 1rem;
+}
+.tx-12{
+    font-size: 14px;
+}
+.main-footer .container-fluid{
+    font-size: 14px;
+}
+h6.mb-1.tx-13 {
+    font-size: 1rem;
+}
+.slide-menu li a, .sub-side-menu__label{
+    font-size: 1rem !important
+}
+.slide.is-expanded a{
+    padding-right: 0 !important;
+}

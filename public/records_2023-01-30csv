@@ -1,0 +1,75 @@
+"Register Number",Date,Time,Location,"Vehicle Direction",Make,Colour,Photo,Violation,City,"Lane Name","Camera ID"
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,,,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,"test data",,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,"test data",,
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,"test data",,200
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,"test data",,200
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,"test data",,200
+kl20n5959,20-10-2022,20:10:30,tvm,,,red,URL,,"test data",,200
+4564364,20-10-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",,200
+kl20n5959,20-10-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",,200
+4564364,20-10-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane1,200
+kl20n5959,20-10-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane2,200
+4564364,20-10-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane1,200
+kl20n5959,20-10-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane2,200
+4564364,20-11-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane1,200
+kl20n5959,01-01-2022,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane2,200
+4564364,05-01-2023,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane1,200
+kl20n5959,01-01-2023,20:10:30,tvm,,Jeep,red,URL,,"test data",Lane2,200
+4564364,05-01-2023,20:10:30,kottayam,,Jeep,red,URL,,"test data",Lane1,200
+kl20n5959,01-01-2023,20:10:30,kollam,,Jeep,red,URL,,"test data",Lane2,200
+123456,10-01-2023,20:10:30,rere,,Jeep,red,URL,,rere,Lane1,001
+54321,10-01-2023,20:10:30,kiiii,,Jeep,red,URL,,"test data",Lane2,200
+123456,10-01-2023,20:10:30,dfghdfh,,carr,red,URL,,TVM,Lane1,003
+54321,10-01-2023,20:10:30,kiiii,,lorry,red,URL,,"test data",Lane2,200
+123456,10-01-2023,20:10:30,iiiiii,,mg,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,autoo,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,jeep,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,jeep,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,anjuu,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,appuu,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,ammmmmm,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,qqqqqq,red,URL,,"test data",Lane1,200
+123456,10-01-2023,20:10:30,iiiiii,,rrrrrrrr,red,URL,,"test data",Lane1,200
+123456,2023-01-10,20:10:30,iiiiii,,rrrrrrrr,red,URL,,"test data",Lane1,200
+123456,2023-01-10,20:10:30,iiiiii,,sreee,red,URL,,"test data",Lane1,200
+123456,2023-01-10,20:10:30,iiiiii,,aaaa,red,URL,,"test data",Lane1,200
+123456,2023-01-10,20:10:30,iiiiii,,bbbbb,red,URL,,"test data",Lane1,200
+123456,2023-01-10,20:10:30,iiiiii,,ccccccc,red,URL,,"test data",Lane1,200
+123456,2023-01-10,20:10:30,iiiiii,,dddddd,red,URL,,"test data",Lane1,200
+123456,2023-01-12,12:10:30,iiiiii,,dddddd,red,URL,helmet_violation,"test data",Lane1,200
+123456,2023-01-12,12:10:30,iiiiii,,dddddd,red,URL,speed_violation,"test data",Lane1,200
+KL01A1685,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,seatbelt_violation,Kazhakuttom,Lane1,C01
+KL01A1685,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,seatbelt_violation,Kazhakuttom,Lane1,C01
+KL01A1685,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,seatbelt_violation,Kazhakuttom,Lane1,C01
+KL01A1685,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,TVM,Lane1,003
+KL01A16859,2023-01-17,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,TVM,Lane1,003
+KL01A16859,2023-01-17,10:10:30,Palayam,"tvm to Kazhakuttom",Suzuki,While,URL,,TVM,Lane1,003
+KL01A16859,2023-01-17,10:10:30,Palayam,"tvm to Kazhakuttom",Suzuki,While,URL,,TVM,Lane1,003
+KL01A16859,2023-01-17,10:10:30,Palayam,"tvm to Kazhakuttom",Suzuki,While,URL,,TVM,Lane1,003
+KL01A16859,2023-01-17,10:10:30,Palayam,"tvm to Kazhakuttom",Suzuki,While,URL,,TVM,Lane1,003
+KL01A16859,2023-01-17,10:10:30,Kottayam,"tvm to Kazhakuttom",Suzuki,While,URL,,Kottayam,Lane1,001
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
+4564364,2023-01-11,10:10:30,Trivandrum,"tvm to Kazhakuttom",Suzuki,While,URL,,Kazhakuttom,Lane1,C01
