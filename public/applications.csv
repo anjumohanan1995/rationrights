@@ -1,3 +1,84 @@
 "Application No.",Name,Address,"Mobile No.",Gender,"Since when staying in Kerala","Home District",District,Location,"Created Date"
-10000002,Appu,Thenganal,7894561233,Male,1990,bengal,Kollam,Karunagappally,2023-09-22
-10000003,annn,dfdsgdf,7894561230,Male,1990,hjkhjlk,Kollam,Karunagappally,2023-09-22
+4000005,Arya,"Arya test address",9998887776,Female,2006,Kollam,Thiruvananthapuram,Chirayinkeezhu,2023-08-21
+18000001,Raj,Bhavan,9876543213,Male,1967,Patna,Alappuzha,Ambalapuzha,2023-08-22
+7000009,"Bishnu pado roy","31 no basraj dala",7994696808,Male,1995,"West bengal",Kollam,Kollam,2023-09-22
+7000010,"Praneshwar roy","Para braganpur",8637894676,Male,1998,"West bengal",Kollam,Kollam,2023-09-22
+7000011,"Joydeb roy","Kirttaniya para",7872978398,Male,1990,"West bengal",Kollam,Kollam,2023-09-22
+7000012,"Bikash roy","Saddar para",9995238920,Male,2000,"West bengal",Kollam,Kollam,2023-09-22
+7000014,"Ganesh roy","Bania para",8293563947,Male,1992,"West bengal",Kollam,Kollam,2023-09-22
+10000042,"Sanjith namasundara","C/o pramad das, anandanagar, no. 2 karan VTC, simenmukh, sisi bargaon, Dhemaji, Assam",9366583968,Male,2021,Dhemaji,Kollam,Karunagappally,2023-09-23
+72000009,"RABIYAL HAQUE","C/O JABED ALI , PAGAL DIYA N.C, CHAYAGAON",9387442842,Male,2019,KAMRUP,Kollam,Punalur,2023-09-23
+65000001,Ram,Fgddff,8555412824,Male,1990,Chamoli,Kannur,Thaliparambu,2023-09-26
+61000001,"Sonu Naik","Tikarapada, Dumerpadar,odissa",8018854950,Male,2019,Kalahandi,Kozhikkodu,Vadakara,2023-10-03
+61000002,"Sonu Naik","Tikarapada, Dumerpadar",8018854950,Male,2019,Kalahandi,Kozhikkodu,Vadakara,2023-10-03
+12000001,Raj,"House 1, Theni, Tamilnadu",9847175767,Male,2008,Theni,Pathanamthitta,Kozhenchery,2023-10-03
+14000004,Sreeraj,"House, Theni",9847175767,Male,2009,THeni,Pathanamthitta,Adoor,2023-10-03
+37000004,"Atiur Rahman","Sidhauli Thamaashok papermil singhauli bardanga Bihar 847101",9074988621,Male,1990,Darbhanga,Ernakulam,North_Paravoor,2023-10-04
+14000005,Sreeraj,House,9847175767,Male,2005,Chennai,Pathanamthitta,Adoor,2023-10-04
+79000019,"Kabej Ali","Fakiranijhar part 2,Borkanda,Dhubri",7902965221,Male,2021,Dhubri,Kannur,Iritty,2023-10-08
+79000022,"Hipor Rabha","Town 429,Damodarpur,PT 2,PS Kokrajhar,Sub Division,Bilasipara,Dhubri,Silgara,Assam 783348",8714794549,Male,2005,Kokrajhar,Kannur,Iritty,2023-10-08
+79000032,"Samiul Hoque","Arsattar Sheikh, Hasdaha Pt ,Dhubri",6003156752,Male,2017,Dhubri,Kannur,Iritty,2023-10-08
+79000036,"Nur Ahmed","Habibar Rahman,Chalbanda,Dhubri,Assam",9706743466,Male,2013,Dhubri,Kannur,Iritty,2023-10-08
+79000038,"Rashidul Islam","Villi Kutkutarvita,Jalabila,Dhubri,Assam 783348",6003760508,Male,2020,Dhubri,Kannur,Iritty,2023-10-08
+79000041,"Ujal Sheik","Silgara,jarnagra,Pt 111 ,Dhubri",9745124346,Male,2014,Dhubri,Kannur,Iritty,2023-10-08
+79000044,"Sabed Ali","bamunigaon,Kokrajhar,Assam 783337",9954642404,Male,2019,Kokrajhar,Kannur,Iritty,2023-10-08
+79000049,"Joban Ali Sheikh","Vill,Atjibari,Sapatgram,Ward ni 1,Dhubri,Assam 783337",8590481386,Male,2019,Dhubri,Kannur,Iritty,2023-10-08
+79000052,"Riyajul Khan","Sukatikhata,Dhubri,Assam 783331",9678526842,Male,2019,Dhubri,Kannur,Iritty,2023-10-08
+5000051,"SYAMLAL CHANDRA","EAST LUMDING,SUBDIVN,HOJJAI,ASSAM",6282068558,Male,2014,HOJJAI,Thiruvananthapuram,Nedumangad,2023-10-10
+19000108,"RAJANI BORDOLOI","GAKHAJUBA , MARIGAON DISTRICT, MARIGAON, ASSAM",9995840349,Male,2014,MARIGAON,Alappuzha,Kuttanad,2023-10-10
+4000020,test,"test address test",9696541025,Female,2008,Kollam,Thiruvananthapuram,Chirayinkeezhu,2023-10-11
+21000010,"Ramachandran Gour","Routta Gham",6913822147,Male,1997,Udhankudi,Alappuzha,Mavelikkara,2023-10-12
+75000007,"Bichitrananda rout","Goda Gateswarpur
+Goda Jagatsinghpur
+Odisha",7064468639,Male,2018,Jagatsinghpur,Thrissur,Chalakkudy,2023-10-12
+75000009,"Bichitrananda rout","Goda Gateswarpur
+Goda Jagatsinghpur
+Odisha",7064468639,Male,2018,Jagatsinghpur,Thrissur,Chalakkudy,2023-10-12
+21000015,"Dipak Gour","9 LP School N.1 Ajagarh Mazbat,UDALGURAL",8453111800,Male,1990,UDALGURAL,Alappuzha,Mavelikkara,2023-10-12
+21000020,"Bhim Gour","48 MAZBBAT,NO.1 AJAGAR,PATHANPUR",8099306476,Male,1996,UDALGURL,Alappuzha,Mavelikkara,2023-10-12
+21000046,"KESONAL BARMAN","SRIPUR,ITAHAR,UTTAR,DINAJPUR",8891091210,Male,1994,DINAJPUR,Alappuzha,Mavelikkara,2023-10-12
+3000027,"Nirmmal Chandra Bishwasharma","Bhanga Colony ,South Lumding.PS,Sub-Divn-Hojai po",8089042933,Male,2013,Hojai,Thiruvananthapuram,TSO_Thiruvananthapuram,2023-10-15
+3000192,"shailesh ram","mahuarl, vishunapura maharajganj siwan",8593074567,Male,2017,siwan,Thiruvananthapuram,TSO_Thiruvananthapuram,2023-10-15
+3000199,"Gabindra kumar das","vill/town hira basti ps hojal",8822552323,Male,2007,Hojai,Thiruvananthapuram,TSO_Thiruvananthapuram,2023-10-15
+3000204,"siddika najrul","kachari gaon lanka nagaon",8099286588,Female,2021,Hojai,Thiruvananthapuram,TSO_Thiruvananthapuram,2023-10-15
+3000291,"moinul hoque","udali kachari gaon udaiani bazar hojal",8872953033,Male,2016,Hojai,Thiruvananthapuram,TSO_Thiruvananthapuram,2023-10-15
+3000294,"abdul suban","udali kachari gaon udaiani bazar",8891371915,Male,2014,Hojai,Thiruvananthapuram,TSO_Thiruvananthapuram,2023-10-15
+72000047,"ROMAN MUNDU","WEST BENGAL, JALPAIGURI",8086626664,Male,2020,JALPAIGURI,Kollam,Punalur,2023-10-17
+22000008,"BALUNATH MANDAL","KHAIRABARI ,KHAIRABARI,BONPOTU,ASSAM-781315",9072041203,Male,2017,BONPOTU,Alappuzha,Chengannur,2023-10-17
+22000009,"PAUKAN DEURI","KARAGARI,SARTHEBARI,BARPETTA,ASSAM-781307",8714733764,Male,2016,BARPETTA,Alappuzha,Chengannur,2023-10-17
+22000010,"BASANTHI MANDAL","KARAGARI,SARTHEBARI,BARPETTA,ASSAM-781307",6000090112,Male,2015,BARPETTA,Alappuzha,Chengannur,2023-10-17
+60000015,"HASIBUL HOSSAIN",NANDIBAZAR,8373823040,Male,2022,DINAJPUR,Kozhikkodu,Koyilandi,2023-10-20
+60000016,"MAHABUL HOQUE","NANDI BAZAR",6238596320,Male,2021,"DINAJPUR UTTAR",Kozhikkodu,Koyilandi,2023-10-20
+70000034,"PINKI DAS","HOWRAGHAT BPHC,KARBI ANGLONG,ASSAM",7002929588,Male,2010,"KARBI ANGLONG",Thiruvananthapuram,Kattakada,2023-10-22
+4000128,"YOGESH ROY","SAKATI, KOTWALI, SATKURA, JALPAIGURI",8348127754,Male,2003,JALPAIGURI,Thiruvananthapuram,Chirayinkeezhu,2023-10-25
+6000028,"DHUBOL YADAV",Jharkhand,8438697737,Male,2023,jharkhand,Thiruvananthapuram,Neyyattinkara,2023-10-31
+2000038,ROSHNI,"PAMGAON, LAKA, HOJAI, ASSAM",7306480767,Female,2021,HOJAI,Thiruvananthapuram,CRO-North-Thiruvananthapuram,2023-10-31
+2000039,JIYA,"PAMGAON, LAKA, HOJAI, ASSAM",7306480767,Female,2021,HOJAI,Thiruvananthapuram,CRO-North-Thiruvananthapuram,2023-10-31
+4000155,"Bishwanath Koch","Pachim Lalmati, P.S: Lumding, Hojai, Hojai Dist, Assam- 782446",9954112130,Male,2021,Nagaon,Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+4000156,"Raju Basumatari","Lalmati, Paschim, P.S- Lumding, Hojai, Nagaon, Assam-782449",8590870513,Male,2021,Nagaon,Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+4000157,"Rakheb Brahma","Bashbari F.V., P.S-Kokrajhar, Kokrajhar, Assam",9965845687,Male,2021,Kokrajhar,Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+4000158,"LAKHIKANTA LASKAR","3-4 Kaki Gaon, Taralongsu Part 1, Nagaon, Assam- 782446",9645447206,Male,2022,Nagaon,Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+4000159,"Raju Koch","Kaki, Tilabazar, Taralangshu, Hojai, Assam- 782446",6003586287,Male,2023,Nagaon,Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+4000160,"PATHAN DAIMARY","Swargathi, Sargathi No.2, Karbi Anglomg, Assam-782441",6381548638,Male,2023,"Karbi Anglong",Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+4000161,"BILL PANG BASUMATARI","Vill/Town- Bashbari F.V, P.S. Kokrajhar, Sub Divn- Kokrajhar, Dist- Kokrajhar- 783370",9778368103,Male,2023,Kokrajhar,Thiruvananthapuram,Chirayinkeezhu,2023-11-01
+5000129,"NIPEN BORMAN","KACHUA,ASSAM",6383533414,Male,2017,KACHUA,Thiruvananthapuram,Nedumangad,2023-11-05
+4000165,tttt,"test add",9876543213,Male,2005,ttttt,Thiruvananthapuram,Chirayinkeezhu,2023-11-06
+26000009,"MITHUN BARMAN","COOCHEHAR,W-BENGAL",8597636275,Male,2021,COOCHEHR,Kottayam,Kanjirappally,2023-11-08
+26000010,"MITHUN BARMAN","COOCHEHAR,W-BENGAL",8597636275,Male,2021,COOCHEHR,Kottayam,Kanjirappally,2023-11-08
+80000086,"MUNJILA KHATUN GAZI","KUMRA KHALI, WEST BENGAL",8129799177,Female,2003,ATHAROBANKI,Kasargodu,Vellarikundu,2023-11-10
+65000106,"Mayur dattatray gaikvad",Maharashtra,7025095130,Male,2019,SANGLI,Kannur,Thaliparambu,2023-11-13
+65000107,"Iliajur rahman",Chepparamba,9037469659,Male,2021,Dhubri,Kannur,Thaliparambu,2023-11-13
+65000117,"Dulal barua",Assam,9085775013,Male,2013,Dhubri,Kannur,Thaliparambu,2023-11-13
+65000118,"Bokul ali",Assam,9101469797,Male,2015,Dhubri,Kannur,Thaliparambu,2023-11-13
+65000120,"Kasam ali",Assam,9778584806,Male,2018,Dhubri,Kannur,Thaliparambu,2023-11-13
+65000121,Kunteppa,Karnataka,8848860374,Male,2010,Koppal,Kannur,Thaliparambu,2023-11-13
+65000124,Nagaratna,Karnataka,8197537635,Male,2011,Karnataka,Kannur,Thaliparambu,2023-11-13
+65000137,"Nagaraj Chandappa Magi","NAGRARSALAGI,Bijapur, Karnataka, 586203",9847841940,Male,2013,Bijapur,Kannur,Thaliparambu,2023-11-13
+65000139,"Shylaja Nagaraj","C/o Nagaraj, Narasalagi village, p.o.Narasalagi, Basavanabagewadi, Bijapur.",9847841940,Female,2013,Bijapur,Kannur,Thaliparambu,2023-11-13
+65000140,"Renuka Nagaraj Magi","C/o Nagaraj, Narasalagi, P. O. Narasalagi, Basavanabagewadi, Bijapur",9847841940,Female,2013,Bijapur,Kannur,Thaliparambu,2023-11-13
+65000141,"Soumya Nagaraj Magi","C/o Nagaraj, Narasalagi, P. O. Narasalagi, Basavanabagewadi, Bijapur",9847841940,Female,2013,Bijapur,Kannur,Thaliparambu,2023-11-13
+65000142,"Nitheesh kumar Nagaraj Magi","C/o Nagaraj, Narasalagi, P. O. Narasalagi, Basavanabagewadi, Bijapur",9847841940,Male,2013,Bijapur,Kannur,Thaliparambu,2023-11-13
+65000146,"Shrishail Madivalappa Hadapad","C/o Madivalappa Hadappad, po. Devara hulagabal, tq/muddebihal, Vijayapura, Karnataka. 586212",8606710145,Male,2019,Vijayapura,Kannur,Thaliparambu,2023-11-13
+71000027,"Dhal chand Gour","Rani puhri,Hojai, Balukmari , Assam",8822057732,Male,2022,Nougha,Thiruvananthapuram,Varkala,2023-11-16
+63000149,"MAYADHAR PATRA","TALAPADA,TELKOI,KEONJHAR",9207270460,Male,2018,Keonjhar,Wayanad,"Sulthan Batheri",2023-11-27
+59000009,"Doha paik","Madhubani, Bihar",8921997950,Male,1990,Madhubani,Kozhikkodu,TSO_Kozhikkode,2023-11-28
