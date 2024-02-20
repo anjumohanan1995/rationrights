@@ -35,12 +35,16 @@ class PermissionSeeder extends Seeder
             ]
 
             )],
-            [ 'name' => 'Student Report' ],
-            [ 'name' => 'Application Date' ],
-            [ 'name' => 'Applications'  ],
-            [  'name' => 'Ranking' ],
-            [ 'name' => 'GD/Interview' ],
-            [ 'name' => 'Reports'  ],
+            [
+                'name' => 'Applications', 'sub_permission' => json_encode([
+                "Adhar and ration card",
+                "Adhar only",
+                "No adhar and ration card"
+
+            ]
+
+            )],
+
 
         ];
     }

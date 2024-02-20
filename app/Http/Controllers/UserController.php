@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Redirect;
 use Excel;
 use App\Imports\ImportUser;
+use App\State;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Auth;
@@ -67,7 +68,9 @@ class UserController extends Controller
     public function create()
     {
 
-        return view('user.create');
+        $role=Role::where('deleted_at' ,null)->get();
+        $states=State::where('deleted_at',null)->get();
+        return view('user.create',compact('role','states'));
 
     }
 
@@ -96,6 +99,8 @@ class UserController extends Controller
 
               'password' => 'required' ,
               'role' => 'required' ,
+              'state' => 'required' ,
+
 
            /*  'adhar'=> 'required|min:10'],[
 
@@ -135,7 +140,8 @@ class UserController extends Controller
             'email' => @$request->email?$request->email:'',
             'password' => Hash::make($request->password),
 
-            'role' => @$request->role?$request->role:''
+            'role' => @$request->role?$request->role:'',
+            'state' => @$request->state?$request->state:''
 
         ]);
 
@@ -265,10 +271,12 @@ class UserController extends Controller
 
 
             $data_arr = array();
-
+            $i=$start;
             foreach($records as $record){
+                $i++;
                 $id = $record->id;
                 $name = $record->name;
+                $state = @$record->state;
 
                 $email =  $record->email;
 
@@ -285,11 +293,12 @@ class UserController extends Controller
 
                   }
                $data_arr[] = array(
+                "sl_no" =>$i,
                    "id" => $id,
                    "name" => $name,
 
                   "email" => $email,
-
+                  "state"  =>$state,
                    "role" => $role,
                    "edit" => $edit,
 
@@ -341,7 +350,9 @@ class UserController extends Controller
         $data=User::find($id);
         $role =Role::orderBy('id','desc')->where('deleted_at',null)->get();
 
-        return view('user.edit',compact('data','role'));
+        $states=State::where('deleted_at',null)->get();
+
+        return view('user.edit',compact('data','role','states'));
     }
 
 
@@ -362,7 +373,7 @@ class UserController extends Controller
               'email' => 'required|email|unique:users,deleted_at,NULL'.$id,
 
               'role' => 'required' ,
-
+              'state' => 'required' ,
 
 
 

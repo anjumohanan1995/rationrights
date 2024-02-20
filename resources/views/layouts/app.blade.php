@@ -571,8 +571,17 @@
                                     <span class="side-menu__label">Dashboard</span>
                                 </a>
                             </li>
+                            @php
+                            $permission = \App\RolePermission::where('role', \Auth::user()->role)->first();
+                            //  dd(Auth::user()->name);
+                            //dd($permission);
+                             @$sub_permission= ($permission->sub_permissions)? json_decode($permission->sub_permissions,true) :  null;
+                           //dd($sub_permission);
+                        @endphp
+                         @if (!empty($permission))
 
-
+                            @foreach (@$permission->permission as $permissions)
+                            @if (@$permissions == 'user-management')
                                         <li class="slide {{ request()->is('user-management') || request()->is('roles') || request()->is('permissions') ? 'is-expanded' : ''  }}" >
                                             <a class="side-menu__item" data-bs-toggle="slide" href="">
                                                 <i class="side-menu__icon fe fe-user"> </i>
@@ -581,30 +590,37 @@
                                             </a>
 
                                             <ul class="slide-menu">
+                                                @if ($sub_permission && is_array($sub_permission) && in_array('users', $sub_permission))
                                                 <li class="sub-slide">
                                                         <a class="slide-item {{ request()->is('user-management') ? 'active' : '' }}" data-bs-toggle="sub-slide"
                                                             href="{{ url('user-management') }}">
                                                             <span class="sub-side-menu__label">Users</span>
                                                         </a>
                                                     </li>
-                                                {{-- <li class="sub-slide ">
+                                                    @endif
+                                                    @if ($sub_permission && is_array($sub_permission) && in_array('add-role', $sub_permission))
+
+                                                <li class="sub-slide ">
                                                         <a class="slide-item {{ request()->is('roles') ? 'active' : '' }}" data-bs-toggle="sub-slide"
                                                             href="{{ url('roles') }}">
                                                             <span class="sub-side-menu__label">Roles</span>
                                                         </a>
                                                     </li>
+                                                    @endif
+                                                    @if ($sub_permission && is_array($sub_permission) && in_array('permission', $sub_permission))
+
                                                  <li class="sub-slide">
                                                         <a class="slide-item {{ request()->is('permissions') ? 'active' : '' }}" data-bs-toggle="sub-slide"
                                                             href="{{ url('permissions') }}">
                                                             <span class="sub-side-menu__label">Permission</span>
                                                         </a>
-                                                    </li> --}}
+                                                    </li>
+                                                    @endif
 
                                             </ul>
 
+
                                         </li>
-
-
 
                                         {{-- applications form starts here  --}}
                                         <li class="slide {{ request()->is('applications-form/form') ? 'is-expanded' : ''  }}" >
@@ -627,6 +643,10 @@
 
                                         {{-- applications form ends here  --}}
 
+                                        {{-- </li> --}}
+                                        @endif
+
+                                        @if (@$permissions == 'Applications')
                                         <li class="slide {{ request()->is('application-list') || request()->is('adhaar-application-list') || request()->is('no-adhaar-ration-application-list') ? 'is-expanded' : ''  }}" >
                                             <a class="side-menu__item" data-bs-toggle="slide" href="">
                                                 <i class="side-menu__icon fe fe-user"> </i>
@@ -635,28 +655,40 @@
                                             </a>
 
                                             <ul class="slide-menu">
+                                                @if ($sub_permission && is_array($sub_permission) && in_array('Adhar and ration card', $sub_permission))
+
                                                 <li class="sub-slide">
                                                         <a class="slide-item {{ request()->is('application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide"
                                                             href="{{ url('application-list') }}">
                                                             <span class="sub-side-menu__label">Ration Card & Aadhaar</span>
                                                         </a>
                                                     </li>
+                                                    @endif
+                                                    @if ($sub_permission && is_array($sub_permission) && in_array('Adhar only', $sub_permission))
+
                                                 <li class="sub-slide ">
                                                         <a class="slide-item {{ request()->is('adhaar-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide"
                                                             href="{{ url('adhaar-application-list') }}">
                                                             <span class="sub-side-menu__label">Aadhaar Only</span>
                                                         </a>
                                                     </li>
+                                                    @endif
+                                                    @if ($sub_permission && is_array($sub_permission) && in_array('No adhar and ration card', $sub_permission))
+
                                                  <li class="sub-slide">
                                                         <a class="slide-item {{ request()->is('no-adhaar-ration-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide"
                                                             href="{{ url('no-adhaar-ration-application-list') }}">
                                                             <span class="sub-side-menu__label">No Ration Card & Aadhaar</span>
                                                         </a>
                                                     </li>
+                                                    @endif
 
                                             </ul>
 
                                         </li>
+                                        @endif
+                                        @endforeach
+                                        @endif
 
 
 

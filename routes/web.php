@@ -142,6 +142,8 @@ Route::get('/applications/aadhaar-form', [ApplicationController::class, 'aadhaar
 Route::get('/applications/no-documents-form', [ApplicationController::class, 'noDocuments'])->name("noDocuments");
 route::any('/district',[ApplicationController::class, 'district'])->name("district");
 Route::get('/location', [ApplicationController::class, 'getLocations'])->name("location");
+route::any('/states',[ApplicationController::class, 'states'])->name("states");
+
 
 //25-08-2023
 Route::post('export/excel', [ApplicationController::class,'exportAadhaarOnly'])->name('export.excel');

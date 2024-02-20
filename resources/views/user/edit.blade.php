@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('content')	
+@section('content')
 	<!-- main-content -->
 	<div class="main-content app-content">
 		<!-- container -->
@@ -10,19 +10,19 @@
 					<h4 class="content-title mb-2">Edit User Management  </h4>
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							 
+
 							<li class="breadcrumb-item active" aria-current="page"><i class="side-menu__icon fe fe-box"> </i> - User Management</li>
 						</ol>
 					</nav>
 				</div>
-				 
+
 			</div>
 			<!-- /breadcrumb -->
 			<!-- main-content-body -->
 			<div class="main-content-body">
-				 
+
 				<!-- row -->
-				 
+
 				<!-- /row -->
 				<!-- row -->
 				<div class="row row-sm">
@@ -48,9 +48,9 @@
 												</div>
 											</div>
 										</div>
-										 
-										
-										
+
+
+
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-3"><label class="form-label">Email</label></div>
@@ -69,6 +69,7 @@
 												<div class="col-md-9">
 												<select id="role" name="role" class="form-control" >
 													<!-- <option value="{{$data['role']}}" selected> -->{{$data['role']}}</option>
+                                                    <option value="">Select Role</option>
 														@foreach($role as $roles)
 															<option value="{{$roles->name}}" @if($data['role'] == $roles->name) selected @endif >{{$roles->name}}</option>
 														@endforeach
@@ -79,27 +80,44 @@
 												</div>
 											</div>
 										</div>
-										
+                                        <div class="form-group">
+											<div class="row">
+												<div class="col-md-3"><label class="form-label">Home State / Union Territory</label></div>
+												<div class="col-md-9">
+												<select id="state" name="state" class="form-control"  >
+                                                    <option value="">Select State</option>
+                                                    @foreach ($states as $state)
+                                                    <option value="{{ $state->name }}" @if($data['state'] == $state->name) selected @endif>{{ $state->name }}</option>
+                                                    @endforeach
+
+												</select>
+
+												@error('state')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
+												</div>
+											</div>
+										</div>
 										<div class="card-footer">
 											<button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
 										</div>
 									</form>
-								
+
 								</div>
-								
-									
+
+
 							</div>
 
 					</div>
-					 
-					
-					 
+
+
+
 				</div>
 				<!-- /row -->
 				<!-- row -->
-				 
+
 				<!-- /row -->
-				<!-- row --> 
+				<!-- row -->
 			</div>
 			<!-- /row -->
 		</div>
@@ -110,7 +128,7 @@
 <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script >
 	$(function() {
-		
+
 		$('#generatekey').on('click', function () {
 			var user_id =$("#user_id").val();
 	        $.ajax({
@@ -124,9 +142,9 @@
                 success: function (result) {
                 	console.log(result);
                 	$('#access').val(result);
-                	
+
                 	//
-                	
+
 
                 }
             });
@@ -146,7 +164,7 @@
                 	if(result.camera_id != null){
                 		$('#camera_id').html('<option value="">'+ result.camera_id +' </option>');
                 	}
-                	
+
 
                 }
             });
@@ -174,7 +192,7 @@
                     });
                     $('#camera_id').html('<option value=""> Camera Id </option>');
 
-                   
+
                 }
 
             });
@@ -182,9 +200,9 @@
         });
 		$('#location').on('change', function () {
 			//alert("kk");
-			
+
             var location = this.value;
-             var district = $("#dist").val(); 
+             var district = $("#dist").val();
             $("#camera_id").html('');
             $.ajax({
                 url: "{{url('reports/fetch-camera')}}",
@@ -201,7 +219,7 @@
                         $("#camera_id").append('<option value="' + value
                             .camera_id + '">' + value.camera_id + '</option>');
                     });
-                     
+
 
                 }
             });
@@ -215,26 +233,26 @@ $("#userForm").validate({
 	rules: {
 		name: {
 		required: true,
-	
+
 		},
-		
+
 		email: {
 		required: true
 		},
-		
+
 	},
 	messages: {
 		name: {
 		required: "Please enter Name",
-		
+
 		},
 		email: {
 		required: "Please enter Email"
-		
+
 		}
-		
-		
-	
+
+
+
 	},
     submitHandler: function(form) {
 	$.ajaxSetup({
@@ -246,8 +264,8 @@ $("#userForm").validate({
 	$('#submit').html('Please Wait...');
 	$("#submit"). attr("disabled", true);
 		$.ajax({
-			url: '{{ url("user-management/edit") }}'+'/'+id, 
-			
+			url: '{{ url("user-management/edit") }}'+'/'+id,
+
 			type: "POST",
 			data: $('#userForm').serialize(),
 			success: function( response ) {
@@ -261,7 +279,7 @@ $("#userForm").validate({
 				}, 2000 );
 				location.reload(true);
 				//alert('Data submitted successfully');
-				//document.getElementById("userForm").reset(); 
+				//document.getElementById("userForm").reset();
 			}
 		});
 }
@@ -271,4 +289,4 @@ $("#userForm").validate({
 
 
 
-@endsection			
+@endsection
