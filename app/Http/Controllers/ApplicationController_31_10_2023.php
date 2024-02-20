@@ -983,9 +983,6 @@ class ApplicationController extends Controller
     }
     public function exportAadhaarOnly(Request $request)
     {
-        $applicationNo = $request->input('application_number');
-        $districts = $request->input('dist');
-        $locate = $request->input('locations');
 
         if ($request->start_date != '') {
 
@@ -1033,16 +1030,6 @@ class ApplicationController extends Controller
         if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
         {
             $items->whereBetween('created_at', [$stDate, $edDate]);
-        }
-        if($applicationNo != ""){
-            $items->where('application_no',$applicationNo);
-        }
-        if($districts != ""){
-
-            $items->where('district',$districts);
-        }
-        if($locate != "" ){
-            $items->where('location',$locate);
         }
         $records = $items->get();
 
@@ -1107,10 +1094,6 @@ class ApplicationController extends Controller
     }
     public function exportRation(Request $request)
     {
-        $applicationNo = $request->input('application_number');
-        $districts = $request->input('dist');
-        $locate = $request->input('locations');
-
         if ($request->start_date != '') {
 
             $from_date = date("M d,Y", strtotime($request->start_date));
@@ -1160,16 +1143,6 @@ class ApplicationController extends Controller
         if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
         {
             $items->whereBetween('created_at', [$stDate, $edDate]);
-        }
-        if($applicationNo != ""){
-            $items->where('application_no',$applicationNo);
-        }
-        if($districts != ""){
-
-            $items->where('district',$districts);
-        }
-        if($locate != "" ){
-            $items->where('location',$locate);
         }
         $records = $items->get();
         $data_arr = array();
@@ -1242,9 +1215,7 @@ class ApplicationController extends Controller
     }
     public function exportNodoc(Request $request)
     {
-        $applicationNo = $request->input('application_number');
-        $districts = $request->input('dist');
-        $locate = $request->input('locations');
+
 
         if ($request->start_date != '') {
 
@@ -1292,16 +1263,6 @@ class ApplicationController extends Controller
         if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
         {
             $items->whereBetween('created_at', [$stDate, $edDate]);
-        }
-        if($applicationNo != ""){
-            $items->where('application_no',$applicationNo);
-        }
-        if($districts != ""){
-
-            $items->where('district',$districts);
-        }
-        if($locate != "" ){
-            $items->where('location',$locate);
         }
         $records = $items->get();
 

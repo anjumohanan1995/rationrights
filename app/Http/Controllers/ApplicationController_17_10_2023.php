@@ -126,7 +126,7 @@ class ApplicationController extends Controller
                 'aadhaar' => [
                     'nullable',
                     'regex:/^\d{12}$/',
-                    'unique:applications,aadhaar',
+                    'unique:applications,aadhaar,NULL,_id,deleted_at,NULL',
                 ],
                 'ration' => 'nullable',
 
@@ -206,7 +206,6 @@ class ApplicationController extends Controller
         // dd($request->from_date ."and  ".$request->to_date );
         $district  =  $request->district;
         $location  =  $request->location;
-        $application_no = $request->application_no;
         if ($request->from_date != '') {
 
             $from_date = date("M d,Y", strtotime($request->from_date));
@@ -258,9 +257,6 @@ class ApplicationController extends Controller
 
             // Total records
             $totalRecord = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
-                $totalRecord->where('application_no',$application_no);
-            }
             if($district != ""){
                 $totalRecord->where('district',$district);
             }
@@ -277,9 +273,7 @@ class ApplicationController extends Controller
 
 
             $totalRecordswithFilte = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
-                $totalRecordswithFilte->where('application_no',$application_no);
-            }
+
             if($district != ""){
                 $totalRecordswithFilte->where('district',$district);
             }
@@ -297,9 +291,6 @@ class ApplicationController extends Controller
 
             // Fetch records
             $items = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
-            if($application_no != ""){
-                $items->where('application_no',$application_no);
-            }
             if($district != ""){
                 $items->where('district',$district);
             }
@@ -397,7 +388,7 @@ class ApplicationController extends Controller
         return view('admin.applications.adhaar_applications',compact('districts'));
     }
     public function getAdhaarApplications(Request $request){
-        $application_no  =  $request->application_no;
+
         $district  =  $request->district;
         $location  =  $request->location;
         if ($request->from_date != '') {
@@ -451,9 +442,6 @@ class ApplicationController extends Controller
 
             // Total records
             $totalRecord = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
-                $totalRecord->where('application_no',$application_no);
-            }
             if($district != ""){
                 $totalRecord->where('district',$district);
             }
@@ -469,9 +457,6 @@ class ApplicationController extends Controller
 
 
             $totalRecordswithFilte = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
-                $totalRecordswithFilte->where('application_no',$application_no);
-            }
             if($district != ""){
                 $totalRecordswithFilte->where('district',$district);
             }
@@ -489,9 +474,7 @@ class ApplicationController extends Controller
 
             // Fetch records
             $items = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
-            if($application_no != ""){
-                $items->where('application_no',$application_no);
-            }
+
             if($district != ""){
                 $items->where('district',$district);
             }
@@ -581,7 +564,7 @@ class ApplicationController extends Controller
     }
     public function getAdhaarRationApplications(Request $request){
 
-        $application_no  =  $request->application_no;
+
         $district  =  $request->district;
         $location  =  $request->location;
         if ($request->from_date != '') {
@@ -635,9 +618,6 @@ class ApplicationController extends Controller
 
             // Total records
             $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
-                $totalRecord->where('application_no',$application_no);
-            }
             if($district != ""){
                 $totalRecord->where('district',$district);
             }
@@ -654,9 +634,7 @@ class ApplicationController extends Controller
 
 
             $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
-                $totalRecordswithFilte->where('application_no',$application_no);
-            }
+
             if($district != ""){
                 $totalRecordswithFilte->where('district',$district);
             }
@@ -674,9 +652,6 @@ class ApplicationController extends Controller
 
             // Fetch records
             $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
-            if($application_no != ""){
-                $items->where('application_no',$application_no);
-            }
             if($district != ""){
                 $items->where('district',$district);
             }
@@ -981,21 +956,8 @@ class ApplicationController extends Controller
 
         ]);
     }
-    public function exportAadhaarOnly(Request $request)
+    public function exportAadhaarOnly()
     {
-        $applicationNo = $request->input('application_number');
-        $districts = $request->input('dist');
-        $locate = $request->input('locations');
-
-        if ($request->start_date != '') {
-
-            $from_date = date("Y-m-d", strtotime($request->start_date));
-            $stDate = new Carbon($from_date);
-        }
-        if ($request->ending_date != '') {
-            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
-            $edDate = new Carbon($to_date);
-        }
 
         $headers = array(
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
@@ -1027,24 +989,8 @@ class ApplicationController extends Controller
 
         ]);
 
-        $items = Application::where('type','aadhaar-form')
-        ->where('deleted_at',null);
 
-        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
-        {
-            $items->whereBetween('created_at', [$stDate, $edDate]);
-        }
-        if($applicationNo != ""){
-            $items->where('application_no',$applicationNo);
-        }
-        if($districts != ""){
-
-            $items->where('district',$districts);
-        }
-        if($locate != "" ){
-            $items->where('location',$locate);
-        }
-        $records = $items->get();
+        $records = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('id','DESC')->get();
 
         $data_arr = array();
         foreach($records as $record){
@@ -1058,6 +1004,7 @@ class ApplicationController extends Controller
             $home_district = $record->home_district;
             $eligibility =  $record->eligibility;
             $aadhar =  $record->aadhaar;
+
             $district =  $record->district;
             $location =  $record->location;
             $date =  $record->created_at->format('Y-m-d');
@@ -1076,7 +1023,10 @@ class ApplicationController extends Controller
 
                 "district"=>$district,
                 "location"=>$location,
-                "date"=>$date,
+                "date"=>$date
+
+
+
             );
         }
 
@@ -1105,21 +1055,8 @@ class ApplicationController extends Controller
 
 
     }
-    public function exportRation(Request $request)
+    public function exportRation()
     {
-        $applicationNo = $request->input('application_number');
-        $districts = $request->input('dist');
-        $locate = $request->input('locations');
-
-        if ($request->start_date != '') {
-
-            $from_date = date("M d,Y", strtotime($request->start_date));
-            $stDate = new Carbon($from_date);
-        }
-        if ($request->ending_date != '') {
-            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
-            $edDate = new Carbon($to_date);
-        }
 
         $headers = array(
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
@@ -1154,24 +1091,8 @@ class ApplicationController extends Controller
         ]);
 
 
-        $items = Application::where('type','ration-aadhaar-form')
-        ->where('deleted_at',null);
+        $records = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('id','DESC')->get();
 
-        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
-        {
-            $items->whereBetween('created_at', [$stDate, $edDate]);
-        }
-        if($applicationNo != ""){
-            $items->where('application_no',$applicationNo);
-        }
-        if($districts != ""){
-
-            $items->where('district',$districts);
-        }
-        if($locate != "" ){
-            $items->where('location',$locate);
-        }
-        $records = $items->get();
         $data_arr = array();
         foreach($records as $record){
             //dd($record);
@@ -1240,21 +1161,8 @@ class ApplicationController extends Controller
 
 
     }
-    public function exportNodoc(Request $request)
+    public function exportNodoc()
     {
-        $applicationNo = $request->input('application_number');
-        $districts = $request->input('dist');
-        $locate = $request->input('locations');
-
-        if ($request->start_date != '') {
-
-            $from_date = date("M d,Y", strtotime($request->start_date));
-            $stDate = new Carbon($from_date);
-        }
-        if ($request->ending_date != '') {
-            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
-            $edDate = new Carbon($to_date);
-        }
 
         $headers = array(
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
@@ -1286,25 +1194,7 @@ class ApplicationController extends Controller
         ]);
 
 
-        $items = Application::where('type','no-documents-form')
-        ->where('deleted_at',null);
-
-        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
-        {
-            $items->whereBetween('created_at', [$stDate, $edDate]);
-        }
-        if($applicationNo != ""){
-            $items->where('application_no',$applicationNo);
-        }
-        if($districts != ""){
-
-            $items->where('district',$districts);
-        }
-        if($locate != "" ){
-            $items->where('location',$locate);
-        }
-        $records = $items->get();
-
+        $records = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('id','DESC')->get();
 
         $data_arr = array();
         foreach($records as $record){
@@ -1380,7 +1270,13 @@ class ApplicationController extends Controller
 
     public function destroy(Request $request)
     {
-        $application_no = ['4000102','4000103','4000104','4000105','4000106','4000107','4000108'];
+        $application_no = ['19000002','19000003','19000004','19000006','19000008','19000011',
+        '19000014','19000028','19000029','19000031','19000032','19000034','19000036','19000038',
+        '19000043','19000045','19000047','19000050','19000052','19000057','19000020','19000022'
+       ,'19000023','19000016','19000017','19000046','19000048','19000051','19000007','19000009'
+       ,'19000010','19000012','19000013','19000015','19000053','19000055','19000018','19000019'
+       ,'19000021','19000054','19000025','19000026','19000027','19000049','19000056','19000058',
+        '19000060','19000064','19000066','19000067','19000068'];
         $records = Application::whereIn('application_no', $application_no)->delete();
     }
 

@@ -144,7 +144,7 @@
                                                             <option>Pathanamthitta</option>
                                                             <option>Alappuzha</option>
                                                         </select> --}}
-                                                        <input  class="form-control"  type="text" id="state" value="{{ old('state') }}" name="home_state"  placeholder="" required>
+                                                        <input  class="form-control"  type="text" id="state" value="{{ old('state') }}" name="state"  placeholder="" required>
                                                         <label for="state">Home State<span class="text-danger">*</span></label>
                                                         @if ($errors->has('state'))
                                                             <div class="text-danger w-100 error">{{ $errors->first('state') }}</div>
@@ -279,12 +279,10 @@
         function show1(){
             document.getElementById('div1').style.display ='none';
             $('#type').val('aadhaar-form');
-            document.getElementById('div1').removeAttribute('required');
         }
         function show2(){
             document.getElementById('div1').style.display = 'block';
             $('#type').val('ration-aadhaar-form');
-            document.getElementById('div1').setAttribute('required', 'true');
 
         }
         </script>

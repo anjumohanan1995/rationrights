@@ -279,12 +279,10 @@
         function show1(){
             document.getElementById('div1').style.display ='none';
             $('#type').val('aadhaar-form');
-            document.getElementById('div1').removeAttribute('required');
         }
         function show2(){
             document.getElementById('div1').style.display = 'block';
             $('#type').val('ration-aadhaar-form');
-            document.getElementById('div1').setAttribute('required', 'true');
 
         }
         </script>

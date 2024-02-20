@@ -12,13 +12,13 @@
                                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
                                         aria-labelledby="home-tab" tabindex="0">
 
-                                        <h4 class="mb-3">APPLICATION FORM - AADHAAR ONLY </h4>
-
+                                        <h4 class="mb-3">APPLICATION FORM - NO AADHAAR & RATION CARD</h4>
                                         @if(session('success'))
                                         <div class="alert alert-success">
                                             {{ session('success') }}
                                         </div>
                                     @endif
+
 
 
                                         @if ($errors->any())
@@ -33,7 +33,7 @@
 
                                         @csrf
                                         <input type="hidden" name="test" id="test" value="">
-                                        <input type="hidden" name="type" id="type" value="aadhaar-form">
+                                        <input type="hidden" name="type" id="type" value="no-documents-form">
 
                                         <div class="row">
                                             <div class="col-md-6">
@@ -47,7 +47,19 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <textarea type="text" name="address" id="address" class="form-control"
+                                                              value="{{ old('address') }}" placeholder="" required>{{ old('address') }}</textarea>
+                                                    <label for="address">Address (Home Address)<span class="text-danger">*</span></label>
+                                                    @if ($errors->has('address'))
+                                                        <div class="text-danger">{{ $errors->first('address') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="row">
                                             {{-- <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" name="age" id="age" placeholder="" required>
@@ -73,12 +85,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        {{-- </div>
 
-                                        <div class="row">
+                                        <div class="row"> --}}
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" name="mobile" id="mobile" value="{{ old('mobile') }}" placeholder="" required>
+                                                    <input type="number" class="form-control" name="mobile" id="mobile" placeholder="" value="{{ old('mobile') }}" required>
                                                     <label for="mobile">Mobile Number (Whatsapp Number)<span class="text-danger">*</span></label>
                                                     <span id="mobileError" class="error-message"></span>
                                                     @if ($errors->has('mobile'))
@@ -86,6 +98,7 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <div class="form-floating mb-0">
@@ -102,35 +115,26 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        {{-- </div>
 
 
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" name="aadhaar" id="aadhaar" value="{{ old('aadhaar') }}" placeholder="" required>
-                                                    <label for="aadhaar">Aadhaar Number <span class="text-danger">*</span></label>
-                                                    <span id="aadhaarError" class="error-message"></span>
-                                                    @if ($errors->has('aadhaar'))
-                                                        <div class="text-danger">{{ $errors->first('aadhaar') }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
+                                        <div class="row"> --}}
+
+                                            {{-- <div class="col-md-6">
                                                 <div>
                                                     <label>Eligible for IMPDS or not(Yes/No) <span class="text-danger">*</span></label>
 
                                                     <label>
-                                                        <input type="radio" name="eligibility"  onclick="show2();"  value="Yes" @if(old('eligibility') === 'Yes') checked @endif required>
+                                                        <input type="radio" name="eligibility" value="Yes" @if(old('eligibility') === 'Yes') checked @endif >
                                                         Yes
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="eligibility"  onclick="show1();" value="No" @if(old('eligibility') === 'No') checked @endif required>
+                                                        <input type="radio" name="eligibility" value="No" @if(old('eligibility') === 'No') checked @endif >
                                                         No
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         <div class="row">
@@ -144,8 +148,8 @@
                                                             <option>Pathanamthitta</option>
                                                             <option>Alappuzha</option>
                                                         </select> --}}
-                                                        <input  class="form-control"  type="text" id="state" value="{{ old('state') }}" name="home_state"  placeholder="" required>
-                                                        <label for="state">Home State<span class="text-danger">*</span></label>
+                                                        <input  class="form-control"  type="text"  name="state"  value="{{ old('state') }}" placeholder="" required>
+                                                        <label for="floatingSelect">Home State<span class="text-danger">*</span></label>
                                                         @if ($errors->has('state'))
                                                             <div class="text-danger w-100 error">{{ $errors->first('state') }}</div>
                                                         @endif
@@ -164,17 +168,10 @@
                                                     </select> --}}
                                                     <input  class="form-control"  type="text" name="home_district" value="{{ old('home_district') }}"  placeholder="" required>
 
-                                                    <label for="district">Home District<span class="text-danger">*</span> </label>
-                                                    @if ($errors->has('district'))
-                                                        <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
+                                                    <label for="">Home District<span class="text-danger">*</span> </label>
+                                                    @if ($errors->has('home_district'))
+                                                        <div class="text-danger w-100 error">{{ $errors->first('home_district') }}</div>
                                                     @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" name="ration" id="div1" style="display:none;" value="" placeholder="Ration Card"></label>
-                                                    {{-- <label for="district">Ration Card<span class="text-danger">*</span> </label> --}}
-                                                    <span id="aadhaarError" class="error-message"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -206,24 +203,20 @@
 
             var ddlYears = document.getElementById("years");
             var currentYear = (new Date()).getFullYear();
-
             var oldValue = parseInt({!! json_encode(old('years')) !!});
-
             for (var i = 1990; i <= currentYear; i++) {
                 var option = document.createElement("OPTION");
                 option.innerHTML = i;
                 option.value = i;
-
                 if (i.toString() === oldValue.toString()) {
                     option.selected = true;
                 }
-
                 ddlYears.appendChild(option);
             }
         };
     </script>
 
-    <script>
+     <script>
         $(document).ready(function() {
             $('.name').on('change', function() {
                 var name = $(this).val();
@@ -263,38 +256,14 @@
                     $(":submit").removeAttr("disabled");
                 }
             });
-            $('#aadhaar').on('input', function() {
-                var aadhaar = $(this).val();
-                var regex = /^\d{12}$/; // Matches a 12-digit number
 
-                if (!regex.test(aadhaar)) {
-                    $('#aadhaarError').text('Please enter a valid 12-digit Aadhaar number.');
-                    $(":submit").attr("disabled", true);
-                } else {
-                    $('#aadhaarError').text('');
-                    $(":submit").removeAttr("disabled");
-                }
-            });
         });
-        function show1(){
-            document.getElementById('div1').style.display ='none';
-            $('#type').val('aadhaar-form');
-            document.getElementById('div1').removeAttribute('required');
-        }
-        function show2(){
-            document.getElementById('div1').style.display = 'block';
-            $('#type').val('ration-aadhaar-form');
-            document.getElementById('div1').setAttribute('required', 'true');
-
-        }
-        </script>
+    </script>
     <style>
         .error-message {
             color: red;
             font-size: 14px;
         }
-      </style>
-
-
+    </style>
     <!-- Footer Start -->
 @endsection

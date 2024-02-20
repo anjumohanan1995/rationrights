@@ -359,46 +359,36 @@ $(document).on("click",".deleteItem",function() {
 
 
       });
-    $(document).ready(function() {
+      $(document).ready(function() {
         $('#district').change(function() {
-        var districtId = $("#district option:selected").data("id");
+            var districtId = $("#district option:selected").data("id");
 
 
-        if (districtId) {
-            $.ajax({
-                url: "{{ route('location') }}", // Replace with your route URL to fetch taluks
-                type: "GET",
-                data: { district_id: districtId },
-                success: function(response) {
-                    if (response) {
-                        $('#new_dist').val(response.name);
+            if (districtId) {
+                $.ajax({
+                    url: "{{ route('location') }}", // Replace with your route URL to fetch taluks
+                    type: "GET",
+                    data: { district_id: districtId },
+                    success: function(response) {
+                        $('#new_dist').val(response.name)
                         $('#location').empty();
                         $('#location').append('<option value="">Select Locations</option>');
 
                         $.each(response.locations, function(key, value) {
                             $('#location').append('<option value="' + value.location_id + '">' + value.name + '</option>');
                         });
-                        $('#new_loc').val('');
-                    } else {
-                       $('#new_dist').val('');
-                        $('#new_loc').val('');
-                        $('#location').empty();
-                        $('#location').append('<option value="">No locations available</option>');
                     }
-                }
-            });
-        } else {
-            $('#new_dist').val('');
-            $('#new_loc').val('');
-            $('#location').empty();
-            $('#location').append('<option value="">Select Locations</option>');
-        }
+                });
+            } else {
+                $('#locations').empty();
+                $('#locations').append('<option value="">Select Locations</option>');
+            }
+        });
+        $('#location').change(function() {
+            $('#new_loc').val($(this).find('option:selected').text());
+        });
     });
-    $('#location').change(function() {
-        $('#new_loc').val($(this).find('option:selected').text());
-    });
-});
-$(document).ready(function() {
+    $(document).ready(function() {
         $('#from_date').on('change', function() {
             $("#start_date").val(this.value);
         });
