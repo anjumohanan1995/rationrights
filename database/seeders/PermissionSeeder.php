@@ -36,7 +36,7 @@ class PermissionSeeder extends Seeder
 
             )],
             [
-                'name' => 'Applications', 'sub_permission' => json_encode([
+                'name' => 'Applications List', 'sub_permission' => json_encode([
                 "Adhar and ration card",
                 "Adhar only",
                 "No adhar and ration card"
@@ -44,6 +44,9 @@ class PermissionSeeder extends Seeder
             ]
 
             )],
+            [
+                'name' => 'Application Forms'
+                ],
 
 
         ];
