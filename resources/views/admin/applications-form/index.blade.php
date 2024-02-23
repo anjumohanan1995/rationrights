@@ -35,7 +35,7 @@
 
 
 
-                                    <form class=" text-start" action="{{ url('survey') }}" enctype="multipart/form-data">
+                                    <form class=" text-start" action="{{ url('survey') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-floating mb-3">
                                             <div class="form-floating mb-0">

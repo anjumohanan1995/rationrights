@@ -124,7 +124,7 @@ route::post('/admin/profie/password-edit-page',[ProfileController::class, 'editP
 // route::post('/applications/ration-card-form',[ApplicationController::class, 'applicationFormPost']);
 
 Route::resource('/applications/application-form', ApplicationController::class);
-Route::get('/survey', [ApplicationController::class, 'survey'])->name("survey");
+Route::post('/survey', [ApplicationController::class, 'survey'])->name("survey");
 Route::get('/getApplications', [ApplicationController::class, 'getApplications'])->name('getApplications');
 Route::get('/application-list', [ApplicationController::class, 'applicationLIst'])->name("application-list");
 route::any('/add',[ApplicationController::class, 'add'])->name("add");
