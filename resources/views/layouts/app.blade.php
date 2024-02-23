@@ -451,11 +451,7 @@
                                             <!-- 	<a class="dropdown-item" href="signup.html"> <i class="fas fa-sign-out-alt"> </i> Sign Out</a> -->
                                         </div>
                                     </div>
-                                    <!--<div class="dropdown main-header-message right-toggle">
-           <a class="nav-link pe-0" data-bs-toggle="sidebar-right" data-bs-target=".sidebar-right">
-            <i class="ion ion-md-menu tx-20 bg-transparent"> </i>
-           </a>
-          </div>-->
+                                  
                                 </div>
                             </div>
                         </div>
