@@ -155,3 +155,26 @@ Route::post('export/excel/no-document', [ApplicationController::class,'exportNod
 Route::get('applications-form/form', [ApplicationFormController::class,'index'])->name('application.form.index');
 
 
+Route::get('/gender-application-list', [ApplicationController::class, 'genderApplicationLIst'])->name("gender-application-list");
+Route::get('/getGenderApplications', [ApplicationController::class, 'getGenderApplications'])->name('getGenderApplications');
+
+
+Route::get('/ageless-application-list', [ApplicationController::class, 'agelessApplicationLIst'])->name("ageless-application-list");
+Route::get('/getAgeApplications', [ApplicationController::class, 'getAgeApplications'])->name("getAgeApplications");
+
+
+Route::get('/district-application-list', [ApplicationController::class, 'districtApplicationLIst'])->name("district-application-list");
+Route::get('/getDistrictApplications', [ApplicationController::class, 'getDistrictApplications'])->name("getDistrictApplications");
+
+
+
+Route::get('/gender-aadhar-application-list', [ApplicationController::class, 'genderAadharApplicationLIst'])->name("gender-aadhar-application-list");
+Route::get('/getAdhaarGenderApplications', [ApplicationController::class, 'getAdhaarGenderApplications'])->name("getAdhaarGenderApplications");
+
+Route::get('/district-aadhar-application-list', [ApplicationController::class, 'districtAadharApplicationLIst'])->name("district-aadhar-application-list");
+Route::get('/getAdhaarDistrictApplications', [ApplicationController::class, 'getAdhaarDistrictApplications'])->name("getAdhaarDistrictApplications");
+
+
+
+
+

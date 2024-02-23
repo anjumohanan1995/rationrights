@@ -578,10 +578,10 @@
                              @$sub_permission= ($permission->sub_permissions)? json_decode($permission->sub_permissions,true) :  null;
                            //dd($sub_permission);
                         @endphp
-                         @if (!empty($permission))
+                                @if (!empty($permission))
 
-                            @foreach (@$permission->permission as $permissions)
-                            @if (@$permissions == 'user-management')
+                                    @foreach (@$permission->permission as $permissions)
+                                        @if (@$permissions == 'user-management')
                                         <li class="slide {{ request()->is('user-management') || request()->is('roles') || request()->is('permissions') ? 'is-expanded' : ''  }}" >
                                             <a class="side-menu__item" data-bs-toggle="slide" href="">
                                                 <i class="side-menu__icon fe fe-user"> </i>
@@ -686,12 +686,73 @@
                                                     @endif
 
                                             </ul>
-
                                         </li>
+                                       
+
                                         @endif
 
-                                        @endforeach
-                                        @endif
+                                    @endforeach
+                                @endif
+
+                            <li class="slide">
+                                <a class="side-menu__item" data-bs-toggle="slide" href="">
+                                    <i class="side-menu__icon fe fe-list"> </i>
+                                    <span class="side-menu__label">Applications Report</span>
+                                    <i class="angle fe fe-chevron-down"> </i>
+                                </a>
+                                <ul class="slide-menu">
+                                    <li class="slide">
+                                        <a class="side-menu__item" data-bs-toggle="slide" href="">
+                                            <span class="sub-side-menu__label">Ration Card & Aadhaar</span>
+                                        </a>
+                                        <ul class="slide-menu">
+                                            <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('gender-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('gender-application-list') }}">
+                                                    <span class="sub-side-menu__label">Gender</span>
+                                                </a>
+                                            </li>
+                                             <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('ageless-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('ageless-application-list') }}">
+                                                    <span class="sub-side-menu__label">Age</span>
+                                                </a>
+                                            </li>
+                                            <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('district-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('district-application-list') }}">
+                                                    <span class="sub-side-menu__label">District</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="slide">
+                                        <a class="side-menu__item" data-bs-toggle="slide" href="">
+                                            <span class="sub-side-menu__label">Aadhar Only</span>
+                                        </a>
+                                        <ul class="slide-menu">
+                                            <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('gender-aadhar-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('gender-aadhar-application-list') }}">
+                                                    <span class="sub-side-menu__label">Gender</span>
+                                                </a>
+                                            </li>
+                                             <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('district-aadhar-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('district-aadhar-application-list') }}">
+                                                    <span class="sub-side-menu__label">District</span>
+                                                </a>
+                                            </li>
+                                         
+                                        </ul>
+                                    </li>
+
+
+
+
+
+                                </ul>
+                            </li>
+
+                           
+
+                                        
 
 
 
