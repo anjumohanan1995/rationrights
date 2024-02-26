@@ -207,9 +207,21 @@
                                                                 @endif
                                                             </div>
                                                         </div>
-
+                                                     <div class="row">
+                                                      <div class="col-md-6">
+                                                         <label for="floatingSelect">Home State/Union Territory<span
+                                                        class="text-danger">*</span></label>
+                                                            <select class="form-select"  name="home_state"
+                                                                aria-label="Floating label select example" required>
+                                                                <option disabled selected value="">State/Union Territory</option>
+                                                                @foreach ($states as $state)
+                                                                    <option value="{{ $state->name }}">{{ $state->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             <div>
+                                                            <br> <br>
                                                                 <label>Eligible for IMPDS or not(Yes/No) <span
                                                                         class="text-danger">*</span></label>
 
@@ -229,6 +241,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
+                                                       
                                                     </div>
 
 
@@ -243,6 +256,7 @@
                                                 </div>
 
                                             </div>
+
 
 
 

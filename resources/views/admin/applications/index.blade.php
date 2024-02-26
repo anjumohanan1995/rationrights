@@ -156,6 +156,7 @@
 															<th>Application No.</th>
 															<th>Name</th>
                                                             <th>Address</th>
+                                                             <th>Home State/Union Territory</th>
 															<th>Age</th>
 															<th>Gender </th>
 															<th>Eligible For IMPDS </th>
@@ -167,6 +168,7 @@
                                                             <th>District </th>
 															<th>Location  </th>
 															<th>Created Date  </th>
+                                                            <th>View </th>
 															{{-- <th>Action </th> --}}
 														</tr>
 													</thead>
@@ -302,6 +304,7 @@ $(document).on("click",".deleteItem",function() {
                 { data: 'application_no' },
                 { data: 'name' },
                 { data: 'address' },
+                 { data: 'home_state' },
                 { data: 'age' },
                 { data: 'gender' },
 				 { data: 'eligibility' },
@@ -311,7 +314,8 @@ $(document).on("click",".deleteItem",function() {
 				{ data: 'years' },
 				{ data: 'district' },
 				{ data: 'location' },
-				{ data: 'date' }
+				{ data: 'date' },
+                {data:'view'}
                 // { data: 'action' }
 
 

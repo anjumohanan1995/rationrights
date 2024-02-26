@@ -31,6 +31,7 @@ class Application extends Eloquent
         'home_state',
         'application_no',
         'location_id',
-        'state'
+        'state',
+        'user_id'
     ];
 }

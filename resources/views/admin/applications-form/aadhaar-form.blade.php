@@ -208,7 +208,7 @@
                                                                         <option>Pathanamthitta</option>
                                                                         <option>Alappuzha</option>
                                                                     </select> --}}
-                                                                    <input class="form-control" type="text"
+                                                                    {{-- <input class="form-control" type="text"
                                                                         id="state" value="{{ old('state') }}"
                                                                         name="home_state" placeholder="" required>
                                                                     <label for="state">Home State<span
@@ -216,6 +216,22 @@
                                                                     @if ($errors->has('state'))
                                                                         <div class="text-danger w-100 error">
                                                                             {{ $errors->first('state') }}
+                                                                        </div>
+                                                                    @endif --}}
+
+
+                                                            <label for="floatingSelect">Home State/Union Territory
+                                                                     <span class="text-danger">*</span></label>
+                                                            <select class="form-select"  name="home_state"
+                                                                aria-label="Floating label select example" required>
+                                                                <option disabled selected value="">State/Union Territory</option>
+                                                                @foreach ($states as $state)
+                                                                    <option value="{{ $state->name }}">{{ $state->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                              @if ($errors->has('home_state'))
+                                                                        <div class="text-danger w-100 error">
+                                                                            {{ $errors->first('home_state') }}
                                                                         </div>
                                                                     @endif
                                                                 </div>
@@ -246,12 +262,12 @@
                                                                 @endif
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6" id="div1" style="display:none;" >
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" class="form-control" name="ration"
-                                                                    id="div1" style="display:none;" value=""
-                                                                    placeholder="Ration Card"></label>
-                                                                {{-- <label for="district">Ration Card<span class="text-danger">*</span> </label> --}}
+                                                                    value=""
+                                                                    placeholder="Ration Card">
+                                                                 <label for="district">Ration Card<span class="text-danger">*</span> </label> 
                                                                 <span id="aadhaarError" class="error-message"></span>
                                                             </div>
                                                         </div>

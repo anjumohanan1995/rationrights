@@ -127,6 +127,13 @@ Route::resource('/applications/application-form', ApplicationController::class);
 Route::post('/survey', [ApplicationController::class, 'survey'])->name("survey");
 Route::get('/getApplications', [ApplicationController::class, 'getApplications'])->name('getApplications');
 Route::get('/application-list', [ApplicationController::class, 'applicationLIst'])->name("application-list");
+
+Route::get('/application-list/{id}/view', [ApplicationController::class, 'applicationLIstView'])->name("application-list-view");
+
+
+
+
+
 route::any('/add',[ApplicationController::class, 'add'])->name("add");
 Route::get('/survey-home', [ApplicationController::class, 'surveyHome'])->name("survey-home");
 Route::get('/applications/application-form', [ApplicationController::class, 'destroy'])->name("destroy");
