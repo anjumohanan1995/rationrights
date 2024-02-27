@@ -197,6 +197,7 @@ return [
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
       //  Dompdf\ServiceProvider::class,
+      Barryvdh\Snappy\ServiceProvider::class,
 
     ],
 
@@ -217,6 +218,7 @@ return [
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
         
        // 'PDF' => Dompdf\Facade::class,
+       'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
     ])->toArray(),
 
 ];

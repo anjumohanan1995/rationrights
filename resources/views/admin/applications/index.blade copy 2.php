@@ -136,7 +136,7 @@
 											</div>	 -->
 
 										</div>
-                                        <form action="{{ route('export.excel.ration') }}" method="POST" name="importform"
+                                        {{-- <form action="{{ route('export.excel.ration') }}" method="POST" name="importform"
                                                 enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="start_date" id="start_date">
@@ -147,20 +147,14 @@
                                                <div class="form-group">
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
-                                        </form>
+                                        </form> --}}
 
-                                        <form action="{{ route('export.pdf') }}" method="POST">
+                                        {{-- <form action="{{ route('export.pdf') }}" method="POST">
                                             @csrf
-
-                                             <input type="hidden" name="start_date" id="start_date1">
-                                               <input type="hidden" name="ending_date" id="ending_date1">
-                                               <input type="hidden" name="application_number" id="application_number1">
-                                               <input type="hidden" name="dist" id="dist1">
-                                               <input type="hidden" name="locations" id="locations1">
                                             <!-- Add input fields for search parameters -->
-                                           
+                                            <input type="text" name="search" id="search" placeholder="Search...">
                                             <button type="submit" class="btn btn-info">Export PDF File</button>
-                                        </form>
+                                        </form> --}}
 											<table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
        												<thead>
 														<tr>
@@ -208,9 +202,30 @@
 					<!-- /container -->
 				</div>
 				<!-- /main-content -->
+	<div class="modal fade" id="confirmation-popup">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content country-select-modal border-0">
+                <div class="modal-header offcanvas-header">
+                    <h6 class="modal-title">Are you sure?</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body p-5">
+                    <div class="text-center">
+                        <h4>Are you sure to delete this User?</h4>
+                    </div>
+                    <form id="ownForm">
+                        @csrf
+                    <input type="hidden" id="requestId" name="requestId" value="" />
+                    <div class="text-center">
+                        <button type="button" onclick="ownRequest()" class="btn btn-primary mt-4 mb-0 me-2">Yes</button>
+                        <button class="btn btn-default mt-4 mb-0" data-bs-dismiss="modal" type="button">No</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-<meta name="csrf-token" content="{{ csrf_token() }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />applicationLIst
 
 <script src="js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -230,9 +245,8 @@ $(document).on("click",".deleteItem",function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });*/
-      
 
-        $(document).ready(function(){
+  $(document).ready(function(){
 
     var table = $('#example').DataTable({
         processing: true,
@@ -273,9 +287,6 @@ $(document).on("click",".deleteItem",function() {
         ordering: true
     });
 
-    // Add DataTables buttons after DataTable initialization
-
-
     // Draw the table initially
     table.draw();
 
@@ -283,11 +294,6 @@ $(document).on("click",".deleteItem",function() {
     $('#submit').click(function(){
         table.draw();
     });
-    $('#district').click(function(){
-        table.draw();
-    });
-
-    
 
     $('#refresh').click(function(){
         $("#search_part").css("display", "block");
@@ -301,11 +307,31 @@ $(document).on("click",".deleteItem",function() {
         table.draw();
     });
 
+    // Initialize DataTables buttons after DataTable initialization
+    new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    });
+
+    table.buttons().container().appendTo($('#example_wrapper .dataTables_length'));
+
 });
 
 
 
+        
 
+    
+
+       
+
+
+
+   
 $(document).ready(function() {
     $('#district').change(function() {
         var districtId = $("#district option:selected").data("id");
@@ -349,24 +375,19 @@ $(document).ready(function() {
 $(document).ready(function() {
         $('#from_date').on('change', function() {
             $("#start_date").val(this.value);
-            $("#start_date1").val(this.value);
         });
         $('#end_date').on('change', function() {
             $("#ending_date").val(this.value);
-             $("#ending_date1").val(this.value);
         });
         $('#application_no').on('change', function() {
             $("#application_number").val(this.value);
-            ("#application_number1").val(this.value);
         });
         $('#district').on('change', function() {
             $("#dist").val(this.value);
-             $("#dist1").val(this.value);
         });
         $('#location').on('change', function() {
             var locat = $( "#location option:selected" ).text();
             $("#locations").val(locat);
-            $("#locations1").val(locat);
         });
     });
 </script>
