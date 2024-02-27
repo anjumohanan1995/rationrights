@@ -451,7 +451,7 @@
                                             <!-- 	<a class="dropdown-item" href="signup.html"> <i class="fas fa-sign-out-alt"> </i> Sign Out</a> -->
                                         </div>
                                     </div>
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -682,7 +682,7 @@
                                                 @endif
                                             </ul>
                                         </li>
-                                       
+
 
                                         @endif
 
@@ -734,20 +734,36 @@
                                                     <span class="sub-side-menu__label">District</span>
                                                 </a>
                                             </li>
-                                         
+
                                         </ul>
                                     </li>
 
-
+                                    <li class="slide">
+                                        <a class="side-menu__item" data-bs-toggle="slide" href="">
+                                            <span class="sub-side-menu__label">No Ration Card & Aadhaar</span>
+                                        </a>
+                                        <ul class="slide-menu">
+                                            <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('no-adhaar-gender-ration-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('no-adhaar-gender-ration-application-list') }}">
+                                                    <span class="sub-side-menu__label">Gender</span>
+                                                </a>
+                                            </li>
+                                            <li class="sub-slide">
+                                                <a class="slide-item {{ request()->is('district-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('no-adhaar-district-application-list') }}">
+                                                    <span class="sub-side-menu__label">District</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
 
 
                                 </ul>
                             </li>
 
-                           
 
-                                        
+
+
 
 
 

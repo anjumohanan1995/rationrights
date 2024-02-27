@@ -181,7 +181,11 @@ Route::get('/getAdhaarGenderApplications', [ApplicationController::class, 'getAd
 Route::get('/district-aadhar-application-list', [ApplicationController::class, 'districtAadharApplicationLIst'])->name("district-aadhar-application-list");
 Route::get('/getAdhaarDistrictApplications', [ApplicationController::class, 'getAdhaarDistrictApplications'])->name("getAdhaarDistrictApplications");
 
+Route::get('/no-adhaar-gender-ration-application-list', [ApplicationController::class, 'noAdhaarGenderRationApplicationLIst'])->name("no-adhaar-gender-ration-application-list");
+Route::get('/getNoAdhaarRationApplications', [ApplicationController::class, 'getNoAdhaarRationApplications'])->name('getNoAdhaarRationApplications');
 
+Route::get('/no-adhaar-district-application-list', [ApplicationController::class, 'noAdhaarDistrictApplicationLIst'])->name("no-adhaar-district-application-list");
+Route::get('/getNoAdhaarDistrictApplications', [ApplicationController::class, 'getNoAdhaarDistrictApplications'])->name("getNoAdhaarDistrictApplications");
 
 
 
