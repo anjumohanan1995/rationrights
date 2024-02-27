@@ -1996,6 +1996,7 @@ class ApplicationController extends Controller
         $applicationNo = $request->input('application_number');
         $districts = $request->input('dist');
         $locate = $request->input('locations');
+        $gender = $request->input('gen');
 
         if ($request->start_date != '') {
 
@@ -2046,6 +2047,10 @@ class ApplicationController extends Controller
         }
         if($applicationNo != ""){
             $items->where('application_no',$applicationNo);
+        }
+        if($gender != ""){
+
+            $items->where('gender',$gender);
         }
         if($districts != ""){
 

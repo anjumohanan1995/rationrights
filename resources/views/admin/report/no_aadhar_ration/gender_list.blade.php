@@ -123,6 +123,7 @@
                                                <input type="hidden" name="application_number" id="application_number">
                                                <input type="hidden" name="dist" id="dist">
                                                <input type="hidden" name="locations" id="locations">
+                                               <input type="hidden" name="gen" id="gen">
                                                <div class="form-group">
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
@@ -395,6 +396,9 @@ $(document).ready(function() {
             $('#location').on('change', function() {
                 var locat = $( "#location option:selected" ).text();
                 $("#locations").val(locat);
+        });
+        $('#gender').on('change', function() {
+            $("#gen").val(this.value);
         });
     });
 </script>
