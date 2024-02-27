@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+      //  Dompdf\ServiceProvider::class,
 
     ],
 
@@ -214,6 +215,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        
+       // 'PDF' => Dompdf\Facade::class,
     ])->toArray(),
 
 ];
