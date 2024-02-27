@@ -26,7 +26,7 @@
 						            <div class="card-body pt-2 pb-2">
 						                <div class="row row-sm">
 
-                                          
+
 											<div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>Gender</label>
                                                 <select class="form-select" id="gender"
@@ -45,10 +45,10 @@
                                                                             @if (old('gender') === 'Other') selected @endif>
                                                                             Other</option>
                                                                     </select>
-                                               
+
                                                 </div>
 
-                                              
+
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
@@ -119,10 +119,10 @@
 											</div>	 -->
 
 										</div>
-                                        <form action="{{ route('export.excel') }}" method="POST" name="importform"
+                                        <form action="{{ route('export.excel.application.adhar') }}" method="POST" name="importform"
                                             enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" name="start_date" id="start_date">
+                                            <input type="hidden" name="gender_data" id="gender_data">
                                             <input type="hidden" name="ending_date" id="ending_date">
                                             <input type="hidden" name="application_number" id="application_number">
                                             <input type="hidden" name="dist" id="dist">
@@ -273,7 +273,7 @@ $(document).on("click",".deleteItem",function() {
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
                             "gender": $("#gender").val(),
-				          
+
 
 
 			          	});
@@ -383,8 +383,8 @@ $(document).on("click",".deleteItem",function() {
 });
 $(document).ready(function() {
 
-                $('#from_date').on('change', function() {
-                    $("#start_date").val(this.value);
+                $('#gender').on('change', function() {
+                    $("#gender_data").val(this.value);
                 });
                 $('#end_date').on('change', function() {
                     $("#ending_date").val(this.value);

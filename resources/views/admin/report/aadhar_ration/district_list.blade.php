@@ -26,7 +26,7 @@
 						            <div class="card-body pt-2 pb-2">
 						                <div class="row row-sm">
 
-                                           
+
 											<div class="col-lg mg-t-10 mg-lg-t-0">
                                             <label>District</label>
                                                 <select class="form-select" id="district" name="district" required>
@@ -42,7 +42,7 @@
                                                 </div>
                                                 <input type="hidden" name="district" id="new_dist">
 
-                                          
+
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
 											<div class="clear-fix"></div>
@@ -114,14 +114,14 @@
 											</div>	 -->
 
 										</div>
-                                        <form action="{{ route('export.excel.ration') }}" method="POST" name="importform"
+                                        <form action="{{ route('export.excel.application.report') }}" method="POST" name="importform"
                                                 enctype="multipart/form-data">
                                                 @csrf
-                                                <input type="hidden" name="start_date" id="start_date">
-                                               <input type="hidden" name="ending_date" id="ending_date">
+                                                <input type="hidden" name="district_data" id="district_data">
+                                               {{-- <input type="hidden" name="ending_date" id="ending_date">
                                                <input type="hidden" name="application_number" id="application_number">
                                                <input type="hidden" name="dist" id="dist">
-                                               <input type="hidden" name="locations" id="locations">
+                                               <input type="hidden" name="locations" id="locations"> --}}
                                                <div class="form-group">
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
@@ -262,9 +262,9 @@ $(document).on("click",".deleteItem",function() {
 			       	// "data": { mobile: $("#mobile").val()}
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
-                            
+
 				            "district": $("#district").val(),
-                           
+
 				            "delete_ctm": $("#delete_ctm").val(),
 
 
@@ -369,8 +369,8 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-        $('#from_date').on('change', function() {
-            $("#start_date").val(this.value);
+        $('#district').on('change', function() {
+            $("#district_data").val(this.value);
         });
         $('#end_date').on('change', function() {
             $("#ending_date").val(this.value);
