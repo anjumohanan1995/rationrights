@@ -120,7 +120,8 @@ route::post('/admin/profie/password-edit-page',[ProfileController::class, 'editP
 
 // route::get('/applications/ration-card-form',[ApplicationController::class, 'applicationForm']);
 // route::post('/applications/ration-card-form',[ApplicationController::class, 'applicationFormPost']);
-
+Route::post('/export/pdf', [ApplicationController::class, 'exportPdf'])->name('export.pdf');
+Route::get('/generate-pdf', [ApplicationController::class,'generatePDF']);
 Route::resource('/applications/application-form', ApplicationController::class);
 Route::post('/survey', [ApplicationController::class, 'survey'])->name("survey");
 Route::get('/getApplications', [ApplicationController::class, 'getApplications'])->name('getApplications');
@@ -138,9 +139,16 @@ Route::get('/applications/application-form', [ApplicationController::class, 'des
 
 Route::get('/adhaar-application-list', [ApplicationController::class, 'adhaarApplicationLIst'])->name("adhaar-application-list");
 Route::get('/getAdhaarApplications', [ApplicationController::class, 'getAdhaarApplications'])->name('getAdhaarApplications');
+Route::get('/adhaar-application-list/{id}/view', [ApplicationController::class, 'adhaarApplicationLIstView'])->name("adhaar-application-list-view");
+
+
+
 
 Route::get('/no-adhaar-ration-application-list', [ApplicationController::class, 'adhaarRationApplicationLIst'])->name("no-adhaar-ration-application-list");
 Route::get('/getAdhaarRationApplications', [ApplicationController::class, 'getAdhaarRationApplications'])->name('getAdhaarRationApplications');
+Route::get('/noadhaar-noration-application-list/{id}/view', [ApplicationController::class, 'noadhaarNorationApplicationLIstView'])->name("no-adhaar-ration-application-list-view");
+
+
 
 Route::get('/applications/ration-aadhaar-form', [ApplicationController::class, 'rationCard'])->name("rationCard");
 Route::get('/applications/aadhaar-form', [ApplicationController::class, 'aadhaar'])->name("aadhaar");
@@ -179,7 +187,11 @@ Route::get('/getAdhaarGenderApplications', [ApplicationController::class, 'getAd
 Route::get('/district-aadhar-application-list', [ApplicationController::class, 'districtAadharApplicationLIst'])->name("district-aadhar-application-list");
 Route::get('/getAdhaarDistrictApplications', [ApplicationController::class, 'getAdhaarDistrictApplications'])->name("getAdhaarDistrictApplications");
 
+Route::get('/no-adhaar-gender-ration-application-list', [ApplicationController::class, 'noAdhaarGenderRationApplicationLIst'])->name("no-adhaar-gender-ration-application-list");
+Route::get('/getNoAdhaarRationApplications', [ApplicationController::class, 'getNoAdhaarRationApplications'])->name('getNoAdhaarRationApplications');
 
+Route::get('/no-adhaar-district-application-list', [ApplicationController::class, 'noAdhaarDistrictApplicationLIst'])->name("no-adhaar-district-application-list");
+Route::get('/getNoAdhaarDistrictApplications', [ApplicationController::class, 'getNoAdhaarDistrictApplications'])->name("getNoAdhaarDistrictApplications");
 
 Route::post('export/excel/application/report', [ReportController::class,'exportApplicationReport'])->name('export.excel.application.report');
 

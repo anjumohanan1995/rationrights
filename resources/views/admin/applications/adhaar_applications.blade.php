@@ -165,6 +165,7 @@
 															 <th> District </th>
 															 <th> Location </th>
 															  <th> Created Date </th>
+                                                               <th> View </th>
 
 
 
@@ -314,7 +315,9 @@ $(document).on("click",".deleteItem",function() {
 				{ data: 'home_district' },
                 { data: 'district' },
 				  { data: 'location' },
+                   
 				   { data: 'date' },
+                    { data: 'view' },
 
 
                 // { data: 'action' }

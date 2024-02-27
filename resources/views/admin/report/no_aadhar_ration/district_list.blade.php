@@ -9,8 +9,8 @@
 					<div class="main-container container-fluid">
 						<!-- breadcrumb -->
 						<div class="breadcrumb-header justify-content-between row me-0 ms-0" >
-							<div class="col-xl-3">
-								<h4 class="content-title mb-2">Applications</h4>
+							<div class="col-xl-6">
+								<h4 class="content-title mb-2">Applications (District)</h4>
 								<nav aria-label="breadcrumb">
 									<ol class="breadcrumb">
 
@@ -27,12 +27,8 @@
 						                <div class="row row-sm">
 
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                <label>Application No</label>
-                                            <input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
-                                           </div>
-                                            <div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>District</label>
-                                                <select class="form-select" id="district" name="district" required>
+                                               <select class="form-select" id="district" name="district" required>
                                                     <option value="">District</option>
                                                     @foreach($districts as $district)
                                                     <option value="{{$district->name}}" data-id="{{$district->id}}">{{$district->name}}</option>
@@ -40,31 +36,11 @@
                                                 </select>
                                                 @if ($errors->has('district'))
                                                     <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
-                                                    @endif
+
+                                                @endif
                                                 </div>
                                                 <input type="hidden" name="district" id="new_dist">
 
-
-                                           <div class="col-lg mg-t-10 mg-lg-t-0">
-											<label>Location</label>
-                                               <select class="form-control" name="location1" id="location" >
-                                                <option disabled selected value="">Location</option>
-                                            </select>
-                                            @if ($errors->has('location'))
-                                                <div class="text-danger w-100 error">{{ $errors->first('location') }}</div>
-                                            @endif
-											</div>
-                                            <input type="hidden" name="location" id="new_loc">
-
-                                            <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                    <label>Start Date</label>
-                                        		<input class="form-control" type="date" name="from_date" id="from_date">
-											</div>
-											<div class="col-lg mg-t-10 mg-lg-t-0">
-
-												<label>End Date</label>
-                                        		<input class="form-control" type="date" name="end_date" id="end_date">
-											</div>
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
@@ -164,7 +140,6 @@
 															<th> District </th>
 															<th> Location </th>
 															<th> Created Date </th>
-                                                            <th> View </th>
 
 
 															{{-- <th>Action </th> --}}
@@ -283,11 +258,11 @@ $(document).on("click",".deleteItem",function() {
 	        ],
              "ajax": {
 
-			       	"url": "{{route('getAdhaarRationApplications')}}",
+			       	"url": "{{route('getNoAdhaarDistrictApplications')}}",
 			       	// "data": { mobile: $("#mobile").val()}
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
-                            "application_no": $("#application_no").val(),
+                            "gender": $("#gender").val(),
 				            "district": $("#district").val(),
                             "location": $("#location").val(),
 				            "from_date": $("#from_date").val(),
@@ -318,7 +293,6 @@ $(document).on("click",".deleteItem",function() {
 				{ data: 'district' },
 				{ data: 'location' },
 				{ data: 'date' },
-                { data: 'view' },
 
                 // { data: 'action' }
 

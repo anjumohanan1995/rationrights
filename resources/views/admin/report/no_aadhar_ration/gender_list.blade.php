@@ -9,8 +9,8 @@
 					<div class="main-container container-fluid">
 						<!-- breadcrumb -->
 						<div class="breadcrumb-header justify-content-between row me-0 ms-0" >
-							<div class="col-xl-3">
-								<h4 class="content-title mb-2">Applications</h4>
+							<div class="col-xl-6">
+								<h4 class="content-title mb-2">Applications (Gender)</h4>
 								<nav aria-label="breadcrumb">
 									<ol class="breadcrumb">
 
@@ -27,44 +27,25 @@
 						                <div class="row row-sm">
 
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                <label>Application No</label>
-                                            <input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
-                                           </div>
-                                            <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                <label>District</label>
-                                                <select class="form-select" id="district" name="district" required>
-                                                    <option value="">District</option>
-                                                    @foreach($districts as $district)
-                                                    <option value="{{$district->name}}" data-id="{{$district->id}}">{{$district->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @if ($errors->has('district'))
-                                                    <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
-                                                    @endif
+                                                <label>Gender</label>
+                                                <select class="form-select" id="gender"
+                                                                        name="gender"
+                                                                        aria-label="Floating label select example" required>
+                                                                         <option value="">Select</option>
+
+                                                                        <option value="Male"
+                                                                            @if (old('gender') === 'Male') selected @endif>
+                                                                            Male</option>
+                                                                        <option value="Female"
+                                                                            @if (old('gender') === 'Female') selected @endif>
+                                                                            Female
+                                                                        </option>
+                                                                        <option value="Other"
+                                                                            @if (old('gender') === 'Other') selected @endif>
+                                                                            Other</option>
+                                                                    </select>
+
                                                 </div>
-                                                <input type="hidden" name="district" id="new_dist">
-
-
-                                           <div class="col-lg mg-t-10 mg-lg-t-0">
-											<label>Location</label>
-                                               <select class="form-control" name="location1" id="location" >
-                                                <option disabled selected value="">Location</option>
-                                            </select>
-                                            @if ($errors->has('location'))
-                                                <div class="text-danger w-100 error">{{ $errors->first('location') }}</div>
-                                            @endif
-											</div>
-                                            <input type="hidden" name="location" id="new_loc">
-
-                                            <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                    <label>Start Date</label>
-                                        		<input class="form-control" type="date" name="from_date" id="from_date">
-											</div>
-											<div class="col-lg mg-t-10 mg-lg-t-0">
-
-												<label>End Date</label>
-                                        		<input class="form-control" type="date" name="end_date" id="end_date">
-											</div>
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
@@ -142,6 +123,7 @@
                                                <input type="hidden" name="application_number" id="application_number">
                                                <input type="hidden" name="dist" id="dist">
                                                <input type="hidden" name="locations" id="locations">
+                                               <input type="hidden" name="gen" id="gen">
                                                <div class="form-group">
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
@@ -164,7 +146,6 @@
 															<th> District </th>
 															<th> Location </th>
 															<th> Created Date </th>
-                                                            <th> View </th>
 
 
 															{{-- <th>Action </th> --}}
@@ -283,11 +264,11 @@ $(document).on("click",".deleteItem",function() {
 	        ],
              "ajax": {
 
-			       	"url": "{{route('getAdhaarRationApplications')}}",
+			       	"url": "{{route('getNoAdhaarRationApplications')}}",
 			       	// "data": { mobile: $("#mobile").val()}
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
-                            "application_no": $("#application_no").val(),
+                            "gender": $("#gender").val(),
 				            "district": $("#district").val(),
                             "location": $("#location").val(),
 				            "from_date": $("#from_date").val(),
@@ -318,7 +299,6 @@ $(document).on("click",".deleteItem",function() {
 				{ data: 'district' },
 				{ data: 'location' },
 				{ data: 'date' },
-                { data: 'view' },
 
                 // { data: 'action' }
 
@@ -416,6 +396,9 @@ $(document).ready(function() {
             $('#location').on('change', function() {
                 var locat = $( "#location option:selected" ).text();
                 $("#locations").val(locat);
+        });
+        $('#gender').on('change', function() {
+            $("#gen").val(this.value);
         });
     });
 </script>

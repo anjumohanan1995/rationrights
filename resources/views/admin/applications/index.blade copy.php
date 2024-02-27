@@ -14,7 +14,7 @@
 								<nav aria-label="breadcrumb">
 									<ol class="breadcrumb">
 
-										<li class="breadcrumb-item active" aria-current="page"><i class="side-menu__icon fe fe-user"> </i> - Applications - No Aadhaar & No Ration Card  </li>
+										<li class="breadcrumb-item active" aria-current="page"><i class="side-menu__icon fe fe-user"> </i> - Applications- Ration Card & Aadhar Card</li>
 									</ol>
 								</nav>
 							</div>
@@ -28,10 +28,10 @@
 
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>Application No</label>
-                                            <input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
-                                           </div>
-                                            <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                <label>District</label>
+                                        		<input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
+											</div>
+											<div class="col-lg mg-t-10 mg-lg-t-0">
+                                            <label>District</label>
                                                 <select class="form-select" id="district" name="district" required>
                                                     <option value="">District</option>
                                                     @foreach($districts as $district)
@@ -40,24 +40,23 @@
                                                 </select>
                                                 @if ($errors->has('district'))
                                                     <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
-                                                    @endif
+
+                                                @endif
                                                 </div>
                                                 <input type="hidden" name="district" id="new_dist">
 
-
-                                           <div class="col-lg mg-t-10 mg-lg-t-0">
-											<label>Location</label>
+                                            <div class="col-lg mg-t-10 mg-lg-t-0" >
+                                                <label>Location</label>
                                                <select class="form-control" name="location1" id="location" >
                                                 <option disabled selected value="">Location</option>
                                             </select>
                                             @if ($errors->has('location'))
                                                 <div class="text-danger w-100 error">{{ $errors->first('location') }}</div>
                                             @endif
-											</div>
+                                            </div>
                                             <input type="hidden" name="location" id="new_loc">
-
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
-                                                    <label>Start Date</label>
+                                                <label>Start Date</label>
                                         		<input class="form-control" type="date" name="from_date" id="from_date">
 											</div>
 											<div class="col-lg mg-t-10 mg-lg-t-0">
@@ -68,10 +67,11 @@
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
+											<div class="clear-fix"></div>
 
-											<label>&nbsp;&nbsp;</label>
+											<label>&nbsp;</label>
 												<button class="btn ripple btn-success btn-block,compact('districts')ock" type="submit" id="submit">Search</button>
-											</div>
+                                            </div>
                                         </div>
 						            </div>
 						        </div>
@@ -106,6 +106,8 @@
 										 <div class="row mb-3">
 
 
+
+
 											<!--  <div class="col-md-1 col-6 text-center">
   											 	<div class="task-box secondary  mb-0">
   												 <a href="{{route('user.import')}}">
@@ -134,7 +136,7 @@
 											</div>	 -->
 
 										</div>
-                                        <form action="{{ route('export.excel.nodoc') }}" method="POST" name="importform"
+                                        <form action="{{ route('export.excel.ration') }}" method="POST" name="importform"
                                                 enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="start_date" id="start_date">
@@ -146,36 +148,42 @@
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
                                         </form>
-											 <table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
-       <thead>
+
+                                        <form action="{{ route('export.pdf') }}" method="POST">
+                                            @csrf
+                                            <!-- Add input fields for search parameters -->
+                                            <input type="text" name="search" id="search" placeholder="Search...">
+                                            <button type="submit" class="btn btn-info">Export PDF File</button>
+                                        </form>
+											<table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
+       												<thead>
 														<tr>
 
 															<th>Sl NO.</th>
 															<th>Application No.</th>
 															<th>Name</th>
                                                             <th>Address</th>
-
+                                                             <th>Home State/Union Territory</th>
+															<th>Age</th>
 															<th>Gender </th>
+															<th>Eligible For IMPDS </th>
 															<th>Mobile No. </th>
-                                                            <th>Since when staying in Kerala</th>
-                                                            <th>Home State</th>
-                                                            {{-- <th>Eligibility (For IMPDS) </th> --}}
-															<th>Home District </th>
-															<th> District </th>
-															<th> Location </th>
-															<th> Created Date </th>
-                                                            <th> View </th>
 
-
+															<th>Aadhar No </th>
+															<th>Rationcard No </th>
+															<th>Since when staying in Kerala </th>
+                                                            <th>District </th>
+															<th>Location  </th>
+															<th>Created Date  </th>
+                                                            <th>View </th>
 															{{-- <th>Action </th> --}}
-
 														</tr>
 													</thead>
-         <tbody>
+         											<tbody>
 
 													</tbody>
 
-    </table>
+    										</table>
 										</div>
 									</div>
 								</div>
@@ -210,21 +218,19 @@
                     <div class="text-center">
                         <button type="button" onclick="ownRequest()" class="btn btn-primary mt-4 mb-0 me-2">Yes</button>
                         <button class="btn btn-default mt-4 mb-0" data-bs-dismiss="modal" type="button">No</button>
-                    </div>Location
+                    </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-
-
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />applicationLIst
 
 <script src="js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="{{ asset('js/jquery.validate.min.js')}}"></script>
+
 <script  type="text/javascript">
 
 $(document).on("click",".deleteItem",function() {
@@ -239,7 +245,7 @@ $(document).on("click",".deleteItem",function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });*/
-         function ownRequest() {
+        function ownRequest() {
 
             var reqId = $('#requestId').val();
             console.log(reqId);
@@ -283,7 +289,7 @@ $(document).on("click",".deleteItem",function() {
 	        ],
              "ajax": {
 
-			       	"url": "{{route('getAdhaarRationApplications')}}",
+			       	"url": "{{route('getApplications')}}",
 			       	// "data": { mobile: $("#mobile").val()}
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
@@ -292,6 +298,7 @@ $(document).on("click",".deleteItem",function() {
                             "location": $("#location").val(),
 				            "from_date": $("#from_date").val(),
 				            "to_date": $("#end_date").val(),
+				            "name": $("#name").val(),
 				            "delete_ctm": $("#delete_ctm").val(),
 
 
@@ -303,23 +310,19 @@ $(document).on("click",".deleteItem",function() {
                 { data: 'id' },
                 { data: 'application_no' },
                 { data: 'name' },
-
                 { data: 'address' },
-
-
+                 { data: 'home_state' },
+                { data: 'age' },
                 { data: 'gender' },
+				 { data: 'eligibility' },
                 { data: 'mobile' },
-
-                { data: 'years' },
-
-                {{-- { data: 'eligibility' }, --}}
-                { data: 'home_state' },
-				{ data: 'home_district' },
+				{ data: 'aadhaar' },
+				{ data: 'ration' },
+				{ data: 'years' },
 				{ data: 'district' },
 				{ data: 'location' },
 				{ data: 'date' },
-                { data: 'view' },
-
+                {data:'view'}
                 // { data: 'action' }
 
 
@@ -360,11 +363,12 @@ $(document).on("click",".deleteItem",function() {
          // DataTable
 
 
-      });
-    $(document).ready(function() {
-        $('#district').change(function() {
+    });
+$(document).ready(function() {
+    $('#district').change(function() {
         var districtId = $("#district option:selected").data("id");
-
+            //var districtId = $(this).attr('data-id1');
+            //alert(districtId);
 
         if (districtId) {
             $.ajax({
@@ -413,9 +417,9 @@ $(document).ready(function() {
         $('#district').on('change', function() {
             $("#dist").val(this.value);
         });
-            $('#location').on('change', function() {
-                var locat = $( "#location option:selected" ).text();
-                $("#locations").val(locat);
+        $('#location').on('change', function() {
+            var locat = $( "#location option:selected" ).text();
+            $("#locations").val(locat);
         });
     });
 </script>

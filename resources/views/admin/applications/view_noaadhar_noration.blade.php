@@ -82,25 +82,20 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-3"><label class="form-label">Address (Home Address)</label></div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Address (Home Address)</label>
+                                            </div>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control"
-                                                    name="lname" value="{{ $data['address'] }}" readonly />
-
+                                                <input type="text" class="form-control" placeholder="First name"
+                                                    name="name" value="{{ $data['address'] }}" readonly />
+                                              
                                             </div>
                                         </div>
                                     </div>
-                                     <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-3"><label class="form-label">Age</label></div>
-                                            <div class="col-md-9">
-                                                <input type="text" class="form-control"
-                                                    name="lname" value="{{ $data['age'] }}" readonly />
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="form-group">
+                                    
+
+                                    <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-3"><label class="form-label">Gender</label></div>
                                             <div class="col-md-9">
@@ -110,6 +105,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    
                                      <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-3"><label class="form-label">Mobile Number (Whatsapp Number)</label></div>
@@ -132,27 +129,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-3"><label class="form-label">Aadhaar Number</label></div>
-                                            <div class="col-md-9">
-                                                <input type="text" class="form-control"
-                                                    name="lname" value="{{ $data['aadhaar'] }}" readonly />
+                                 
 
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-3"><label class="form-label">Ration Card Number </label></div>
-                                            <div class="col-md-9">
-                                                <input type="text" class="form-control"
-                                                    name="lname" value="{{ $data['ration'] }}" readonly />
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
 
                                      <div class="form-group">
                                         <div class="row">
@@ -165,18 +144,19 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+
+                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-3"><label class="form-label">Eligible for IMPDS or not(Yes/No)</label></div>
+                                            <div class="col-md-3"><label class="form-label">Home District </label></div>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control"
-                                                    name="lname" value="{{ $data['eligibility'] }}" readonly />
+                                                    name="lname" value="{{ $data['home_district'] }}" readonly />
 
                                             </div>
                                         </div>
                                     </div>
 
-
+                                    
                                      <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-3"><label class="form-label">District</label></div>
@@ -230,5 +210,5 @@
     </div>
     <!-- /main-content -->
 
-  
+
 @endsection
