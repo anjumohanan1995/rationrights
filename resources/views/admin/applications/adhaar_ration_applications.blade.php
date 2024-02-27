@@ -164,6 +164,7 @@
 															<th> District </th>
 															<th> Location </th>
 															<th> Created Date </th>
+                                                            <th> View </th>
 
 
 															{{-- <th>Action </th> --}}
@@ -317,6 +318,7 @@ $(document).on("click",".deleteItem",function() {
 				{ data: 'district' },
 				{ data: 'location' },
 				{ data: 'date' },
+                { data: 'view' },
 
                 // { data: 'action' }
 

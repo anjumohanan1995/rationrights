@@ -148,6 +148,13 @@
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
                                         </form>
+
+                                        <form action="{{ route('export.pdf') }}" method="POST">
+                                            @csrf
+                                            <!-- Add input fields for search parameters -->
+                                            <input type="text" name="search" id="search" placeholder="Search...">
+                                            <button type="submit" class="btn btn-info">Export PDF File</button>
+                                        </form>
 											<table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
        												<thead>
 														<tr>

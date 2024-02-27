@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
+//use PDF; 
 
 
 class ApplicationController extends Controller
@@ -26,6 +27,21 @@ class ApplicationController extends Controller
     public function index()
     {
         return view('applications.ration-aadhaar-form');
+    }
+
+
+    public function generatePDF()
+    {
+        // Include the fpdf library
+        require_once('fpdf.php');
+
+        // Create instance of FPDF
+        $pdf = new \FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(40, 10, 'Hello, World!');
+        $pdf->Output();
+        exit;
     }
     public function rationCard()
     {
@@ -1046,6 +1062,37 @@ class ApplicationController extends Controller
         return view('admin.applications.view_aadhar_ration',compact('data'));
     }
 
+    public function exportPdf(Request $request)
+    {
+
+         // Fetch search parameter from the request
+         $searchQuery = $request->input('search');
+
+         // Fetch search-based results from the database or any other source
+         $searchResults = $this->getSearchResults($searchQuery);
+ 
+         // Generate HTML content for PDF using search results
+         $pdfContent = view('pdf.search-results', ['searchResults' => $searchResults])->render();
+ 
+         // Generate PDF
+         $pdf = PDF::loadHtml($pdfContent);
+ 
+         // Output the generated PDF to the browser
+         return $pdf->download('search_results.pdf');
+    }
+
+    private function getSearchResults($searchQuery)
+    {
+
+       $data = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->get();
+        // Fetch search-based results from the database or any other source
+        // You can implement your own logic to fetch the results
+        // For demonstration, let's assume it returns an array of search results
+        return $data;
+    }
+
+    
+
    
 
 
@@ -1089,24 +1136,7 @@ class ApplicationController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
 
-        if($request->delete_ctm =='1'){
-
-            $totalRecord = User::where('deleted_at','!=',null);
-
-            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-            $totalRecordswithFilte = User::where('deleted_at','!=',null);
-
-
-
-            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-            // Fetch records
-            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-            $records = $items->skip($start)->take($rowperpage)->get();
-        }else{
+        
 
             // Total records
             $totalRecord = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
@@ -1163,7 +1193,7 @@ class ApplicationController extends Controller
                 $items->whereBetween('created_at', [$stDate, $edDate]);
             }
             $records = $items->skip($start)->take($rowperpage)->get();
-        }
+        
 
 
 
@@ -1192,16 +1222,19 @@ class ApplicationController extends Controller
 
 
             //$role  =  $record->role;
-            if($record->deleted_at != null){
-                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
-                $change = '';
+            // if($record->deleted_at != null){
+            //     $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
+            //     $change = '';
 
-            }else{
-                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
-                $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
+            // }else{
+            //     $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
+            //     $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
 
 
-            }
+            // }
+
+            $view ='<a  href="' . url('adhaar-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+
             $data_arr[] = array(
                 "id" => $i,
                 "name" => $name,
@@ -1219,9 +1252,11 @@ class ApplicationController extends Controller
                 'location'=>$location,
                 'years'=>$years,
                 'date'=>$date,
+                'view'=>$view,
+
 
             );
-}
+            }
 
         $response = array(
             "draw" => intval($draw),
@@ -1232,6 +1267,13 @@ class ApplicationController extends Controller
 
         return response()->json($response);
     }
+    public function adhaarApplicationLIstView($id){
+        $data = Application::where('_id',$id)->first();
+        return view('admin.applications.view_aadhar',compact('data'));
+
+    }
+
+    
 
     public function adhaarRationApplicationLIst()
     {
@@ -1273,25 +1315,7 @@ class ApplicationController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
 
-        if($request->delete_ctm =='1'){
-
-            $totalRecord = User::where('deleted_at','!=',null);
-
-            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-            $totalRecordswithFilte = User::where('deleted_at','!=',null);
-
-
-
-            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-            // Fetch records
-            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-            $records = $items->skip($start)->take($rowperpage)->get();
-        }else{
-
+        
             // Total records
             $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
             if($application_no != ""){
@@ -1350,7 +1374,7 @@ class ApplicationController extends Controller
 
 
             $records = $items->skip($start)->take($rowperpage)->get();
-        }
+        
 
 
 
@@ -1377,16 +1401,21 @@ class ApplicationController extends Controller
             $years =  @$record->years;
 
             //$role  =  $record->role;
-            if($record->deleted_at != null){
-                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
-                $change = '';
+            // if($record->deleted_at != null){
+            //     $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/restore') . '"><button class="btn-btn-primary">Restore</button></a></div>';
+            //     $change = '';
 
-            }else{
-                $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
-                $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
+            // }else{
+            //     $edit = '<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a>&nbsp;&nbsp;<a class="deleteItem" data-id="'.$id.'"><i class="fa fa-trash bg-danger "></i></a></div>';
+            //     $change ='<div class="settings-main-icon"><a  href="' . url('user-management/'.$id.'/changepassword') . '"><i class="fa fa-key bg-info me-1"></i></a></div>';
 
 
-            }
+            // }
+
+            $view ='<a  href="' . url('noadhaar-noration-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+
+
+
             $data_arr[] = array(
                 "id" => $i,
                 "name" => $name,
@@ -1403,7 +1432,8 @@ class ApplicationController extends Controller
                 'district'=>$district,
                 'location'=>$location,
                 'years'=>@$years,
-                'date'=>$date
+                'date'=>$date,
+                'view'=>$view
 
 
             );
@@ -1418,6 +1448,13 @@ class ApplicationController extends Controller
 
         return response()->json($response);
     }
+
+
+    public function noadhaarNorationApplicationLIstView( $id){
+        $data = Application::where('_id',$id)->first();
+        return view('admin.applications.view_noaadhar_noration',compact('data'));
+    }
+        
 
     public function add()
     {
