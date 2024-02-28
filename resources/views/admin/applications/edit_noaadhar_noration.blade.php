@@ -54,6 +54,7 @@
 
                                         <form method="POST" action="{{ route('no-adhaar-ration-application-list-update',$data->id) }}"
                                     <input type="hidden" id="user_id" value="{{ @$data->id }}">
+                                    <input type="hidden" value="{{ @$data->type }}" name="old_type">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -183,7 +184,7 @@
                                         <div class="row">
                                             <div class="col-md-3"><label class="form-label">Ration Card Number</label></div>
                                             <div class="col-md-9">
-                                                <input type="aadhar" class="form-control"
+                                                <input type="number" class="form-control"
                                                     name="ration" value="{{old('ration',$data['ration'])  }}"  />
 
                                             </div>

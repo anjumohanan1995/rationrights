@@ -8,6 +8,7 @@ use App\User;
 use App\District;
 use App\State;
 use Redirect;
+use Auth;
 use App\Exports\ExportApplications;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
@@ -1319,13 +1320,13 @@ class ApplicationController extends Controller
         return view('admin.applications.edit_aadhar',compact('data'));
 
 
-        
+
     }
 
     public function  adhaarApplicationUpdate(Request $request){
         dd($request);
     }
-   
+
 
 
 
@@ -1541,9 +1542,22 @@ class ApplicationController extends Controller
     }
 
         $data = Application::where('_id',$id)->first();
+        $type="";
+        if($request->aadhar !="" && $request->ration !=""){
+            $type="ration-aadhaar-form";
+        }
+        elseif($request->aadhar !="" && $request->ration ==""){
+            $type="aadhaar-form";
+        }
+        else{
+            $type=$request->old_type;
+        }
         $data->update([
             'ration' =>$request->ration,
             'aadhaar' =>$request->aadhar,
+            'old_type' =>$request->old_type,
+            'updated_by' => Auth::user()->id,
+            'type'=>$type,
         ]);
         return redirect()->back()
         ->with('success','Application Updated Successfully');
