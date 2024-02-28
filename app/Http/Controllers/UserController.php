@@ -100,7 +100,7 @@ class UserController extends Controller
 
               'password' => 'required' ,
               'role' => 'required' ,
-              'state' => 'required' ,
+              'state' => 'nullable' ,
 
 
            /*  'adhar'=> 'required|min:10'],[
@@ -142,7 +142,9 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
 
             'role' => @$request->role?$request->role:'',
-            'state' => @$request->state?$request->state:''
+            'state' => @$request->state?$request->state:'',
+            'district' => @$request->district?$request->district:'',
+            'taluk' => @$request->taluk?$request->taluk:''
 
         ]);
 
@@ -352,8 +354,8 @@ class UserController extends Controller
         $role =Role::orderBy('id','desc')->where('deleted_at',null)->get();
 
         $states=State::where('deleted_at',null)->get();
-
-        return view('user.edit',compact('data','role','states'));
+        $districts = District::get();
+        return view('user.edit',compact('data','role','states','districts'));
     }
 
 
