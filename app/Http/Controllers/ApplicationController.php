@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
-//use PDF; 
+//use PDF;
 use Barryvdh\Snappy\Facades\SnappyPdf;
 
 
@@ -1084,7 +1084,7 @@ class ApplicationController extends Controller
 
          // Your existing code to fetch data from the database
          $records = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-       
+
 
         if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
         {
@@ -1101,11 +1101,11 @@ class ApplicationController extends Controller
             $records->where('location',$locate);
         }
         $records = $records->get();
-         
-         
-         
-         
-        
+
+
+
+
+
             // Generate PDF content
             $pdfContent = view('pdf.ration_aadhaar_applications', compact('records'))->render();
 
@@ -1273,7 +1273,7 @@ class ApplicationController extends Controller
 
             // }
 
-            $view ='<a  href="' . url('adhaar-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+            $view ='<div class="settings-main-icon"><a  href="' . url('adhaar-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a><a  href="' . url('adhaar-application-list/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a></div>';
 
             $data_arr[] = array(
                 "id" => $i,
@@ -1311,7 +1311,21 @@ class ApplicationController extends Controller
         $data = Application::where('_id',$id)->first();
         return view('admin.applications.view_aadhar',compact('data'));
 
+
     }
+
+    public function  adhaarApplicationEdit($id){
+        $data = Application::where('_id',$id)->first();
+        return view('admin.applications.edit_aadhar',compact('data'));
+
+
+        
+    }
+
+    public function  adhaarApplicationUpdate(Request $request){
+        dd($request);
+    }
+   
 
 
 
@@ -1452,7 +1466,7 @@ class ApplicationController extends Controller
 
             // }
 
-            $view ='<a  href="' . url('noadhaar-noration-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+            $view ='<div class="settings-main-icon"><a  href="' . url('noadhaar-noration-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>&nbsp;&nbsp;<a  href="' . url('noadhaar-noration-application-list/'.$id.'/edit') . '"><i class="fas fa-edit bg-info me-1"></i></a></div>';
 
 
 
@@ -1494,8 +1508,46 @@ class ApplicationController extends Controller
         $data = Application::where('_id',$id)->first();
         return view('admin.applications.view_noaadhar_noration',compact('data'));
     }
+    public function noadhaarNorationApplicationLIstEdit($id)    {
+       $data = Application::where('_id',$id)->first();
+        return view('admin.applications.edit_noaadhar_noration',compact('data'));
+    }
+    public function noadhaarNorationApplicationLIstUpdate(Request $request,$id){
 
 
+        $validate = Validator::make($request->all(),
+        [
+            'aadhar' => [
+                'required',
+                'digits:12',
+
+            ],
+
+
+    ]);
+    if ($validate->fails()) {
+         return Redirect::back()->withErrors($validate)->withInput();
+        /*return response()->json([
+                    'error' => $validate->errors()->all()
+                ]);*/
+
+    }
+    $aadhar = $request->input('aadhar');
+    $existingRecord = Application::where('aadhaar', $aadhar)->where('_id', '!=', $id)->first();
+
+    if ($existingRecord) {
+
+        return redirect()->back()->withErrors(['aadhar' => 'The Aadhaar number is already in use. Application No : '.@$existingRecord->application_no])->withInput();
+    }
+
+        $data = Application::where('_id',$id)->first();
+        $data->update([
+            'ration' =>$request->ration,
+            'aadhaar' =>$request->aadhar,
+        ]);
+        return redirect()->back()
+        ->with('success','Application Updated Successfully');
+    }
     public function add()
     {
         // User::create([
