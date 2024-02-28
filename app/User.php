@@ -28,7 +28,7 @@ class User extends Eloquent implements Authenticatable
      * It will return @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','email','role','image','student_id','password_reset_token','state'
+        'name', 'email', 'password','email','role','image','student_id','password_reset_token','state','district','taluk'
     ];
 
      protected $hidden = [
@@ -41,11 +41,6 @@ class User extends Eloquent implements Authenticatable
 
 
 
-     public function MbaApplication()
-    {
-        // return $this->hasOne(MbaApplication::class, 'student_id', '_id');
-        return $this->hasOne(MbaApplication::class, '_id', 'student_id');
-    }
 
 
 
