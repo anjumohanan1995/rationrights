@@ -46,74 +46,75 @@ class HomeController extends Controller
     public function index()
     {
 
-        $role =Auth::user()->role;
 
-        if($role == 'Admin')
-        {
+        // $role =Auth::user()->role;
 
-            return view('admin.dashboard');
-        }
-        if($role == 'Student')
-        {
+        // if($role == 'Admin')
+        // {
 
-            $data=User::with('MbaApplication')->where('_id',Auth::user()->id)->first();
-           // $datas=MbaApplication::where('_id',Auth::user()->student_id)->first();
-            $interview=GdInterview::where('application_id',Auth::user()->student_id)->first();
-            $upload = Receipt::where('application_id',$data->MbaApplication->id)->first();
-            return view('student.dashboard',compact('data','interview','upload'));
-        }
-        if($role == 'Staff'){
+        //     return view('admin.dashboard');
+        // }
+        // if($role == 'Student')
+        // {
 
-            $d1 =date("Y-m-d");
-            $startDate = Carbon::createFromFormat('Y-m-d',  $d1)->startOfDay();
+        //     $data=User::with('MbaApplication')->where('_id',Auth::user()->id)->first();
+        //    // $datas=MbaApplication::where('_id',Auth::user()->student_id)->first();
+        //     $interview=GdInterview::where('application_id',Auth::user()->student_id)->first();
+        //     $upload = Receipt::where('application_id',$data->MbaApplication->id)->first();
+        //     return view('student.dashboard',compact('data','interview','upload'));
+        // }
+        // if($role == 'Staff'){
 
-            $endDate = Carbon::createFromFormat('Y-m-d', $d1)->endOfDay();
+        //     $d1 =date("Y-m-d");
+        //     $startDate = Carbon::createFromFormat('Y-m-d',  $d1)->startOfDay();
 
-            $userListAllCount1  =  User::where('deleted_at',null)->get();
-            $data['userListAllCount']  =  count($userListAllCount1);
+        //     $endDate = Carbon::createFromFormat('Y-m-d', $d1)->endOfDay();
 
-            $userListTodayCount1      = User::whereBetween('created_at',[$startDate, $endDate])->get();
-            $data['userListTodayCount']  =  count($userListTodayCount1);
+        //     $userListAllCount1  =  User::where('deleted_at',null)->get();
+        //     $data['userListAllCount']  =  count($userListAllCount1);
 
-            $totalVisitorsCount1  = Visitor::where('deleted_at',null)->get();
-            $data['totalVisitorsCount']  =  count($totalVisitorsCount1);
+        //     $userListTodayCount1      = User::whereBetween('created_at',[$startDate, $endDate])->get();
+        //     $data['userListTodayCount']  =  count($userListTodayCount1);
 
-            $todayVisitorsCount1  = Visitor::where('deleted_at',null)->where('date',$d1)->get();
-            $data['todayVisitorsCount']  =  count($todayVisitorsCount1);
+        //     $totalVisitorsCount1  = Visitor::where('deleted_at',null)->get();
+        //     $data['totalVisitorsCount']  =  count($totalVisitorsCount1);
 
-
-            $applicationListAllCount1  =  MbaApplication::where('deleted_at',null)->get();
-            $data['applicationListAllCount']  =  count($applicationListAllCount1);
+        //     $todayVisitorsCount1  = Visitor::where('deleted_at',null)->where('date',$d1)->get();
+        //     $data['todayVisitorsCount']  =  count($todayVisitorsCount1);
 
 
-            $applicationListTodayCount1      = MbaApplication::whereBetween('created_at',[$startDate, $endDate])->get();
-            $data['applicationListTodayCount']  =  count($applicationListTodayCount1);
+        //     $applicationListAllCount1  =  MbaApplication::where('deleted_at',null)->get();
+        //     $data['applicationListAllCount']  =  count($applicationListAllCount1);
 
 
-            $applicationListTodayGdCount     = GdInterview::where('gd_date',$d1)->get();
-            $data['applicationListTodayGdCount']  =  count($applicationListTodayGdCount);
-            $applicationListTodayInterviewCount     = GdInterview::where('gd_date',$d1)->get();
-            $data['applicationListTodayInterviewCount']  =  count($applicationListTodayGdCount);
-            $gd = GdInterview::pluck('application_id')->all();
-
-             $GdPending = MbaApplication::where('status',1)->whereNotIn('_id',$gd)->pluck('_id')->all();
-                 $data['GdPending']  =  count($GdPending);
-         $in=  MbaApplication::where('status',1)->pluck('_id')->all();
-         $interviewPending=GdInterview::where('gd_date','!=',null)->whereNotIn('_id',$in)->where('interview_date',null)->pluck('application_id')->all();
-
-         $data['interviewPending']  =  count($interviewPending);
-         $interviewCompleted=GdInterview::where('interview_date','!=',null)->whereNotIn('_id',$in)->where('interview_score','!=',null)->pluck('application_id')->all();
-
-         $data['interviewCompleted']  =  count($interviewCompleted);
-         $gdCompleted=GdInterview::where('gd_date','!=',null)->whereNotIn('_id',$in)->where('gd_score','!=',null)->pluck('application_id')->all();
-
-         $data['gdCompleted']  =  count($gdCompleted);
+        //     $applicationListTodayCount1      = MbaApplication::whereBetween('created_at',[$startDate, $endDate])->get();
+        //     $data['applicationListTodayCount']  =  count($applicationListTodayCount1);
 
 
-           // dd($data);
-            return view('staff.dashboard',compact('data'));
+        //     $applicationListTodayGdCount     = GdInterview::where('gd_date',$d1)->get();
+        //     $data['applicationListTodayGdCount']  =  count($applicationListTodayGdCount);
+        //     $applicationListTodayInterviewCount     = GdInterview::where('gd_date',$d1)->get();
+        //     $data['applicationListTodayInterviewCount']  =  count($applicationListTodayGdCount);
+        //     $gd = GdInterview::pluck('application_id')->all();
 
-        }
+        //      $GdPending = MbaApplication::where('status',1)->whereNotIn('_id',$gd)->pluck('_id')->all();
+        //          $data['GdPending']  =  count($GdPending);
+        //  $in=  MbaApplication::where('status',1)->pluck('_id')->all();
+        //  $interviewPending=GdInterview::where('gd_date','!=',null)->whereNotIn('_id',$in)->where('interview_date',null)->pluck('application_id')->all();
+
+        //  $data['interviewPending']  =  count($interviewPending);
+        //  $interviewCompleted=GdInterview::where('interview_date','!=',null)->whereNotIn('_id',$in)->where('interview_score','!=',null)->pluck('application_id')->all();
+
+        //  $data['interviewCompleted']  =  count($interviewCompleted);
+        //  $gdCompleted=GdInterview::where('gd_date','!=',null)->whereNotIn('_id',$in)->where('gd_score','!=',null)->pluck('application_id')->all();
+
+        //  $data['gdCompleted']  =  count($gdCompleted);
+
+
+        //    // dd($data);
+        //     return view('staff.dashboard',compact('data'));
+        return view('admin.dashboard');
+
 
 
 
