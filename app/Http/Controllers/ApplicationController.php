@@ -1578,6 +1578,12 @@ class ApplicationController extends Controller
         $data =District::where('_id',$district)->select('name','locations','district_id')->first();
         return response()->json($data);
     }
+    public function getTaluks(Request $request){
+
+        $district = $request->district;
+        $data =District::where('name',$district)->select('name','locations','district_id')->first();
+        return response()->json($data);
+    }
     public function states()
     {
         $indianStates = [

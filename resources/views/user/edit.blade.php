@@ -105,7 +105,7 @@
 												<select id="district" name="district" class="form-control"  >
                                                     <option value="">Select District</option>
                                                     @foreach ($districts as $district)
-                                                    <option value="{{ $district->id }}" {{$data['district']==$district->id ? 'selected' : ''}} >{{ $district->name }}</option>
+                                                    <option value="{{ $district->name }}" {{$data['district']==$district->name ? 'selected' : ''}} >{{ $district->name }}</option>
                                                 @endforeach
 
 												</select>
@@ -201,22 +201,22 @@
 
         $("#state-dropdown").html('');
         $.ajax({
-            url: "{{ route('location') }}",
+            url: "{{ route('taluks') }}",
             type: "GET",
             data: {
-                district_id: iddistrict,
+                district: iddistrict,
                 _token: '{{csrf_token()}}'
             },
             dataType: 'json',
             success: function (result) {
-                var taluk_id =  {{ Js::from($data['taluk']) }};
+                var taluk_name =  {{ Js::from($data['taluk']) }};
                 $('#taluk').html('<option value="">Select Taluk </option>');
                 $.each(result.locations, function (key, value) {
 
-                    if(value.location_id == taluk_id)
-                    $('#taluk').append('<option value="'+value.location_id+'" selected>'+ value.name +'</option>');
+                    if(value.name == taluk_name)
+                    $('#taluk').append('<option value="'+value.name+'" selected>'+ value.name +'</option>');
                     else
-                    $('#taluk').append('<option value="'+value.location_id+'">'+ value.name +'</option>');
+                    $('#taluk').append('<option value="'+value.name+'">'+ value.name +'</option>');
 
 
                 });
