@@ -32,6 +32,7 @@ class Application extends Eloquent
         'application_no',
         'location_id',
         'state',
-        'user_id'
+        'user_id',
+        'old_type','updated_by'
     ];
 }

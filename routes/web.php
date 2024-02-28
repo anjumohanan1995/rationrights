@@ -140,6 +140,9 @@ Route::get('/applications/application-form', [ApplicationController::class, 'des
 Route::get('/adhaar-application-list', [ApplicationController::class, 'adhaarApplicationLIst'])->name("adhaar-application-list");
 Route::get('/getAdhaarApplications', [ApplicationController::class, 'getAdhaarApplications'])->name('getAdhaarApplications');
 Route::get('/adhaar-application-list/{id}/view', [ApplicationController::class, 'adhaarApplicationLIstView'])->name("adhaar-application-list-view");
+Route::get('/adhaar-application-list/{id}/edit', [ApplicationController::class, 'adhaarApplicationEdit'])->name("adhaar-application-list-edit");
+Route::post('/adhaar-application-update', [ApplicationController::class, 'adhaarApplicationUpdate'])->name("aadhar.update");
+
 
 
 

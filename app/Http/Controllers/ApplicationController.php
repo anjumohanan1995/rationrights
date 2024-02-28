@@ -1273,7 +1273,7 @@ class ApplicationController extends Controller
 
             // }
 
-            $view ='<a  href="' . url('adhaar-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+            $view ='<div class="settings-main-icon"><a  href="' . url('adhaar-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a><a  href="' . url('adhaar-application-list/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a></div>';
 
             $data_arr[] = array(
                 "id" => $i,
@@ -1311,7 +1311,21 @@ class ApplicationController extends Controller
         $data = Application::where('_id',$id)->first();
         return view('admin.applications.view_aadhar',compact('data'));
 
+
     }
+
+    public function  adhaarApplicationEdit($id){
+        $data = Application::where('_id',$id)->first();
+        return view('admin.applications.edit_aadhar',compact('data'));
+
+
+        
+    }
+
+    public function  adhaarApplicationUpdate(Request $request){
+        dd($request);
+    }
+   
 
 
 
