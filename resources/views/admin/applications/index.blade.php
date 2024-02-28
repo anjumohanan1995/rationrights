@@ -151,8 +151,14 @@
 
                                         <form action="{{ route('export.pdf') }}" method="POST">
                                             @csrf
+
+                                             <input type="hidden" name="start_date" id="start_date1">
+                                               <input type="hidden" name="ending_date" id="ending_date1">
+                                               <input type="hidden" name="application_number" id="application_number1">
+                                               <input type="hidden" name="dist" id="dist1">
+                                               <input type="hidden" name="locations" id="locations1">
                                             <!-- Add input fields for search parameters -->
-                                            <input type="text" name="search" id="search" placeholder="Search...">
+                                           
                                             <button type="submit" class="btn btn-info">Export PDF File</button>
                                         </form>
 											<table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
@@ -202,30 +208,9 @@
 					<!-- /container -->
 				</div>
 				<!-- /main-content -->
-	<div class="modal fade" id="confirmation-popup">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content country-select-modal border-0">
-                <div class="modal-header offcanvas-header">
-                    <h6 class="modal-title">Are you sure?</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body p-5">
-                    <div class="text-center">
-                        <h4>Are you sure to delete this User?</h4>
-                    </div>
-                    <form id="ownForm">
-                        @csrf
-                    <input type="hidden" id="requestId" name="requestId" value="" />
-                    <div class="text-center">
-                        <button type="button" onclick="ownRequest()" class="btn btn-primary mt-4 mb-0 me-2">Yes</button>
-                        <button class="btn btn-default mt-4 mb-0" data-bs-dismiss="modal" type="button">No</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-<meta name="csrf-token" content="{{ csrf_token() }}" />applicationLIst
+
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <script src="js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -245,125 +230,82 @@ $(document).on("click",".deleteItem",function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });*/
-         function ownRequest() {
+      
 
-            var reqId = $('#requestId').val();
-            console.log(reqId);
-            $.ajax({
-            	headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
-                url: '{{ url("user-management/delete") }}'+'/'+reqId,
-                method: 'get',
-                data: 1,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    console.log(response.success);
+        $(document).ready(function(){
 
-                        $('#confirmation-popup').modal('hide');
-                        $('#success_message').fadeIn().html(response.success);
-							setTimeout(function() {
-								$('#success_message').fadeOut("slow");
-							}, 2000 );
-
-                        $('#example').DataTable().ajax.reload();
-
-
-
-                }
-            })
-        }
-
-
-
-     $(document).ready(function(){
-
-     	   var table = $('#example').DataTable({
-            processing: true,
-            serverSide: true,
-
-	        buttons: [
-	            'copyHtml5',
-	            'excelHtml5',
-	            'csvHtml5',
-	            'pdfHtml5'
-	        ],
-             "ajax": {
-
-			       	"url": "{{route('getApplications')}}",
-			       	// "data": { mobile: $("#mobile").val()}
-			       	"data": function ( d ) {
-			        	return $.extend( {}, d, {
-                            "application_no": $("#application_no").val(),
-				            "district": $("#district").val(),
-                            "location": $("#location").val(),
-				            "from_date": $("#from_date").val(),
-				            "to_date": $("#end_date").val(),
-				            "name": $("#name").val(),
-				            "delete_ctm": $("#delete_ctm").val(),
-
-
-			          	});
-       				}
-       			},
-
-             columns: [
-                { data: 'id' },
-                { data: 'application_no' },
-                { data: 'name' },
-                { data: 'address' },
-                 { data: 'home_state' },
-                { data: 'age' },
-                { data: 'gender' },
-				 { data: 'eligibility' },
-                { data: 'mobile' },
-				{ data: 'aadhaar' },
-				{ data: 'ration' },
-				{ data: 'years' },
-				{ data: 'district' },
-				{ data: 'location' },
-				{ data: 'date' },
-                {data:'view'}
-                // { data: 'action' }
-
-
-			],
-            "order": [0, 'desc'],
-            'ordering': true
-         });
-
-
-
-      	 table.draw();
-
-      	$('#submit').click(function(){
-
-        	table.draw();
-    	});
-    	$('#refresh').click(function(){
-    		$("#search_part").css("display", "block");
-      		$("#delete_ctm").val('');
-        	table.draw();
-    	});
-
-
-
-
-    	$('#delete').click(function(){
-
-    		//$("#search_part").css("display", "none")
-    		$("#delete_ctm").val(1);
-    		$("#search_part").css("display", "none");
-        	table.draw();
-    	});
-
-
-
-
-
-         // DataTable
-
-
+    var table = $('#example').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('getApplications') }}",
+            data: function (d) {
+                return $.extend({}, d, {
+                    application_no: $("#application_no").val(),
+                    district: $("#district").val(),
+                    location: $("#location").val(),
+                    from_date: $("#from_date").val(),
+                    to_date: $("#end_date").val(),
+                    name: $("#name").val(),
+                    delete_ctm: $("#delete_ctm").val(),
+                });
+            }
+        },
+        columns: [
+            { data: 'id' },
+            { data: 'application_no' },
+            { data: 'name' },
+            { data: 'address' },
+            { data: 'home_state' },
+            { data: 'age' },
+            { data: 'gender' },
+            { data: 'eligibility' },
+            { data: 'mobile' },
+            { data: 'aadhaar' },
+            { data: 'ration' },
+            { data: 'years' },
+            { data: 'district' },
+            { data: 'location' },
+            { data: 'date' },
+            { data: 'view' }
+        ],
+        order: [0, 'desc'],
+        ordering: true
     });
+
+    // Add DataTables buttons after DataTable initialization
+
+
+    // Draw the table initially
+    table.draw();
+
+    // Add click event handlers for buttons
+    $('#submit').click(function(){
+        table.draw();
+    });
+    $('#district').click(function(){
+        table.draw();
+    });
+
+    
+
+    $('#refresh').click(function(){
+        $("#search_part").css("display", "block");
+        $("#delete_ctm").val('');
+        table.draw();
+    });
+
+    $('#delete').click(function(){
+        $("#delete_ctm").val(1);
+        $("#search_part").css("display", "none");
+        table.draw();
+    });
+
+});
+
+
+
+
 $(document).ready(function() {
     $('#district').change(function() {
         var districtId = $("#district option:selected").data("id");
@@ -407,19 +349,24 @@ $(document).ready(function() {
 $(document).ready(function() {
         $('#from_date').on('change', function() {
             $("#start_date").val(this.value);
+            $("#start_date1").val(this.value);
         });
         $('#end_date').on('change', function() {
             $("#ending_date").val(this.value);
+             $("#ending_date1").val(this.value);
         });
         $('#application_no').on('change', function() {
             $("#application_number").val(this.value);
+            ("#application_number1").val(this.value);
         });
         $('#district').on('change', function() {
             $("#dist").val(this.value);
+             $("#dist1").val(this.value);
         });
         $('#location').on('change', function() {
             var locat = $( "#location option:selected" ).text();
             $("#locations").val(locat);
+            $("#locations1").val(locat);
         });
     });
 </script>

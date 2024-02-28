@@ -26,7 +26,7 @@
 						            <div class="card-body pt-2 pb-2">
 						                <div class="row row-sm">
 
-                                           
+
 											<div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>Gender</label>
                                                 <select class="form-select" id="gender"
@@ -43,9 +43,9 @@
                                                                             @if (old('gender') === 'Other') selected @endif>
                                                                             Other</option>
                                                                     </select>
-                                               
+
                                              </div>
-                                              
+
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
 											<div class="clear-fix"></div>
@@ -117,14 +117,12 @@
 											</div>	 -->
 
 										</div>
-                                        <form action="{{ route('export.excel.ration') }}" method="POST" name="importform"
+                                        <a class="btn btn-primary" href="{{ URL::to('/employee/pdf') }}">Export to PDF</a>
+                                        <form action="{{ route('export.excel.application.report') }}" method="POST" name="importform"
                                                 enctype="multipart/form-data">
                                                 @csrf
-                                                <input type="hidden" name="start_date" id="start_date">
-                                               <input type="hidden" name="ending_date" id="ending_date">
-                                               <input type="hidden" name="application_number" id="application_number">
-                                               <input type="hidden" name="dist" id="dist">
-                                               <input type="hidden" name="locations" id="locations">
+                                                <input type="hidden" name="gender_data" id="gender_data" value="Male">
+
                                                <div class="form-group">
                                                     <button type="submit" class="btn btn-info" >Export Excel File</button>
                                                 </div>
@@ -202,7 +200,24 @@
 <script src="js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="{{ asset('js/jquery.validate.min.js')}}"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("click", "#btnExport", function () {
+            html2canvas($('#example')[0], {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("cutomer-details.pdf");
+                }
+            });
+        });
+        </script>
 <script  type="text/javascript">
 
 $(document).on("click",".deleteItem",function() {
@@ -266,7 +281,7 @@ $(document).on("click",".deleteItem",function() {
 			       	"data": function ( d ) {
 			        	return $.extend( {}, d, {
                             "gender": $("#gender").val(),
-				           
+
 
 			          	});
        				}
@@ -369,8 +384,8 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-        $('#from_date').on('change', function() {
-            $("#start_date").val(this.value);
+        $('#gender').on('change', function() {
+            $("#gender_data").val(this.value);
         });
         $('#end_date').on('change', function() {
             $("#ending_date").val(this.value);

@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
-//use PDF;
+//use PDF; 
+use Barryvdh\Snappy\Facades\SnappyPdf;
+
 
 
 class ApplicationController extends Controller
@@ -1066,20 +1068,55 @@ class ApplicationController extends Controller
     public function exportPdf(Request $request)
     {
 
-         // Fetch search parameter from the request
-         $searchQuery = $request->input('search');
+        $applicationNo = $request->input('application_number');
+        $districts = $request->input('dist');
+        $locate = $request->input('locations');
 
-         // Fetch search-based results from the database or any other source
-         $searchResults = $this->getSearchResults($searchQuery);
+        if ($request->start_date != '') {
 
-         // Generate HTML content for PDF using search results
-         $pdfContent = view('pdf.search-results', ['searchResults' => $searchResults])->render();
+            $from_date = date("M d,Y", strtotime($request->start_date));
+            $stDate = new Carbon($from_date);
+        }
+        if ($request->ending_date != '') {
+            $to_date = date("Y-m-d 23:59:00", strtotime($request->ending_date));
+            $edDate = new Carbon($to_date);
+        }
 
-         // Generate PDF
-         $pdf = PDF::loadHtml($pdfContent);
+         // Your existing code to fetch data from the database
+         $records = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+       
 
-         // Output the generated PDF to the browser
-         return $pdf->download('search_results.pdf');
+        if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
+        {
+            $records->whereBetween('created_at', [$stDate, $edDate]);
+        }
+        if($applicationNo != ""){
+            $records->where('application_no',$applicationNo);
+        }
+        if($districts != ""){
+
+            $records->where('district',$districts);
+        }
+        if($locate != "" ){
+            $records->where('location',$locate);
+        }
+        $records = $records->get();
+         
+         
+         
+         
+        
+            // Generate PDF content
+            $pdfContent = view('pdf.ration_aadhaar_applications', compact('records'))->render();
+
+            // Generate PDF file
+            $pdf = SnappyPdf::loadHTML($pdfContent);
+            $pdf->setOption('encoding', 'UTF-8'); // Optional: Set encoding
+            $pdf->setOption('footer-right', 'Page [page] of [topage]'); // Optional: Add footer
+            //$pdf->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+            // Return PDF as download
+            return $pdf->download('ration-aadhaar-applications.pdf');
     }
 
     private function getSearchResults($searchQuery)

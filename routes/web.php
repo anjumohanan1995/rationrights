@@ -10,9 +10,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ApplicationFormController;
-
-
-
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -195,5 +193,11 @@ Route::get('/getNoAdhaarRationApplications', [ApplicationController::class, 'get
 Route::get('/no-adhaar-district-application-list', [ApplicationController::class, 'noAdhaarDistrictApplicationLIst'])->name("no-adhaar-district-application-list");
 Route::get('/getNoAdhaarDistrictApplications', [ApplicationController::class, 'getNoAdhaarDistrictApplications'])->name("getNoAdhaarDistrictApplications");
 
+Route::post('export/excel/application/report', [ReportController::class,'exportApplicationReport'])->name('export.excel.application.report');
 
+Route::post('export/excel/application/adhar', [ReportController::class,'exportApplicationReportAdhar'])->name('export.excel.application.adhar');
 
+Route::get('/employee/pdf', [ReportController::class, 'createPDF']);
+// Route::get('pdfview',array('as'=>'pdfview','uses'=>'ReportController@pdfview'));
+Route::get('/pdfview', [ReportController::class, 'pdfview'])->name('pdfview');
+// Route::get('pdfview',array('as'=>'pdfview','uses'=>'ReportController@pdfview'));

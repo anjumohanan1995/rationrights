@@ -21517,7 +21517,7 @@ body {
     position: relative;
     overflow: hidden;
     overflow-y: scroll;
-    
+
 }
 
 .main-header-message .dropdown-footer,
@@ -22760,7 +22760,7 @@ body {
     font-size: 65px;
     margin: 0  0px;
     position: relative;
-    
+
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
@@ -39811,7 +39811,7 @@ slide is-expanded side-menu__item {
 .app-sidebar .slide-menu a:before {
     content: "\e933";
     font-family: "feather" !important;
-    position: absolute;
+    /* position: absolute; */
     top: 9px;
     left: 21px;
     font-size: 13px;

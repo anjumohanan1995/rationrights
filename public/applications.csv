@@ -1,10 +1,1 @@
-"Application No.",Name,Address,"Mobile No.",Gender,"Since when staying in Kerala","Home District",District,Location,"Created Date"
-18000001,Raj,Bhavan,9876543213,Male,1967,Patna,Alappuzha,Ambalapuzha,2023-08-22
-19000108,"RAJANI BORDOLOI","GAKHAJUBA , MARIGAON DISTRICT, MARIGAON, ASSAM",9995840349,Male,2014,MARIGAON,Alappuzha,Kuttanad,2023-10-10
-21000010,"Ramachandran Gour","Routta Gham",6913822147,Male,1997,Udhankudi,Alappuzha,Mavelikkara,2023-10-12
-21000015,"Dipak Gour","9 LP School N.1 Ajagarh Mazbat,UDALGURAL",8453111800,Male,1990,UDALGURAL,Alappuzha,Mavelikkara,2023-10-12
-21000020,"Bhim Gour","48 MAZBBAT,NO.1 AJAGAR,PATHANPUR",8099306476,Male,1996,UDALGURL,Alappuzha,Mavelikkara,2023-10-12
-21000046,"KESONAL BARMAN","SRIPUR,ITAHAR,UTTAR,DINAJPUR",8891091210,Male,1994,DINAJPUR,Alappuzha,Mavelikkara,2023-10-12
-22000008,"BALUNATH MANDAL","KHAIRABARI ,KHAIRABARI,BONPOTU,ASSAM-781315",9072041203,Male,2017,BONPOTU,Alappuzha,Chengannur,2023-10-17
-22000009,"PAUKAN DEURI","KARAGARI,SARTHEBARI,BARPETTA,ASSAM-781307",8714733764,Male,2016,BARPETTA,Alappuzha,Chengannur,2023-10-17
-22000010,"BASANTHI MANDAL","KARAGARI,SARTHEBARI,BARPETTA,ASSAM-781307",6000090112,Male,2015,BARPETTA,Alappuzha,Chengannur,2023-10-17
+"Application No.",Name,Address,Age,"Mobile No.",Gender,"Since when staying in Kerala","Aadhaar No.","Ration Card No.","Eligible for IMPDS or Not",District,Location,"Created Date"
