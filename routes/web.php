@@ -147,6 +147,8 @@ Route::get('/adhaar-application-list/{id}/view', [ApplicationController::class, 
 Route::get('/no-adhaar-ration-application-list', [ApplicationController::class, 'adhaarRationApplicationLIst'])->name("no-adhaar-ration-application-list");
 Route::get('/getAdhaarRationApplications', [ApplicationController::class, 'getAdhaarRationApplications'])->name('getAdhaarRationApplications');
 Route::get('/noadhaar-noration-application-list/{id}/view', [ApplicationController::class, 'noadhaarNorationApplicationLIstView'])->name("no-adhaar-ration-application-list-view");
+Route::get('/noadhaar-noration-application-list/{id}/edit', [ApplicationController::class, 'noadhaarNorationApplicationLIstEdit'])->name("no-adhaar-ration-application-list-edit");
+Route::post('/noadhaar-noration-application-update/{id}', [ApplicationController::class, 'noadhaarNorationApplicationLIstUpdate'])->name("no-adhaar-ration-application-list-update");
 
 
 
