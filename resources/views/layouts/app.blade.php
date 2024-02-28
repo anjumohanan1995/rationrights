@@ -695,12 +695,13 @@
                                     <span class="side-menu__label">Applications Report</span>
                                     <i class="angle fe fe-chevron-down"> </i>
                                 </a>
-                                <ul class="slide-menu">
-                                    <li class="slide">
+                                <ul class="slide-menu child1">
+                                    <li class="slide has-sub">
                                         <a class="side-menu__item" data-bs-toggle="slide" href="">
                                             <span class="sub-side-menu__label">Ration Card & Aadhaar</span>
+                                            <i class="fe fe-chevron-right side-menu__angle"></i>
                                         </a>
-                                        <ul class="slide-menu">
+                                        <ul class="slide-menu child2">
                                             <li class="sub-slide">
                                                 <a class="slide-item {{ request()->is('gender-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('gender-application-list') }}">
                                                     <span class="sub-side-menu__label">Gender</span>
@@ -887,7 +888,7 @@
             });
             $(document).ready(function() {
                 $('#example').DataTable(
-                   
+
                 );
                 $('#example1').DataTable();
                 $('#example2').DataTable();
@@ -896,7 +897,7 @@
 
             });
 
-             
+
         </script>
         <script type="text/javascript">
             $('.aminus').on('click', function() {

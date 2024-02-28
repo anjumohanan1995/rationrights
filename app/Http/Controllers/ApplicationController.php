@@ -1369,11 +1369,39 @@ class ApplicationController extends Controller
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
 
-
+        $role=Auth::user()->role;
 
             // Total records
-            $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' ){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            else{
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+
+              if($application_no != ""){
                 $totalRecord->where('application_no',$application_no);
             }
             if($district != ""){
@@ -1392,6 +1420,19 @@ class ApplicationController extends Controller
 
 
             $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' ){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User'){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+
+            }
+            else{
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
             if($application_no != ""){
                 $totalRecordswithFilte->where('application_no',$application_no);
             }
