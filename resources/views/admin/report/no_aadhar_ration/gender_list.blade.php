@@ -208,45 +208,7 @@
     <script src="{{ asset('js/jquery.validate.min.js')}}"></script>
 <script  type="text/javascript">
 
-$(document).on("click",".deleteItem",function() {
 
-     var id =$(this).attr('data-id');
-     $('#requestId').val($(this).attr('data-id') );
-     $('#confirmation-popup').modal('show');
-});
-
-  /*$.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-        });*/
-         function ownRequest() {
-
-            var reqId = $('#requestId').val();
-            console.log(reqId);
-            $.ajax({
-            	headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
-                url: '{{ url("user-management/delete") }}'+'/'+reqId,
-                method: 'get',
-                data: 1,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    console.log(response.success);
-
-                        $('#confirmation-popup').modal('hide');
-                        $('#success_message').fadeIn().html(response.success);
-							setTimeout(function() {
-								$('#success_message').fadeOut("slow");
-							}, 2000 );
-
-                        $('#example').DataTable().ajax.reload();
-
-
-
-                }
-            })
-        }
 
 
 
