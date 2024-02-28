@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\District;
 use Illuminate\Http\Request;
 
 use App\User;
@@ -67,10 +68,10 @@ class UserController extends Controller
 
     public function create()
     {
-
+        $districts = District::get();
         $role=Role::where('deleted_at' ,null)->get();
         $states=State::where('deleted_at',null)->get();
-        return view('user.create',compact('role','states'));
+        return view('user.create',compact('role','states','districts'));
 
     }
 

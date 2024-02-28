@@ -116,6 +116,41 @@
 												</div>
 											</div>
 										</div>
+                                        <div class="form-group">
+											<div class="row">
+												<div class="col-md-3"><label class="form-label">District</label></div>
+												<div class="col-md-9">
+												<select id="district" name="district" class="form-control"  >
+                                                    <option value="">Select District</option>
+                                                    @foreach ($districts as $district)
+                                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                @endforeach
+
+												</select>
+
+												@error('district')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
+												</div>
+											</div>
+										</div>
+                                        <div class="form-group">
+											<div class="row">
+												<div class="col-md-3"><label class="form-label">Taluk</label></div>
+												<div class="col-md-9">
+												<select id="taluk" name="taluk" class="form-control"  >
+                                                    <option value="">Select Taluk</option>
+
+												</select>
+
+												@error('taluk')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
+												</div>
+											</div>
+										</div>
+
+
 
 										<div class="card-footer">
 											<button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
@@ -149,23 +184,23 @@
 <script >
 	$(document).ready(function(){
 
-			$('.district').on('change', function () {
+			$('#district').on('change', function () {
                 var iddistrict = this.value;
 
                 $("#state-dropdown").html('');
                 $.ajax({
-                    url: "{{url('reports/fetch-location')}}",
-                    type: "POST",
+                    url: "{{ route('location') }}",
+                    type: "GET",
                     data: {
                         district_id: iddistrict,
                         _token: '{{csrf_token()}}'
                     },
                     dataType: 'json',
                     success: function (result) {
-                        $('#location').html('<option value=""> Location </option>');
-                        $.each(result.states, function (key, value) {
-                            $("#location").append('<option value="' + value
-                                .location_name + '">' + value.location_name + '</option>');
+                        $('#taluk').html('<option value="">Select Taluk </option>');
+                        $.each(result.locations, function (key, value) {
+                            $("#taluk").append('<option value="' + value
+                                .location_id + '">' + value.name + '</option>');
                         });
                         $('#camera_id').html('<option value=""> Camera Id </option>');
 
@@ -175,35 +210,7 @@
                 });
 
             });
-			$('#location').on('change', function () {
-				//alert("kk");
 
-                var location = this.value;
-                var district = $("#dist").val();
-
-                $("#camera_id").html('');
-                $.ajax({
-                    url: "{{url('reports/fetch-camera')}}",
-                    type: "POST",
-                    data: {
-                        location: location,
-                         district : district,
-                        _token: '{{csrf_token()}}'
-                    },
-                    dataType: 'json',
-                    success: function (res) {
-                        $('#camera_id').html('<option value=""> Camera Id </option>');
-                        $.each(res.camera, function (key, value) {
-                            $("#camera_id").append('<option value="' + value
-                                .camera_id + '">' + value.camera_id + '</option>');
-                        });
-                         table.draw();
-
-                    }
-                });
-
-
-            });
     });
 
 
