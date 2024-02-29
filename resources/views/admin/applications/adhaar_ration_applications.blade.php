@@ -30,6 +30,8 @@
                                                 <label>Application No</label>
                                             <input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
                                            </div>
+                                           @if(auth::user()->role!='State UT User')
+
 
                                            @if($district_id !="")
                                            <input type="hidden"  value="{{ @$district_id }}" id="district_user">
@@ -50,7 +52,7 @@
                                                 </div>
                                                 @endif
                                                 <input type="hidden" name="district" id="new_dist">
-
+                                            @if(auth::user()->role!='Civil Supplies Taluk User')
 
                                            <div class="col-lg mg-t-10 mg-lg-t-0">
 											<label>Location</label>
@@ -61,8 +63,9 @@
                                                 <div class="text-danger w-100 error">{{ $errors->first('location') }}</div>
                                             @endif
 											</div>
+                                            @endif
                                             <input type="hidden" name="location" id="new_loc">
-
+                                            @endif
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                                     <label>Start Date</label>
                                         		<input class="form-control" type="date" name="from_date" id="from_date">
@@ -246,7 +249,7 @@
 
      $(document).ready(function(){
         var districtId = $("#district_user").val();
-        alert(districtId);
+        // alert(districtId);
 if(districtId !==""){
 
     $.ajax({
@@ -316,9 +319,17 @@ if(districtId !==""){
                 {{-- { data: 'eligibility' }, --}}
                 { data: 'home_state' },
 				{ data: 'home_district' },
-				{ data: 'district' },
-				{ data: 'location' },
-				{ data: 'date' },
+                @if(Auth::user()->role=='State UT User')
+                { data: 'district', visible: false },
+            { data: 'location', visible: false },
+            { data: 'date',visible: false },
+        @else
+        { data: 'district', visible: true },
+            { data: 'location', visible: true },
+            { data: 'date', visible: true  },
+        @endif
+
+
                 { data: 'view' },
 
                 // { data: 'action' }
