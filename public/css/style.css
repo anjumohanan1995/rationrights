@@ -39807,7 +39807,11 @@ slide is-expanded side-menu__item {
 .side-menu .slid.active .sub-slide.is-expanded .sub-slide-menu {
     max-height: 0;
 }
-
+ .slide-menu.child1 .side-menu__item:hover,  .slide-menu.child2 .side-menu__item:hover,  .slide-menu.child3 .side-menu__item:hover {
+  background: transparent;
+  box-shadow: none;
+  color: var(--primary-color) !important;
+}
 .app-sidebar .slide-menu a:before {
     content: "\e933";
     font-family: "feather" !important;

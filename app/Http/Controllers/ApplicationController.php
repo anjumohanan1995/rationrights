@@ -8,13 +8,14 @@ use App\User;
 use App\District;
 use App\State;
 use Redirect;
+use Auth;
 use App\Exports\ExportApplications;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
-use Auth;
+//use Auth;
 //use PDF; 
 use Barryvdh\Snappy\Facades\SnappyPdf;
 
@@ -1085,7 +1086,7 @@ class ApplicationController extends Controller
 
          // Your existing code to fetch data from the database
          $records = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
-       
+
 
         if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
         {
@@ -1102,11 +1103,11 @@ class ApplicationController extends Controller
             $records->where('location',$locate);
         }
         $records = $records->get();
-         
-         
-         
-         
-        
+
+
+
+
+
             // Generate PDF content
             $pdfContent = view('pdf.ration_aadhaar_applications', compact('records'))->render();
 
@@ -1320,7 +1321,7 @@ class ApplicationController extends Controller
         return view('admin.applications.edit_aadhar',compact('data'));
 
 
-        
+
     }
 
     public function  adhaarApplicationUpdate(Request $request){
@@ -1363,7 +1364,7 @@ class ApplicationController extends Controller
             return redirect()->back()->with('error', 'Record not found');
         }
     }
-   
+
 
 
 
@@ -1406,11 +1407,39 @@ class ApplicationController extends Controller
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
 
-
+        $role=Auth::user()->role;
 
             // Total records
-            $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($application_no != ""){
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' ){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            elseif($role=='State UT User'){
+
+            }
+            else{
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+
+              if($application_no != ""){
                 $totalRecord->where('application_no',$application_no);
             }
             if($district != ""){
@@ -1429,6 +1458,19 @@ class ApplicationController extends Controller
 
 
             $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' ){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User'){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+
+            }
+            else{
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
             if($application_no != ""){
                 $totalRecordswithFilte->where('application_no',$application_no);
             }
@@ -1504,7 +1546,7 @@ class ApplicationController extends Controller
 
             // }
 
-            $view ='<a  href="' . url('noadhaar-noration-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+            $view ='<div class="settings-main-icon"><a  href="' . url('noadhaar-noration-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>&nbsp;&nbsp;<a  href="' . url('noadhaar-noration-application-list/'.$id.'/edit') . '"><i class="fas fa-edit bg-info me-1"></i></a></div>';
 
 
 
@@ -1546,8 +1588,59 @@ class ApplicationController extends Controller
         $data = Application::where('_id',$id)->first();
         return view('admin.applications.view_noaadhar_noration',compact('data'));
     }
+    public function noadhaarNorationApplicationLIstEdit($id)    {
+       $data = Application::where('_id',$id)->first();
+        return view('admin.applications.edit_noaadhar_noration',compact('data'));
+    }
+    public function noadhaarNorationApplicationLIstUpdate(Request $request,$id){
 
 
+        $validate = Validator::make($request->all(),
+        [
+            'aadhar' => [
+                'required',
+                'digits:12',
+
+            ],
+
+
+    ]);
+    if ($validate->fails()) {
+         return Redirect::back()->withErrors($validate)->withInput();
+        /*return response()->json([
+                    'error' => $validate->errors()->all()
+                ]);*/
+
+    }
+    $aadhar = $request->input('aadhar');
+    $existingRecord = Application::where('aadhaar', $aadhar)->where('_id', '!=', $id)->first();
+
+    if ($existingRecord) {
+
+        return redirect()->back()->withErrors(['aadhar' => 'The Aadhaar number is already in use. Application No : '.@$existingRecord->application_no])->withInput();
+    }
+
+        $data = Application::where('_id',$id)->first();
+        $type="";
+        if($request->aadhar !="" && $request->ration !=""){
+            $type="ration-aadhaar-form";
+        }
+        elseif($request->aadhar !="" && $request->ration ==""){
+            $type="aadhaar-form";
+        }
+        else{
+            $type=$request->old_type;
+        }
+        $data->update([
+            'ration' =>$request->ration,
+            'aadhaar' =>$request->aadhar,
+            'old_type' =>$request->old_type,
+            'updated_by' => Auth::user()->id,
+            'type'=>$type,
+        ]);
+        return redirect()->back()
+        ->with('success','Application Updated Successfully');
+    }
     public function add()
     {
         // User::create([
@@ -1562,6 +1655,12 @@ class ApplicationController extends Controller
 
         $district = $request->district_id;
         $data =District::where('_id',$district)->select('name','locations','district_id')->first();
+        return response()->json($data);
+    }
+    public function getTaluks(Request $request){
+
+        $district = $request->district;
+        $data =District::where('name',$district)->select('name','locations','district_id')->first();
         return response()->json($data);
     }
     public function states()

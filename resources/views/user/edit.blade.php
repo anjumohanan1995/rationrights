@@ -80,7 +80,7 @@
 												</div>
 											</div>
 										</div>
-                                        <div class="form-group">
+                                        <div class="form-group" id="state_div" style="display:none">
 											<div class="row">
 												<div class="col-md-3"><label class="form-label">Home State / Union Territory</label></div>
 												<div class="col-md-9">
@@ -98,6 +98,40 @@
 												</div>
 											</div>
 										</div>
+                                        <div class="form-group" id="district_div" style="display:none">
+											<div class="row">
+												<div class="col-md-3"><label class="form-label">District</label></div>
+												<div class="col-md-9">
+												<select id="district" name="district" class="form-control"  >
+                                                    <option value="">Select District</option>
+                                                    @foreach ($districts as $district)
+                                                    <option value="{{ $district->name }}" {{$data['district']==$district->name ? 'selected' : ''}} >{{ $district->name }}</option>
+                                                @endforeach
+
+												</select>
+
+												@error('district')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
+												</div>
+											</div>
+										</div>
+                                        <div class="form-group" id="taluk_div" style="display:none">
+											<div class="row">
+												<div class="col-md-3"><label class="form-label">Taluk</label></div>
+												<div class="col-md-9">
+												<select id="taluk" name="taluk" class="form-control"  >
+                                                    <option value="">Select Taluk</option>
+
+												</select>
+
+												@error('taluk')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
+												</div>
+											</div>
+										</div>
+
 										<div class="card-footer">
 											<button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
 										</div>
@@ -127,105 +161,151 @@
 	<script  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script >
-	$(function() {
 
-		$('#generatekey').on('click', function () {
-			var user_id =$("#user_id").val();
-	        $.ajax({
-                url: "{{url('updateKey')}}",
-                type: "GET",
-                data: {
-                    user_id: user_id,
-                    _token: '{{csrf_token()}}'
-                },
-                dataType: 'json',
-                success: function (result) {
-                	console.log(result);
-                	$('#access').val(result);
-
-                	//
-
-
-                }
-            });
-		});
-		var user_id =$("#user_id").val();
-	        $.ajax({
-                url: "{{url('userData')}}",
-                type: "GET",
-                data: {
-                    user_id: user_id,
-                    _token: '{{csrf_token()}}'
-                },
-                dataType: 'json',
-                success: function (result) {
-                	//console.log(result.location);
-                	$('#location').html('<option value="">'+ result.location +'</option>');
-                	if(result.camera_id != null){
-                		$('#camera_id').html('<option value="">'+ result.camera_id +' </option>');
-                	}
-
-
-                }
-            });
-        });
 
 	$(document).ready(function(){
+        var role = $('#role').val(); // Get the value of the selected item
+        $("#dist").val('');
 
-		$('.district').on('change', function () {
-            var iddistrict = this.value;
+        if (role === "Civil Supplies District User" || role === "District Chief" ) {
+            $('#state_div').show();
+            $('#district_div').show();
+            $('#taluk_div').hide();
 
-            $("#state-dropdown").html('');
-            $.ajax({
-                url: "{{url('reports/fetch-location')}}",
-                type: "POST",
-                data: {
-                    district_id: iddistrict,
-                    _token: '{{csrf_token()}}'
-                },
-                dataType: 'json',
-                success: function (result) {
-                    $('#location').html('<option value=""> Location </option>');
-                    $.each(result.states, function (key, value) {
-                        $("#location").append('<option value="' + value
-                            .location_name + '">' + value.location_name + '</option>');
-                    });
-                    $('#camera_id').html('<option value=""> Camera Id </option>');
+            $("#district").val('');
+            $("#taluk").val('');
+        }
+        else if (role === "Civil Supplies Taluk User" || role === "District Labour Officer") {
+            $('#state_div').show();
+            $('#district_div').show();
+            $('#taluk_div').show();
+        }
+        else if (role === "State UT Staff" || role === "DGP" || role === "Labour Commissioner" || role === "Secretariat Staff" || role === "Minister Office Staff" || role === "Central Govt Staff" ) {
+            $('#state_div').show();
+            $('#district_div').hide();
+            $('#taluk_div').hide();
+
+            $("#district").val('');
+            $("#taluk").val('');
+        }
+        else{
+            $('#state_div').hide();
+            $('#district_div').hide();
+            $('#taluk_div').hide();
+
+            $("#state").val('');
+            $("#district").val('');
+            $("#taluk").val('');
+        }
+        var iddistrict = document.getElementById("district").value;
+
+        $("#state-dropdown").html('');
+        $.ajax({
+            url: "{{ route('taluks') }}",
+            type: "GET",
+            data: {
+                district: iddistrict,
+                _token: '{{csrf_token()}}'
+            },
+            dataType: 'json',
+            success: function (result) {
+                var taluk_name =  {{ Js::from($data['taluk']) }};
+                $('#taluk').html('<option value="">Select Taluk </option>');
+                $.each(result.locations, function (key, value) {
+
+                    if(value.name == taluk_name)
+                    $('#taluk').append('<option value="'+value.name+'" selected>'+ value.name +'</option>');
+                    else
+                    $('#taluk').append('<option value="'+value.name+'">'+ value.name +'</option>');
 
 
-                }
+                });
+               // $('#camera_id').html('<option value=""> Camera Id </option>');
+
+                table.draw();
+            }
+
+        });
+        $("#role").change(function () {
+            var role = $(this).val(); // Get the value of the selected item
+            $("#dist").val('');
+
+            if (role === "Civil Supplies District User" || role === "District Chief" ) {
+                $('#state_div').show();
+                $('#district_div').show();
+                $('#taluk_div').hide();
+
+                $("#district").val('');
+                $("#taluk").val('');
+            }
+            else if (role === "Civil Supplies Taluk User" || role === "District Labour Officer") {
+                $('#state_div').show();
+                $('#district_div').show();
+                $('#taluk_div').show();
+            }
+            else if (role === "State UT Staff" || role === "DGP" || role === "Labour Commissioner" || role === "Secretariat Staff" || role === "Minister Office Staff" || role === "Central Govt Staff" ) {
+                $('#state_div').show();
+                $('#district_div').hide();
+                $('#taluk_div').hide();
+
+                $("#district").val('');
+                $("#taluk").val('');
+            }
+            else{
+                $('#state_div').hide();
+                $('#district_div').hide();
+                $('#taluk_div').hide();
+
+                $("#state").val('');
+                $("#district").val('');
+                $("#taluk").val('');
+            }
+        });
+        var roleDropdown = document.getElementById('role');
+        var stateDropdownDiv = document.getElementById('state_div');
+        var stateDropdown = document.getElementById('state');
+
+        // Event listener for role dropdown change
+        roleDropdown.addEventListener('change', function() {
+            // If selected role is 'DGP'
+            if (roleDropdown.value === 'State UT Staff' || roleDropdown.value === 'DGP' || roleDropdown.value === 'Labour Commissioner' || roleDropdown.value === 'Secretariat Staff' || roleDropdown.value === 'Minister Office Staff' || roleDropdown.value === 'Central Govt Staff') {
+                // Display the state dropdown
+                stateDropdownDiv.style.display = 'block';
+                // Set the value of state dropdown to 'Kerala'
+                stateDropdown.value = 'Kerala';
+            } else {
+                // Hide the state dropdown if role is not 'DGP'
+                stateDropdownDiv.style.display = 'block';
+                stateDropdown.value = '';
+            }
+        });
+			$('#district').on('change', function () {
+                var iddistrict = this.value;
+
+                $("#state-dropdown").html('');
+                $.ajax({
+                    url: "{{ route('location') }}",
+                    type: "GET",
+                    data: {
+                        district_id: iddistrict,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#taluk').html('<option value="">Select Taluk </option>');
+                        $.each(result.locations, function (key, value) {
+                            $("#taluk").append('<option value="' + value
+                                .location_id + '">' + value.name + '</option>');
+                        });
+                        $('#camera_id').html('<option value=""> Camera Id </option>');
+
+                        table.draw();
+                    }
+
+                });
 
             });
 
-        });
-		$('#location').on('change', function () {
-			//alert("kk");
-
-            var location = this.value;
-             var district = $("#dist").val();
-            $("#camera_id").html('');
-            $.ajax({
-                url: "{{url('reports/fetch-camera')}}",
-                type: "POST",
-                data: {
-                    location: location,
-                    district : district,
-                    _token: '{{csrf_token()}}'
-                },
-                dataType: 'json',
-                success: function (res) {
-                    $('#camera_id').html('<option value=""> Camera Id </option>');
-                    $.each(res.camera, function (key, value) {
-                        $("#camera_id").append('<option value="' + value
-                            .camera_id + '">' + value.camera_id + '</option>');
-                    });
-
-
-                }
-            });
-
-
-        });
     });
 
 if ($("#userForm").length > 0) {

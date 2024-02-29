@@ -196,9 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
-      //  Dompdf\ServiceProvider::class,
-     // Barryvdh\Snappy\ServiceProvider::class,
+
 
     ],
 

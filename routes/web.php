@@ -150,6 +150,8 @@ Route::post('/adhaar-application-update', [ApplicationController::class, 'adhaar
 Route::get('/no-adhaar-ration-application-list', [ApplicationController::class, 'adhaarRationApplicationLIst'])->name("no-adhaar-ration-application-list");
 Route::get('/getAdhaarRationApplications', [ApplicationController::class, 'getAdhaarRationApplications'])->name('getAdhaarRationApplications');
 Route::get('/noadhaar-noration-application-list/{id}/view', [ApplicationController::class, 'noadhaarNorationApplicationLIstView'])->name("no-adhaar-ration-application-list-view");
+Route::get('/noadhaar-noration-application-list/{id}/edit', [ApplicationController::class, 'noadhaarNorationApplicationLIstEdit'])->name("no-adhaar-ration-application-list-edit");
+Route::post('/noadhaar-noration-application-update/{id}', [ApplicationController::class, 'noadhaarNorationApplicationLIstUpdate'])->name("no-adhaar-ration-application-list-update");
 
 
 
@@ -159,7 +161,7 @@ Route::get('/applications/no-documents-form', [ApplicationController::class, 'no
 route::any('/district',[ApplicationController::class, 'district'])->name("district");
 Route::get('/location', [ApplicationController::class, 'getLocations'])->name("location");
 route::any('/states',[ApplicationController::class, 'states'])->name("states");
-
+Route::get('/taluks', [ApplicationController::class, 'getTaluks'])->name("taluks");
 
 //25-08-2023
 Route::post('export/excel', [ApplicationController::class,'exportAadhaarOnly'])->name('export.excel');
