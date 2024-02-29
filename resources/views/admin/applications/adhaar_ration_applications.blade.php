@@ -30,8 +30,14 @@
                                                 <label>Application No</label>
                                             <input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
                                            </div>
+
+                                           @if($district_id !="")
+                                           <input type="hidden"  value="{{ @$district_id }}" id="district_user">
+                                           @else
+
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>District</label>
+
                                                 <select class="form-select" id="district" name="district" required>
                                                     <option value="">District</option>
                                                     @foreach($districts as $district)
@@ -42,6 +48,7 @@
                                                     <div class="text-danger w-100 error">{{ $errors->first('district') }}</div>
                                                     @endif
                                                 </div>
+                                                @endif
                                                 <input type="hidden" name="district" id="new_dist">
 
 
@@ -227,50 +234,44 @@
     <script src="{{ asset('js/jquery.validate.min.js')}}"></script>
 <script  type="text/javascript">
 
-$(document).on("click",".deleteItem",function() {
-
-     var id =$(this).attr('data-id');
-     $('#requestId').val($(this).attr('data-id') );
-     $('#confirmation-popup').modal('show');
-});
 
   /*$.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });*/
-         function ownRequest() {
 
-            var reqId = $('#requestId').val();
-            console.log(reqId);
-            $.ajax({
-            	headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
-                url: '{{ url("user-management/delete") }}'+'/'+reqId,
-                method: 'get',
-                data: 1,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    console.log(response.success);
-
-                        $('#confirmation-popup').modal('hide');
-                        $('#success_message').fadeIn().html(response.success);
-							setTimeout(function() {
-								$('#success_message').fadeOut("slow");
-							}, 2000 );
-
-                        $('#example').DataTable().ajax.reload();
-
-
-
-                }
-            })
-        }
 
 
 
      $(document).ready(function(){
+        var districtId = $("#district_user").val();
+        alert(districtId);
+if(districtId !==""){
 
+    $.ajax({
+                url: "{{ route('location') }}", // Replace with your route URL to fetch taluks
+                type: "GET",
+                data: { district_id: districtId },
+                success: function(response) {
+                    if (response) {
+                        $('#new_dist').val(response.name);
+                        $('#location').empty();
+                        $('#location').append('<option value="">Select Locations</option>');
+
+                        $.each(response.locations, function(key, value) {
+                            $('#location').append('<option value="' + value.location_id + '">' + value.name + '</option>');
+                        });
+                        $('#new_loc').val('');
+                    } else {
+                       $('#new_dist').val('');
+                        $('#new_loc').val('');
+                        $('#location').empty();
+                        $('#location').append('<option value="">No locations available</option>');
+                    }
+                }
+            });
+}
      	   var table = $('#example').DataTable({
             processing: true,
             serverSide: true,

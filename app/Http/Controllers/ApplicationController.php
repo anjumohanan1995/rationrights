@@ -1333,7 +1333,12 @@ class ApplicationController extends Controller
     public function adhaarRationApplicationLIst()
     {
         $districts = District::get();
-        return view('admin.applications.adhaar_ration_applications',compact('districts'));
+        $district_id ="";
+        if(Auth::user()->district !=null){
+            $dis=District::where('name',Auth::user()->district)->first();
+            $district_id=$dis->id;
+        }
+        return view('admin.applications.adhaar_ration_applications',compact('districts','district_id'));
     }
     public function getAdhaarRationApplications(Request $request){
 
@@ -1377,7 +1382,7 @@ class ApplicationController extends Controller
 
             }
             elseif($role=='Civil Supplies District User'){
-                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
 
 
             }
@@ -1385,6 +1390,7 @@ class ApplicationController extends Controller
 
             }
             elseif($role=='State UT User'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
 
             }
             elseif($role=='State UT User'){
@@ -1425,7 +1431,7 @@ class ApplicationController extends Controller
 
             }
             elseif($role=='Civil Supplies District User'){
-                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
 
 
             }
@@ -1452,7 +1458,21 @@ class ApplicationController extends Controller
             $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
 
             // Fetch records
-            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' ){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+            }
+            else{
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+
+            }
+
             if($application_no != ""){
                 $items->where('application_no',$application_no);
             }
