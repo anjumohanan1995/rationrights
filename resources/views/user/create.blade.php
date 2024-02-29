@@ -123,7 +123,7 @@
 												<select id="district" name="district" class="form-control"  >
                                                     <option value="">Select District</option>
                                                     @foreach ($districts as $district)
-                                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                    <option value="{{ $district->name }}">{{ $district->name }}</option>
                                                 @endforeach
 
 												</select>
@@ -134,6 +134,7 @@
 												</div>
 											</div>
 										</div>
+
                                         <div class="form-group" id="taluk_div" style="display:none">
 											<div class="row">
 												<div class="col-md-3"><label class="form-label">Taluk</label></div>
@@ -241,10 +242,10 @@
 
                 $("#state-dropdown").html('');
                 $.ajax({
-                    url: "{{ route('location') }}",
+                    url: "{{ route('taluks') }}",
                     type: "GET",
                     data: {
-                        district_id: iddistrict,
+                        district: iddistrict,
                         _token: '{{csrf_token()}}'
                     },
                     dataType: 'json',
@@ -252,7 +253,7 @@
                         $('#taluk').html('<option value="">Select Taluk </option>');
                         $.each(result.locations, function (key, value) {
                             $("#taluk").append('<option value="' + value
-                                .location_id + '">' + value.name + '</option>');
+                                .name + '">' + value.name + '</option>');
                         });
                         $('#camera_id').html('<option value=""> Camera Id </option>');
 

@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
-//use PDF;
+//use Auth;
+//use PDF; 
 use Barryvdh\Snappy\Facades\SnappyPdf;
 
 
@@ -1324,7 +1325,44 @@ class ApplicationController extends Controller
     }
 
     public function  adhaarApplicationUpdate(Request $request){
-        dd($request);
+
+        $customMessages = [
+            'ration.required' => 'The ration card number is required.',
+            'ration.digits' => 'The ration card number must be a 10-digit number.',
+        ];
+        
+        $validate = Validator::make($request->all(), [
+            'ration' => 'required|digits:10',
+        ], $customMessages);
+        
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+
+        $id =  $request->id;
+
+
+        $application = Application::where('_id', $id)->first();
+
+        if ($application) {
+            // Update the desired fields
+            $application->old_type = $request->old_type;
+            $application->updated_by = Auth::user()->id;
+            $application->ration = $request->ration;
+            $application->type = 'ration-aadhaar-form';
+            // Add more fields as needed
+
+            // Save the changes
+            $application->save();
+            return redirect()->route('application-list')
+
+                    ->with('success','Record updated successfully.');
+
+            //return redirect()->back()->with('success', 'Record updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Record not found');
+        }
     }
 
 
@@ -1637,6 +1675,12 @@ class ApplicationController extends Controller
 
         $district = $request->district_id;
         $data =District::where('_id',$district)->select('name','locations','district_id')->first();
+        return response()->json($data);
+    }
+    public function getTaluks(Request $request){
+
+        $district = $request->district;
+        $data =District::where('name',$district)->select('name','locations','district_id')->first();
         return response()->json($data);
     }
     public function states()

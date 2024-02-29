@@ -161,7 +161,7 @@ Route::get('/applications/no-documents-form', [ApplicationController::class, 'no
 route::any('/district',[ApplicationController::class, 'district'])->name("district");
 Route::get('/location', [ApplicationController::class, 'getLocations'])->name("location");
 route::any('/states',[ApplicationController::class, 'states'])->name("states");
-
+Route::get('/taluks', [ApplicationController::class, 'getTaluks'])->name("taluks");
 
 //25-08-2023
 Route::post('export/excel', [ApplicationController::class,'exportAadhaarOnly'])->name('export.excel');

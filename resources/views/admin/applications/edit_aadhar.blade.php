@@ -54,7 +54,7 @@
                                 <form name="userForm" method="post"action="{{route('aadhar.update', $data->id)}}" >
 													@csrf
 													
-                                    <input type="hidden" name="_id" value="{{ @$data->id }}">
+                                    <input type="hidden" name="id" value="{{ @$data->id }}">
                                     <input type="hidden" name="old_type" value="{{ @$data->type }}">
                                     <div class="form-group">
                                         <div class="row">
@@ -206,6 +206,10 @@
                                                  <input type="number" class="form-control" name="ration"
                                                                     id="ration" value="{{ old('ration') }}"
                                                                     placeholder="" required>
+
+                                                                    @error('ration')
+														<span class="text-danger">{{$message}}</span>
+													@enderror
 
                                             </div>
                                         </div>
