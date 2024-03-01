@@ -920,7 +920,7 @@ class ApplicationController extends Controller
         $columnName = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
-$role=Auth::user()->role;
+        $role=Auth::user()->role;
 
 
 
@@ -1075,7 +1075,16 @@ $role=Auth::user()->role;
 
             // }
 
-            $view ='<a  href="' . url('application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
+            if( $role=='State UT User'  || $role=='Admin' ){
+                $view ='<div class="settings-main-icon"><a  href="' . url('application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a><a  href="' . url('application-list/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a></div>';
+
+            }
+            else{
+                $view ='<div class="settings-main-icon"><a  href="' . url('application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a></div>';
+
+            }
+
+          //  $view ='<a  href="' . url('application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>';
             $data_arr[] = array(
                 "id" => $i,
                 "name" => $name,
@@ -1109,6 +1118,60 @@ $role=Auth::user()->role;
 
         return response()->json($response);
     }
+
+    public function applicationLIstEdit($id)
+    {
+
+        $data = Application::where('_id',$id)->first();
+
+        $states =State::get();
+        return view('admin.applications.edit_aadhar_ration',compact('data','states'));
+    }
+
+
+    public function applicationLIstUpdate(Request $request)
+    {
+        $customMessages = [
+            'home_state.required' => 'The Home State is required.',
+           
+        ];
+
+        $validate = Validator::make($request->all(), [
+            'home_state' => 'required',
+        ], $customMessages);
+
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+
+        $id =  $request->id;
+
+
+        $application = Application::where('_id', $id)->first();
+
+        if ($application) {
+            // Update the desired fields
+            $application->old_type = $request->old_type;
+            $application->updated_by = Auth::user()->id;
+            $application->home_state = $request->home_state;
+            $application->type = 'ration-aadhaar-form';
+            // Add more fields as needed
+
+            // Save the changes
+            $application->save();
+            return redirect()->route('application-list')
+
+                    ->with('success','Record updated successfully.');
+
+            //return redirect()->back()->with('success', 'Record updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Record not found');
+        }
+
+    }
+    
+    
 
     public function applicationLIstView($id)
     {
@@ -1383,7 +1446,7 @@ $role=Auth::user()->role;
 
 
             // }
-            if( $role=='State UT User' ){
+            if( $role=='State UT User'  || $role=='Admin' ){
                 $view ='<div class="settings-main-icon"><a  href="' . url('adhaar-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a><a  href="' . url('adhaar-application-list/'.$id.'/edit') . '"><i class="fa fa-edit bg-info me-1"></i></a></div>';
 
             }
@@ -1433,7 +1496,8 @@ $role=Auth::user()->role;
 
     public function  adhaarApplicationEdit($id){
         $data = Application::where('_id',$id)->first();
-        return view('admin.applications.edit_aadhar',compact('data'));
+        $states = State::get();
+        return view('admin.applications.edit_aadhar',compact('data','states'));
 
 
 
@@ -1695,7 +1759,7 @@ $role=Auth::user()->role;
 
 
             // }
-            if($role=='State UT User'){
+            if($role=='State UT User' || $role=='Admin'){
                 $view ='<div class="settings-main-icon"><a  href="' . url('noadhaar-noration-application-list/'.$id.'/view') . '"><i class="fa fa-eye bg-info me-1"></i></a>&nbsp;&nbsp;<a  href="' . url('noadhaar-noration-application-list/'.$id.'/edit') . '"><i class="fas fa-edit bg-info me-1"></i></a></div>';
 
             }
@@ -1746,7 +1810,8 @@ $role=Auth::user()->role;
     }
     public function noadhaarNorationApplicationLIstEdit($id)    {
        $data = Application::where('_id',$id)->first();
-        return view('admin.applications.edit_noaadhar_noration',compact('data'));
+       $states = State::get();
+        return view('admin.applications.edit_noaadhar_noration',compact('data','states'));
     }
     public function noadhaarNorationApplicationLIstUpdate(Request $request,$id){
 

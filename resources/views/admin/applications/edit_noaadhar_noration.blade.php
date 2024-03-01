@@ -138,8 +138,16 @@
                                         <div class="row">
                                             <div class="col-md-3"><label class="form-label">Home State/Union Territory </label></div>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control"
-                                                    name="lname" value="{{ $data['home_state'] }}" readonly />
+                                                {{-- <input type="text" class="form-control"
+                                                    name="lname" value="{{ $data['home_state'] }}" readonly /> --}}
+
+                                                    <select class="form-select"  name="home_state"
+                                                                aria-label="Floating label select example" required>
+                                                                <option disabled selected value="">State/Union Territory</option>
+                                                                @foreach ($states as $state)
+                                                                    <option value="{{ $state->name }}" @if($state->name == $data['home_state']) selected @endif>{{ $state->name }}</option>
+                                                                @endforeach
+                                                    </select>
 
                                             </div>
                                         </div>
