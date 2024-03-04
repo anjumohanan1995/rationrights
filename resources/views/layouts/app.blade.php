@@ -16,6 +16,9 @@
     <title>Rateup</title>
 
 
+
+
+
     <!--- Favicon --->
     <link rel="icon" href="{{ asset('img/gov2.jpeg') }}" type="image/x-icon" />
     <!-- Bootstrap css -->
@@ -471,7 +474,7 @@
                 <aside class="app-sidebar ps ps--active-y open">
                     <div class="main-sidebar-header active">
                         <a class="desktop-logo logo-light active" href="{{ url('homes') }}">
-                            <img src="{{ asset('img//gov.jpeg') }}" width="200px" class="main-logo"
+                            <img src="{{ asset('img/logo-new.png') }}" width="" class="main-logo"
                                 alt="logo" />
                         </a>
                         <a class="desktop-logo logo-dark active" href="/">

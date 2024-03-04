@@ -25286,7 +25286,7 @@ input[type=text]::-ms-clear {
 
     .app.sidebar-mini .desktop-logo.logo-light {
         display: block;
-        margin: 0 auto;
+        margin: 15px auto;
     }
 }
 
@@ -39216,7 +39216,7 @@ slide is-expanded side-menu__item {
 }
 
 .slide-menu li a {
-    padding: 19px 30px 19px 52px;
+    padding: 19px 30px 19px 22px;
     color: #4c516d;
     font-size: 0.845rem !important;
     font-weight: 400;
@@ -40212,7 +40212,7 @@ slide is-expanded side-menu__item {
 
 .main-sidebar-header {
     /* height: 64px; */
-    padding: 0px 20px;
+    padding: 0px 0px;
     width: 240px;
     background: #fff;
     /* border-bottom: 1px solid #eae8f1; */
@@ -98461,4 +98461,12 @@ select.form-control:before {
     clear: both;
     overflow-x: auto;
     max-width: 100%;
+}
+.slide .slide  a {
+  background: #efefef !important;
+  color: #000 !important;
+  box-shadow: none !important;
+}
+.slide .slide .sub-slide .slide-item {
+  background: none !important;
 }
