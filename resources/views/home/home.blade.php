@@ -1,48 +1,51 @@
 @extends('home.app')
 @section('content')
 
-
-        <!-- Offcanvas Start -->
-        <div class="offcanvas offcanvas-start" id="offcanvasMenu">
-
-            <div class="offcanvas-header">
-                <!-- Offcanvas Logo Start -->
-                <div class="offcanvas-logo">
-                    <a href="/">RateUP</a>
-                </div>
-                <!-- Offcanvas Logo End -->
-
-                <button type="button" class="close-btn" data-bs-dismiss="offcanvas"><i
-                        class="flaticon-close"></i></button>
-
-            </div>
-            <div class="offcanvas-body">
-                <div class="offcanvas-menu">
-
-                </div>
-            </div>
-        </div>
-        <!-- Offcanvas End -->
+      
 
 
-        <!-- Hero Start -->
-        <div class="eduhut-hero-section-04 d-flex align-items-center section">
-            <img src="{{ asset('home/img/1.jpg') }}" height="800px" width="2800px !important" alt=""/>
-            <div class="container">
-                <!-- Hero Content Start -->
-                <div class="hero-content text-center">
-                    <h2 class="title" data-aos="fade-up" data-aos-delay="700">
-                        Please fill the survey..</h2>
+       	<!-- ====== Header ======  -->
+		<section id="home" class="header" data-scroll-index="0" style="background-image: url(home/img/bg.jpg);" data-stellar-background-ratio="0.8">
 
-                    <div class="hero-form" data-aos="fade-up" data-aos-delay="900">
-                        <form action="{{url('survey-home')}}" class="apply">
-                            @csrf
-                         <a href="{{url('survey-home')}}" > Start Survey </a>
-                            <button class="search" type="submit"><i class="flaticon-right-arrow"></i></button>
-                        </form>
-                    </div>
-                </div>
-                <!-- Hero Content End -->
+			<div class="v-middle">
+				<div class="container">
+					<div class="row">
 
-            </div>
-          @endsection
+						<!-- caption -->
+						<div class="caption">
+							
+							<h1 class="cd-headline clip">
+					            <span class="blc">Department of  </span>
+					            <span class="cd-words-wrapper">
+					              <b class="is-visible">Civil Supplies</b>
+					              <b>Consumer Affairs</b>
+					               
+					            </span>
+			          		</h1>
+                              <h5>Government of Kerala</h5>
+			          		<!-- social icons -->
+			          		<div class="social-icon">
+			          			<a href="#0">
+			          				<span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+			          			</a>
+			          			<a href="#0">
+			          				<span><i class="fa fa-twitter" aria-hidden="true"></i></span>
+			          			</a>
+			          			<a href="#0">
+			          				<span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+			          			</a>
+			          			<a href="#0">
+			          				<span><i class="fa fa-behance" aria-hidden="true"></i></span>
+			          			</a>
+			          			<a href="#0">
+			          				<span><i class="fa fa-youtube" aria-hidden="true"></i></span>
+			          			</a>
+			          		</div>
+						</div>
+						<!-- end caption -->
+					</div>
+				</div><!-- /row -->
+			</div><!-- /container -->
+		</section>
+		<!-- ====== End Header ======  -->
+@endsection
