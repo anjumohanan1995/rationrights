@@ -12,7 +12,7 @@
 		<meta name="keywords" content="portfolio, personal, corporate, business, parallax, creative, agency">
 
 		<!-- title -->
-		<title>Daniels</title>
+		<title>Ration Rights Cards</title>
 
 		<!-- favicon -->
         <link href="{{ asset('home/img/favicon.ico')}}" rel="icon" type="image/png">
