@@ -30,6 +30,7 @@ Route::get('/login-pannel', function () {
 
     return view('auth.login');
 });
+
 Route::get('/testMail', function () {
 
     return view('mail.mail');

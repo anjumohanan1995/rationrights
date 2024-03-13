@@ -258,9 +258,19 @@
                 {{-- { data: 'eligibility' }, --}}
                 { data: 'home_state' },
 				{ data: 'home_district' },
-				{ data: 'district' },
-				{ data: 'location' },
-				{ data: 'date' },
+                @if(Auth::user()->role=='State UT User')
+                    { data: 'district', visible: false },
+                    { data: 'location', visible: false },
+                    { data: 'date',visible: false },
+                @else
+                    { data: 'district', visible: true },
+                    { data: 'location', visible: true },
+                    { data: 'date', visible: true  },
+                @endif
+
+
+
+				
 
                 // { data: 'action' }
 

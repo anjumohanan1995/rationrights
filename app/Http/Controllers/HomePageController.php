@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\User;
+use App\Role;
+use App\RolePermission;
+use App\Permission;
+
 
 class HomePageController extends Controller
 {
@@ -13,6 +19,84 @@ class HomePageController extends Controller
      */
     public function index()
     {
+
+        // $roles = [
+
+        //     'Civil Supplies Admin',
+
+        //     'Civil Supplies Access Control User',
+
+        //     'Civil Supplies District User',
+
+        //     'Civil Supplies Taluk User',
+
+        //     'State UT User',
+
+        //     'DGP',
+
+        //     'District Chief',
+
+        //     'Labour Commissioner',
+
+        //     'District Labour Officer',
+
+        //     'Secretariat Staff',
+
+        //     'Minister Office Staff',
+
+        //     'Central Govt Staff'
+
+        //  ];
+
+
+
+        //  foreach ($roles as $role) {
+
+        //     Role::create(['name' => $role]);
+
+        //  }
+
+
+        //  User::create([
+        //      'name' => 'Admin New',
+        //      'email' => 'admin@gmail.com',
+        //      'role' => 'Admin',
+        //      'password' => Hash::make('12345678')
+        //  ]);
+        // $permissions = [
+        //     [
+        //         'role' => 'Admin',
+        //         'sub_permissions' => json_encode(["users", "add-role", "permission"]),
+        //         'permission' => array('user-management'),
+        //     ],
+        // ];
+    
+        // RolePermission::truncate();
+    
+        // foreach ($permissions as $val) {
+        //     RolePermission::create($val);
+        // }
+
+        // $permissions = [
+        //     [
+        //         'name' => 'user-management',
+        //         'sub_permission' => json_encode(["users", "add-role", "permission"])
+        //     ],
+        //     [
+        //         'name' => 'Applications List',
+        //         'sub_permission' => json_encode(["Adhar and ration card", "Adhar only", "No adhar and ration card"])
+        //     ],
+        //     [
+        //         'name' => 'Application Forms'
+        //     ]
+        // ];
+    
+        // Permission::truncate();
+    
+        // foreach ($permissions as $val) {
+        //     Permission::create($val);
+        // }
+
 
         return view('home.home');
     }

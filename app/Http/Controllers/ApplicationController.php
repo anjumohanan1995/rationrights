@@ -17,6 +17,8 @@ use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 //use Auth;
 //use PDF;
+
+
 use Barryvdh\Snappy\Facades\SnappyPdf;
 
 
@@ -30,6 +32,9 @@ class ApplicationController extends Controller
      */
     public function index()
     {
+
+      
+
         return view('applications.ration-aadhaar-form');
     }
 
@@ -265,12 +270,32 @@ class ApplicationController extends Controller
         $columnName = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
-
+        $role=Auth::user()->role;
 
 
 
             // Total records
             $totalRecord = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            // if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+            //     $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            // }
+            if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+               $totalRecord->where('district',Auth::user()->district);
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+             //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+             $totalRecord->where('location',Auth::user()->taluk);
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+
+               $totalRecord->where('home_state',Auth::user()->state);
+
+            }
             if($gender != ""){
                 $totalRecord->where('gender',$gender);
             }
@@ -278,7 +303,27 @@ class ApplicationController extends Controller
             $totalRecords = $totalRecord->select('count(*) as allcount')->count();
 
 
+           // $totalRecordswithFilte = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            
             $totalRecordswithFilte = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                 $totalRecordswithFilte->where('district',Auth::user()->district);
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+             //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+                $totalRecordswithFilte->where('location',Auth::user()->taluk);
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+
+             $totalRecordswithFilte->where('home_state',Auth::user()->state);
+
+            }
+            
             if($gender != ""){
                 $totalRecordswithFilte->where('gender',$gender);
             }
@@ -289,6 +334,24 @@ class ApplicationController extends Controller
 
             // Fetch records
             $items = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            
+            if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $items->where('district',Auth::user()->district);
+  
+  
+              }
+              elseif($role=='Civil Supplies Taluk User'){
+               //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+                  $items->where('location',Auth::user()->taluk);
+  
+  
+              }
+              elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+  
+                  $items->where('home_state',Auth::user()->state);
+  
+              }
+            
             if($gender != ""){
                 $items->where('gender',$gender);
             }
@@ -381,11 +444,31 @@ class ApplicationController extends Controller
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
 
+        $role=Auth::user()->role;
 
 
 
             // Total records
             $totalRecord = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            
+            if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+               $totalRecord->where('district',Auth::user()->district);
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+             //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+             $totalRecord->where('location',Auth::user()->taluk);
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+
+               $totalRecord->where('home_state',Auth::user()->state);
+
+            }
+
+            
             if($district != ""){
                 $totalRecord->where('district',$district);
             }
@@ -394,6 +477,25 @@ class ApplicationController extends Controller
 
 
             $totalRecordswithFilte = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $totalRecordswithFilte->where('district',Auth::user()->district);
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+                //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+                $totalRecordswithFilte->where('location',Auth::user()->taluk);
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+
+                $totalRecordswithFilte->where('home_state',Auth::user()->state);
+
+            }
+            
+            
+            
             if($district != ""){
                 $totalRecordswithFilte->where('district',$district);
             }
@@ -404,6 +506,26 @@ class ApplicationController extends Controller
 
             // Fetch records
             $items = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $items->where('district',Auth::user()->district);
+  
+  
+              }
+              elseif($role=='Civil Supplies Taluk User'){
+               //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+                  $items->where('location',Auth::user()->taluk);
+  
+  
+              }
+              elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+  
+                  $items->where('home_state',Auth::user()->state);
+  
+              }
+  
+            
+            
+            
             if($district != ""){
                 $items->where('district',$district);
             }
@@ -2748,29 +2870,38 @@ class ApplicationController extends Controller
         $columnName = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
+        $role=Auth::user()->role;
 
-
-        if($request->delete_ctm =='1'){
-
-            $totalRecord = User::where('deleted_at','!=',null);
-
-            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-            $totalRecordswithFilte = User::where('deleted_at','!=',null);
-
-
-
-            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-            // Fetch records
-            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-            $records = $items->skip($start)->take($rowperpage)->get();
-        }else{
+       
 
             // Total records
-            $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            //$totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+            }
+
+
+            else{
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+
+            
             if($gender != ""){
                 $totalRecord->where('gender',$gender);
             }
@@ -2784,8 +2915,32 @@ class ApplicationController extends Controller
             $totalRecords = $totalRecord->select('count(*) as allcount')->count();
 
 
-            $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
-            if($gender != ""){
+           // $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+           $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+           if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+               $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+           }
+           elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+               $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+           }
+           elseif($role=='Civil Supplies Taluk User'){
+               $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+
+
+           }
+           elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+               $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+           }
+           else{
+               $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+           }
+           
+           if($gender != ""){
                 $totalRecordswithFilte->where('gender',$gender);
             }
 
@@ -2800,6 +2955,29 @@ class ApplicationController extends Controller
 
             // Fetch records
             $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+            }
+            else{
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+
+            }
+            
             if($gender != ""){
                 $items->where('gender',$gender);
             }
@@ -2812,7 +2990,7 @@ class ApplicationController extends Controller
 
 
             $records = $items->skip($start)->take($rowperpage)->get();
-        }
+        
 
 
 
@@ -2922,28 +3100,36 @@ class ApplicationController extends Controller
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue = $search_arr['value']; // Search value
 
-
-        if($request->delete_ctm =='1'){
-
-            $totalRecord = User::where('deleted_at','!=',null);
-
-            $totalRecords = $totalRecord->select('count(*) as allcount')->count();
-
-
-            $totalRecordswithFilte = User::where('deleted_at','!=',null);
-
-
-
-            $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
-
-            // Fetch records
-            $items = User::where('deleted_at','!=',null)->orderBy($columnName,$columnSortOrder);
-
-            $records = $items->skip($start)->take($rowperpage)->get();
-        }else{
-
+        $role=Auth::user()->role;
+        
             // Total records
-            $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            //$totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+            }
+
+
+            else{
+                $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+
+            
             if($district != ""){
                 $totalRecord->where('district',$district);
             }
@@ -2957,7 +3143,30 @@ class ApplicationController extends Controller
             $totalRecords = $totalRecord->select('count(*) as allcount')->count();
 
 
-            $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            //$totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+            elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+            }
+            else{
+                $totalRecordswithFilte = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+            }
+           
             if($district != ""){
                 $totalRecordswithFilte->where('district',$district);
             }
@@ -2972,7 +3181,30 @@ class ApplicationController extends Controller
             $totalRecordswithFilter = $totalRecordswithFilte->select('count(*) as allcount')->count();
 
             // Fetch records
-            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+           // $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc')->orderBy($columnName,$columnSortOrder);
+            if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy($columnName,$columnSortOrder);
+
+            }
+            elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy($columnName,$columnSortOrder);
+
+
+            }
+            elseif($role=='Civil Supplies Taluk User'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy($columnName,$columnSortOrder);
+
+
+            }
+            elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy($columnName,$columnSortOrder);
+
+            }
+            else{
+                $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy($columnName,$columnSortOrder);
+
+            }
+            
             if($district != ""){
                 $items->where('district',$district);
             }
@@ -2985,7 +3217,7 @@ class ApplicationController extends Controller
 
 
             $records = $items->skip($start)->take($rowperpage)->get();
-        }
+        
 
 
 

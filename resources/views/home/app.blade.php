@@ -25,18 +25,18 @@
 		<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800" rel="stylesheet">
 
 		<!-- owl carousel CSS -->
-		<link rel="stylesheet" href="{{ asset('home/css/owl.carousel.min.css')}}">
-		<link rel="stylesheet" href="{{ asset('home/css/owl.theme.default.min.css')}}">
+		{{-- <link rel="stylesheet" href="{{ asset('home/css/owl.carousel.min.css')}}"> --}}
+		{{-- <link rel="stylesheet" href="{{ asset('home/css/owl.theme.default.min.css')}}"> --}}
 
 		<!-- magnific-popup CSS -->
-		<link rel="stylesheet" href="{{ asset('home/css/magnific-popup.css')}}">
+		{{-- <link rel="stylesheet" href="{{ asset('home/css/magnific-popup.css')}}"> --}}
 
 		<!-- animate.min CSS -->
-		<link rel="stylesheet" href="{{ asset('home/css/animate.min.css')}}">
+		{{-- <link rel="stylesheet" href="{{ asset('home/css/animate.min.css')}}"> --}}
 
 		<!-- Font Icon Core CSS -->
-		<link rel="stylesheet" href="{{ asset('home/css/font-awesome.min.css')}}">
-		<link rel="stylesheet" href="{{ asset('home/css/et-line.css')}}">
+		{{-- <link rel="stylesheet" href="{{ asset('home/css/font-awesome.min.css')}}">
+		<link rel="stylesheet" href="{{ asset('home/css/et-line.css')}}"> --}}
 
 		<!-- Core Style Css -->
         <link rel="stylesheet" href="{{ asset('home/css/style.css')}}">
@@ -117,16 +117,16 @@
 		<script src="{{ asset('home/js/animated.headline.js')}}"></script>
 
       	<!-- jquery.waypoints.min js -->
-	  	<script src="{{ asset('home/js/jquery.waypoints.min.js')}}"></script>
+	  	{{-- <script src="{{ asset('home/js/jquery.waypoints.min.js')}}"></script> --}}
 
 	  	<!-- jquery.counterup.min js -->
-	  	<script src="{{ asset('home/js/jquery.counterup.min.js')}}"></script>
+	  	{{-- <script src="{{ asset('home/js/jquery.counterup.min.js')}}"></script> --}}
 
       	<!-- isotope.pkgd.min js -->
-      	<script src="{{ asset('home/js/isotope.pkgd.min.js')}}"></script>
+      	{{-- <script src="{{ asset('home/js/isotope.pkgd.min.js')}}"></script>
 
       	<!-- validator js -->
-      	<script src="{{ asset('home/js/validator.js')}}"></script>
+      	<script src="{{ asset('home/js/validator.js')}}"></script> --}}
 
       	<!-- custom script -->
         <script src="{{ asset('home/js/custom.js')}}"></script>
