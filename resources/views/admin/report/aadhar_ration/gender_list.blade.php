@@ -32,7 +32,7 @@
                                                 <select class="form-select" id="gender"
                                                                         name="gender"
                                                                         aria-label="Floating label select example" required>
-                                                                        <option value="Male"
+                                                                         <option value="Male"
                                                                             @if (old('gender') === 'Male') selected @endif>
                                                                             Male</option>
                                                                         <option value="Female"
@@ -232,33 +232,7 @@ $(document).on("click",".deleteItem",function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });*/
-         function ownRequest() {
-
-            var reqId = $('#requestId').val();
-            console.log(reqId);
-            $.ajax({
-            	headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
-                url: '{{ url("user-management/delete") }}'+'/'+reqId,
-                method: 'get',
-                data: 1,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    console.log(response.success);
-
-                        $('#confirmation-popup').modal('hide');
-                        $('#success_message').fadeIn().html(response.success);
-							setTimeout(function() {
-								$('#success_message').fadeOut("slow");
-							}, 2000 );
-
-                        $('#example').DataTable().ajax.reload();
-
-
-
-                }
-            })
-        }
+         
 
 
 
@@ -299,9 +273,19 @@ $(document).on("click",".deleteItem",function() {
 				{ data: 'aadhaar' },
 				{ data: 'ration' },
 				{ data: 'years' },
-				{ data: 'district' },
-				{ data: 'location' },
-				{ data: 'date' }
+
+                @if(Auth::user()->role=='State UT User')
+                    { data: 'district', visible: false },
+                    { data: 'location', visible: false },
+                    { data: 'date',visible: false },
+                @else
+                    { data: 'district', visible: true },
+                    { data: 'location', visible: true },
+                    { data: 'date', visible: true  },
+                @endif
+
+
+				
                 // { data: 'action' }
 
 
