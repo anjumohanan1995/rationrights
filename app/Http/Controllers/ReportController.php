@@ -66,8 +66,27 @@ class ReportController extends Controller
 
         ]);
 
+        $role=Auth::user()->role;
+       // $items = Application::where('type','ration-aadhaar-form')->where('deleted_at',null);
 
-        $items = Application::where('type','ration-aadhaar-form')->where('deleted_at',null);
+       $items = Application::where('type','ration-aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+       if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+           $items->where('district',Auth::user()->district);
+
+
+        }
+        elseif($role=='Civil Supplies Taluk User'){
+         //   $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+         $items->where('location',Auth::user()->taluk);
+
+
+        }
+        elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+
+           $items->where('home_state',Auth::user()->state);
+
+        }
+
         if ($age_data!='') {
             // Split the age range if necessary
             if ($age_data == '0-30') {
@@ -208,8 +227,30 @@ class ReportController extends Controller
 
         ]);
 
+        $role=Auth::user()->role;
 
-        $items = Application::where('type','aadhaar-form')->where('deleted_at',null);
+        //$items = Application::where('type','aadhaar-form')->where('deleted_at',null);
+        $items = Application::where('type','aadhaar-form')->where('deleted_at',null)->orderBy('created_at','desc');
+            
+        if($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+            $items->where('district',Auth::user()->district);
+
+
+          }
+          elseif($role=='Civil Supplies Taluk User'){
+           //   $totalRecord = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+              $items->where('location',Auth::user()->taluk);
+
+
+          }
+          elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+
+              $items->where('home_state',Auth::user()->state);
+
+          }
+
+
+
 
         if($district_data != ""){
             $items->where('district',$district_data);

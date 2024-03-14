@@ -984,7 +984,7 @@ class ApplicationController extends Controller
      {
 
          $districts = District::get();
-         return view('admin.report.aadhar_ration.gender_list',compact('districts'));
+         return view('admin.report.aadhar_ration.gender_list',compact('districts')); 
      }
      public function  getGenderApplications(Request $request)
      {
@@ -2731,8 +2731,42 @@ class ApplicationController extends Controller
         ]);
 
 
-        $items = Application::where('type','no-documents-form')
-        ->where('deleted_at',null);
+        
+
+        $role=Auth::user()->role;
+
+
+
+
+        if($role=='Civil Supplies Admin' ||$role=='Admin' ||$role=='Civil Supplies Access Control User' || $role=='Secretariat Staff' ||$role=='Minister Office Staff' || $role=='Central Govt Staff' ){
+            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+        }
+        elseif($role=='Civil Supplies District User' || $role=='District Chief' || $role =='District Labour Officer'){
+            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('district',Auth::user()->district)->orderBy('created_at','desc');
+
+
+        }
+        elseif($role=='Civil Supplies Taluk User'){
+            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('location',Auth::user()->taluk)->orderBy('created_at','desc');
+
+
+        }
+        elseif($role=='DGP' || $role=='State UT User'  || $role=='Labour Commissioner'){
+            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->where('home_state',Auth::user()->state)->orderBy('created_at','desc');
+
+        }
+        else{
+            $items = Application::where('type','no-documents-form')->where('deleted_at',null)->orderBy('created_at','desc');
+
+        }
+
+
+
+
+
+
+
 
         if ($request->start_date != "1970-01-01" && $request->ending_date != "1970-01-01" && $request->start_date != "" && $request->ending_date != "")
         {
