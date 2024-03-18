@@ -369,14 +369,13 @@ class UserController extends Controller
 
      public function update(Request $request, $id)
     {
-        //dd("jj");
+        dd($request);
           $validate = Validator::make($request->all(),
             [
               'name' => 'required',
               'email' => 'required|email|unique:users,deleted_at,NULL'.$id,
-
               'role' => 'required' ,
-              'state' => 'required' ,
+             // 'state' => 'required' ,
 
 
 
@@ -390,6 +389,21 @@ class UserController extends Controller
         $data = $request->all();
         if($request->password != ''){
             $data['password'] =  Hash::make($request->password);
+        }
+        if($request->district != ''){
+            $data['district'] =  $request->district;
+        }
+        if($request->state != ''){
+            $data['state'] =  $request->state;
+        }
+        if($request->taluk != ''){
+            $data['taluk'] =  $request->taluk;
+        }
+        if($request->role != ''){
+            $data['role'] =  $request->role;
+        }
+        if($request->name != ''){
+            $data['name'] =  $request->name;
         }
 
 

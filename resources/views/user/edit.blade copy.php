@@ -134,8 +134,7 @@
 												</div>
 											</div>
 										</div>
-										@php// dd($data['district']);
-										@endphp
+										@php //dd($data['district']);@endphp
 
 										<div class="card-footer">
 											<button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
@@ -205,7 +204,6 @@
             $("#taluk").val('');
         }
         var iddistrict = document.getElementById("district").value;
-		console.log(iddistrict);
 
         $("#state-dropdown").html('');
         $.ajax({
@@ -289,14 +287,13 @@
         });
 			$('#district').on('change', function () {
                 var iddistrict = this.value;
-				//alert(iddistrict);
 
                 $("#state-dropdown").html('');
                 $.ajax({
-                    url: "{{ route('taluks') }}",
+                    url: "{{ route('getTaluks') }}",
                     type: "GET",
                     data: {
-                        district: iddistrict,
+                        district_id: iddistrict,
                         _token: '{{csrf_token()}}'
                     },
                     dataType: 'json',
