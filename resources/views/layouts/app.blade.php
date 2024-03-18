@@ -430,6 +430,8 @@
                                                     @endif
                                                 </div>
                                                 <h6>{{ Auth::user()->name }}</h6>
+                                               
+
                                                 <!-- <span>Premium Member</span> -->
                                             </div>
                                             <!-- 		<a class="dropdown-item" href="profile.html"> <i class="far fa-user"> </i> My Profile</a>
@@ -489,10 +491,10 @@
                     </div>
                     <div class="main-sidemenu is-expanded">
                         <div class="main-sidebar-loggedin">
-                            <!--<div class="user-info">
-           <h6 class="mb-0 text-dark">&nbsp;</h6>
+                            <div class="user-info">
+           <h6 class="mb-0 text-dark"> {{ Auth::user()->role }}</h6>
 
-          </div>-->
+          </div>
 
                         </div>
                         <div class="sidebar-navs">
@@ -529,6 +531,7 @@
                                 <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
                             </svg>
                         </div>
+                        
                         @php
                             @$role = \Auth::user()->role;
                             $permission = \App\RolePermission::where('role', \Auth::user()->role)->first();
@@ -556,6 +559,8 @@
 
                             </li>
                         @endif
+                        
+
 
 
 
@@ -831,8 +836,7 @@
             <div class="main-footer ht-45">
                 <div class="container-fluid pd-t-0-f ht-100p">
                     <span>
-                        Copyright © 2023 <a href="javascript:void(0);" class="text-primary">RateUP</a>. Designed with
-                        <span class="fa fa-heart text-danger"> </span> by <a href="javascript:void(0);"> Kawika
+                        Copyright © 2023 <a href="javascript:void(0);" class="text-primary">Ration Rights Cards </a>by <a href="javascript:void(0);"> Kawika
                             Technologies </a> All rights reserved.
                     </span>
                 </div>

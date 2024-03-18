@@ -66,6 +66,7 @@
                                             @endif
                                             <input type="hidden" name="location" id="new_loc">
                                             @endif
+                                             @if(auth::user()->role!='State UT User')
                                             <div class="col-lg mg-t-10 mg-lg-t-0">
                                                     <label>Start Date</label>
                                         		<input class="form-control" type="date" name="from_date" id="from_date">
@@ -75,6 +76,7 @@
 												<label>End Date</label>
                                         		<input class="form-control" type="date" name="end_date" id="end_date">
 											</div>
+                                            @endif
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>

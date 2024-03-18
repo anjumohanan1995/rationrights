@@ -30,6 +30,7 @@
                                                 <label>Application No</label>
                                         		<input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
 											</div>
+                                              @if(auth::user()->role!='State UT User')
 											<div class="col-lg mg-t-10 mg-lg-t-0">
                                                 <label>District</label>
                                                 <select class="form-select" id="district" name="district" required>
@@ -65,6 +66,7 @@
 												<label>End Date</label>
                                         		<input class="form-control" type="date" name="end_date" id="end_date">
 											</div>
+                                        @endif
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>

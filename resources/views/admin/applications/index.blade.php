@@ -30,6 +30,7 @@
                                                 <label>Application No</label>
                                         		<input class="form-control" type="text" name="application_no" id="application_no" placeholder="Application No">
 											</div>
+                                            @if(Auth::user()->role !='State UT User')
 											<div class="col-lg mg-t-10 mg-lg-t-0">
                                             <label>District</label>
                                                 <select class="form-select" id="district" name="district" required>
@@ -64,6 +65,7 @@
 												<label>End Date</label>
                                         		<input class="form-control" type="date" name="end_date" id="end_date">
 											</div>
+                                            @endif
 
 											<div class="col-lg mg-t-10 mg-lg-t-0">
 											<br>
@@ -149,7 +151,7 @@
                                                 </div>
                                         </form>
 
-                                        <form action="{{ route('export.pdf') }}" method="POST">
+                                        {{-- <form action="{{ route('export.pdf') }}" method="POST">
                                             @csrf
 
                                              <input type="hidden" name="start_date" id="start_date1">
@@ -160,7 +162,7 @@
                                             <!-- Add input fields for search parameters -->
                                            
                                             <button type="submit" class="btn btn-info">Export PDF File</button>
-                                        </form>
+                                        </form> --}}
 											<table id="example" class="table table-striped table-bordered" style="width:100%;border-collapse: collapse !important;">
        												<thead>
 														<tr>
