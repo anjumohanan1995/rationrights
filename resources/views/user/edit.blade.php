@@ -104,7 +104,7 @@
 												<div class="col-md-3"><label class="form-label">District</label></div>
 												
 												<div class="col-md-9">
-												<select name="district"  id="district" class="form-control"  >
+                <select name="district" @if($data['role'] != "Civil Supplies District User" || $data['role'] != "District Chief") id="district" @endif class="form-control">
                                                     <option value="">Select District</option>
                                                     @foreach ($districts as $district)
 
@@ -134,8 +134,7 @@
 												</div>
 											</div>
 										</div>
-										@php// dd($data['district']);
-										@endphp
+										
 
 										<div class="card-footer">
 											<button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
@@ -178,7 +177,7 @@
             $('#district_div').show();
             $('#taluk_div').hide();
 
-            $("#district").val('');
+           // $("#district").val('');
             $("#taluk").val('');
         }
         else if (role === "Civil Supplies Taluk User" || role === "District Labour Officer") {
@@ -205,7 +204,7 @@
             $("#taluk").val('');
         }
         var iddistrict = document.getElementById("district").value;
-		console.log(iddistrict);
+		//console.log(iddistrict);
 
         $("#state-dropdown").html('');
         $.ajax({
@@ -218,6 +217,7 @@
             dataType: 'json',
             success: function (result) {
                 var taluk_name =  {{ Js::from($data['taluk']) }};
+				console.log(taluk_name);
                 $('#taluk').html('<option value="">Select Taluk </option>');
                 $.each(result.locations, function (key, value) {
 

@@ -351,6 +351,8 @@ class UserController extends Controller
        public function edit( $id)
     {
         $data=User::find($id);
+
+        //dd($data);
         $role =Role::orderBy('id','desc')->where('deleted_at',null)->get();
 
         $states=State::where('deleted_at',null)->get();
@@ -369,7 +371,7 @@ class UserController extends Controller
 
      public function update(Request $request, $id)
     {
-        dd($request);
+        //dd($request);
           $validate = Validator::make($request->all(),
             [
               'name' => 'required',
