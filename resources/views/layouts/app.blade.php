@@ -720,11 +720,17 @@
                                                     <span class="sub-side-menu__label">Age</span>
                                                 </a>
                                             </li>
-                                            <li class="sub-slide">
-                                                <a class="slide-item {{ request()->is('district-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('district-application-list') }}">
-                                                    <span class="sub-side-menu__label">District</span>
-                                                </a>
-                                            </li>
+                                            @if(Auth::user()->role != 'State UT User')
+                                            
+                                                <li class="sub-slide">
+                                                    <a class="slide-item {{ request()->is('district-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('district-application-list') }}">
+                                                        <span class="sub-side-menu__label">District</span>
+                                                    </a>
+                                                </li>
+
+                                            @endif
+
+                                           
                                         </ul>
                                     </li>
 
@@ -738,11 +744,13 @@
                                                     <span class="sub-side-menu__label">Gender</span>
                                                 </a>
                                             </li>
-                                             <li class="sub-slide">
-                                                <a class="slide-item {{ request()->is('district-aadhar-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('district-aadhar-application-list') }}">
-                                                    <span class="sub-side-menu__label">District</span>
-                                                </a>
-                                            </li>
+                                            @if(Auth::user()->role != 'State UT User')
+                                                <li class="sub-slide">
+                                                    <a class="slide-item {{ request()->is('district-aadhar-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('district-aadhar-application-list') }}">
+                                                        <span class="sub-side-menu__label">District</span>
+                                                    </a>
+                                                </li>
+                                            @endif
 
                                         </ul>
                                     </li>
@@ -757,11 +765,13 @@
                                                     <span class="sub-side-menu__label">Gender</span>
                                                 </a>
                                             </li>
-                                            <li class="sub-slide">
-                                                <a class="slide-item {{ request()->is('district-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('no-adhaar-district-application-list') }}">
-                                                    <span class="sub-side-menu__label">District</span>
-                                                </a>
-                                            </li>
+                                            @if(Auth::user()->role != 'State UT User')
+                                                <li class="sub-slide">
+                                                    <a class="slide-item {{ request()->is('district-application-list') ? 'active' : '' }}" data-bs-toggle="sub-slide" href="{{ url('no-adhaar-district-application-list') }}">
+                                                        <span class="sub-side-menu__label">District</span>
+                                                    </a>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </li>
 
