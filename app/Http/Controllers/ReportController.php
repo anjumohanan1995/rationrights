@@ -12,6 +12,7 @@ use Excel;
 use DB;
 use PDF;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 class ReportController extends Controller
 {
     /**
